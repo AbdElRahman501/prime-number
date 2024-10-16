@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 
-const MobileMenu = () => {
+const MobileMenu: React.FC = () => {
   const [menu, setMenu] = useState(false);
 
   return (

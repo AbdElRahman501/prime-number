@@ -3,11 +3,11 @@ import dynamic from "next/dynamic";
 
 const MobileMenu = dynamic(() => import("./MobileMenu"), { ssr: false });
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
-    <header className="bg-background">
+    <header className="sticky top-0 bg-background">
       <nav
-        className="container sticky top-0 mx-auto flex items-center justify-between gap-3 p-4"
+        className="container mx-auto flex items-center justify-between gap-3 p-4 px-5 md:px-20"
         role="navigation"
         aria-label="Primary"
       >

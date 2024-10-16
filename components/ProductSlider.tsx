@@ -1,9 +1,10 @@
+import { phoneNumbers } from "@/constants";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
 const ProductCard = dynamic(() => import("./ProductCard"), { ssr: false });
 
-const ProductSlider = () => {
+const ProductSlider: React.FC = () => {
   return (
     <section
       className="max-w-8xl mx-auto bg-background p-5 py-10 text-primary lg:px-20"
@@ -32,10 +33,9 @@ const ProductSlider = () => {
             className="scroll-bar-hidden flex w-full gap-4 overflow-x-scroll"
             aria-label="Product slider"
           >
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {phoneNumbers.map((number) => (
+              <ProductCard key={number.id} {...number} />
+            ))}
           </div>
         </div>
       </div>

@@ -3,8 +3,9 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 
 const rubik = Rubik({
-  subsets: ["arabic"],
-  weight: ["400", "500", "700"], // Add the weights you need
+  subsets: ["latin", "arabic"],
+  weight: ["400", "500", "700"],
+  variable: "--font-rubik",
 });
 
 export const metadata: Metadata = {
@@ -19,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
-      <body className={`${rubik.className} antialiased`}>{children}</body>
+    <html lang="ar" dir="rtl" className={rubik.variable}>
+      <body className="font-rubik antialiased">{children}</body>
     </html>
   );
 }

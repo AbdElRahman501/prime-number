@@ -15,15 +15,10 @@
     --foreground: #3d3d3d;
   }
 } */
-
-@font-face {
-  font-family: "Rubik";
-  src: url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"); /* Add the src property */
-  font-display: swap; /* This helps in loading the font more efficiently */
-}
-
-body {
-  font-family: "Rubik", Arial, sans-serif; /* Fallback fonts */
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  img[loading="lazy"] {
+    clip-path: inset(0.6px);
+  }
 }
 
 @layer utilities {

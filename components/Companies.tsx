@@ -1,33 +1,6 @@
+import { companies } from "@/constants";
+import { Company } from "@/types";
 import Image from "next/image";
-
-interface Company {
-  name: string;
-  number: number;
-  image: string;
-}
-
-const companies: Company[] = [
-  {
-    name: "Vodafone",
-    number: 12,
-    image: "/images/vodafone.png",
-  },
-  {
-    name: "Etisalat",
-    number: 12,
-    image: "/images/etisalat.png",
-  },
-  {
-    name: "Orange",
-    number: 12,
-    image: "/images/orange.png",
-  },
-  {
-    name: "we",
-    number: 12,
-    image: "/images/we.png",
-  },
-];
 
 const Companies: React.FC = () => {
   return (
@@ -35,7 +8,7 @@ const Companies: React.FC = () => {
       <h2 id="companies-title" className="sr-only">
         شركات الاتصالات المتاحة
       </h2>
-      <div className="scroll-bar-hidden flex items-baseline justify-around gap-6 overflow-x-auto rounded-b-[75px] bg-white p-5 py-12 text-primary md:px-20">
+      <div className="scroll-bar-hidden flex items-baseline justify-around gap-6 overflow-x-auto rounded-b-[50px] bg-white p-5 py-12 text-primary md:rounded-b-[75px] md:px-20">
         {companies.map((company) => (
           <CompanyCard key={company.name} {...company} />
         ))}

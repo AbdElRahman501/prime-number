@@ -1,8 +1,11 @@
 import { Icon } from "@iconify/react";
 
-const Hero = () => {
+const Hero: React.FC = () => {
   return (
-    <section className="rounded-b-[75px] bg-background" role="banner">
+    <section
+      className="rounded-b-[50px] bg-background md:rounded-b-[75px]"
+      role="banner"
+    >
       <div className="mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6">
         {/* next Button */}
         <button
@@ -19,7 +22,7 @@ const Hero = () => {
         <div className="m-auto flex max-w-lg flex-col items-center justify-center space-y-8 text-primary">
           <p className="text-4xl font-bold md:text-7xl">01015753392</p>
           <h1
-            className="text-3xl font-bold leading-tight md:text-5xl"
+            className="text-3xl font-bold md:text-5xl md:leading-tight"
             role="heading"
             aria-level={1}
           >
@@ -31,7 +34,7 @@ const Hero = () => {
           </p>
           <a
             href="#buy"
-            className="flex items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
+            className="flex items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
             role="button"
             aria-label="Buy Now"
           >
