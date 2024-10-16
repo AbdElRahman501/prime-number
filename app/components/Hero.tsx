@@ -2,21 +2,24 @@ import { Icon } from "@iconify/react";
 
 const Hero = () => {
   return (
-    <section className="bg-background rounded-b-[75px]" role="banner">
-      <div className="mx-auto flex w-5/6 items-center justify-around p-6 text-center">
+    <section className="rounded-b-[75px] bg-background" role="banner">
+      <div className="mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6">
         {/* next Button */}
         <button
-          className="group rounded-full text-2xl bg-foreground p-3 text-primary transition-colors hover:bg-primary hover:text-background"
+          className="group rounded-full bg-foreground p-3 text-lg text-primary transition-colors hover:bg-primary hover:text-background md:text-2xl"
           aria-label="Next banner"
         >
-          <Icon icon="bi:arrow-right" className="group-hover:scale-125 duration-300 transition-transform" />
+          <Icon
+            icon="bi:arrow-right"
+            className="transition-transform duration-300 group-hover:scale-125"
+          />
         </button>
 
         {/* Main Content */}
-        <div className="my-20 flex max-w-lg flex-col items-center justify-center space-y-8 text-primary">
-          <p className="text-7xl font-bold">01015753392</p>
+        <div className="m-auto flex max-w-lg flex-col items-center justify-center space-y-8 text-primary">
+          <p className="text-4xl font-bold md:text-7xl">01015753392</p>
           <h1
-            className="text-5xl font-bold leading-tight"
+            className="text-3xl font-bold leading-tight md:text-5xl"
             role="heading"
             aria-level={1}
           >
@@ -38,10 +41,13 @@ const Hero = () => {
         </div>
         {/* Previous Button */}
         <button
-          className="group rounded-full text-2xl bg-foreground p-3 text-primary transition-colors hover:bg-primary hover:text-background"
+          className="group rounded-full bg-foreground p-3 text-2xl text-primary transition-colors hover:bg-primary hover:text-background"
           aria-label="Previous banner"
         >
-          <Icon icon="bi:arrow-left" className="group-hover:scale-125 duration-300 transition-transform" />
+          <Icon
+            icon="bi:arrow-left"
+            className="transition-transform duration-300 group-hover:scale-125"
+          />
         </button>
       </div>
     </section>
