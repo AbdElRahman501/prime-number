@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 
 const Hero = () => {
   return (
-    <section className="bg-background" role="banner">
+    <section className="bg-background rounded-b-[75px]" role="banner">
       <div className="mx-auto flex w-5/6 items-center justify-around p-6 text-center">
         {/* next Button */}
         <button

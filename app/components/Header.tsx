@@ -1,11 +1,13 @@
 import { Icon } from "@iconify/react";
-import MobileMenu from "./MobileMenu";
+import dynamic from "next/dynamic";
+
+const MobileMenu = dynamic(() => import("./MobileMenu"), { ssr: false });
 
 const Header = () => {
   return (
     <header className="bg-background">
       <nav
-        className="container sticky top-0 mx-auto flex justify-between items-center p-4 gap-3"
+        className="container sticky top-0 mx-auto flex items-center justify-between gap-3 p-4"
         role="navigation"
         aria-label="Primary"
       >
@@ -13,7 +15,7 @@ const Header = () => {
         <div className="hidden md:block">
           <a
             href="/"
-            className="text-primary text-4xl font-bold"
+            className="text-4xl font-bold text-primary"
             aria-label="نمرتك - Home"
           >
             نمرتك
@@ -21,7 +23,7 @@ const Header = () => {
         </div>
 
         {/* Search bar */}
-        <div className="hidden md:block text-sm lg:text-base">
+        <div className="hidden text-sm md:block lg:text-base">
           <form action="#" role="search" aria-label="Search form">
             <div className="relative">
               <label htmlFor="search" className="sr-only">
@@ -32,13 +34,13 @@ const Header = () => {
                 id="search"
                 aria-label="ابحث هنا"
                 placeholder="ابحث هنا..."
-                className="peer w-full lg:w-80 pl-10 pr-4 py-2 border border-foreground rounded-full focus:outline-none focus:border-primary"
+                className="peer w-full rounded-full border border-foreground py-2 pl-10 pr-4 focus:border-primary focus:outline-none lg:w-80"
                 required
               />
               <button
                 type="submit"
                 aria-label="Submit search"
-                className="text-foreground peer-focus:text-primary absolute inset-y-0 left-0 pl-3 flex items-center"
+                className="absolute inset-y-0 left-0 flex items-center pl-3 text-foreground peer-focus:text-primary"
               >
                 <Icon icon="akar-icons:search" aria-hidden="true" />
               </button>
@@ -47,7 +49,7 @@ const Header = () => {
         </div>
 
         {/* Navigation links */}
-        <div className="hidden md:flex gap-3 lg:gap-8 text-primary text-sm lg:text-base font-semibold">
+        <div className="hidden gap-3 text-sm font-semibold text-primary md:flex lg:gap-8 lg:text-base">
           <a
             href="#home"
             className="hover:text-foreground"
