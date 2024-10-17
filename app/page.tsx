@@ -3,6 +3,9 @@ import dynamic from "next/dynamic";
 const Header = dynamic(() => import("@/components/Header"), { ssr: false });
 const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 const Hero = dynamic(() => import("@/components/Hero"), { ssr: false });
+const Testimonial = dynamic(() => import("@/components/Testimonial"), {
+  ssr: false,
+});
 const Features = dynamic(() => import("@/components/Features"), { ssr: false });
 const Companies = dynamic(() => import("@/components/Companies"), {
   ssr: false,
@@ -21,6 +24,7 @@ export default function Home() {
         <ProductSlider />
         <Features />
         <ProductSlider />
+        <Testimonial />
       </main>
       <Footer />
     </div>

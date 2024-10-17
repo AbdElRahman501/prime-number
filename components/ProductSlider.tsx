@@ -34,7 +34,7 @@ const ProductSlider: React.FC = () => {
             aria-label="Product slider"
           >
             {phoneNumbers.map((number) => (
-              <ProductCard key={number.id} {...number} />
+              <ProductCard key={number._id} {...number} />
             ))}
           </div>
         </div>

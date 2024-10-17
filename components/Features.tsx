@@ -1,31 +1,6 @@
+import { featureList } from "@/constants";
+import { Feature } from "@/types";
 import React from "react";
-
-interface Feature {
-  _id: number | string;
-  title: string;
-  description: string;
-}
-
-const featureList: Feature[] = [
-  {
-    _id: 1,
-    title: "حساب سريع للأرقام الأولية",
-    description:
-      "نوفر خوارزمية متطورة تضمن حسابًا فوريًا للأرقام الأولية بدقة عالية",
-  },
-  {
-    _id: 2,
-    title: "واجهة سهلة الاستخدام",
-    description:
-      "صممنا واجهة بسيطة وجذابة تمكن المستخدمين من التحقق من الأرقام بسهولة",
-  },
-  {
-    _id: 3,
-    title: "دعم متعدد الأجهزة",
-    description:
-      "يعمل موقعنا بكفاءة على جميع الأجهزة، من الهواتف الذكية إلى أجهزة الكمبيوتر المكتبية",
-  },
-];
 
 // Features component to display key features of the prime number calculator
 const Features: React.FC = () => {
