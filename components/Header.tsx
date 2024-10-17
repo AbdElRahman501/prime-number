@@ -1,25 +1,23 @@
 import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import LogoIcon from "./LogoIcon";
 
 const MobileMenu = dynamic(() => import("./MobileMenu"), { ssr: false });
 
 const Header: React.FC = () => {
   return (
-    <header className="sticky top-0 bg-background">
+    <header className="sticky top-0 z-20 bg-background">
       <nav
-        className="container mx-auto flex items-center justify-between gap-3 p-4 px-5 md:px-20"
+        className="container mx-auto flex items-center justify-between gap-3 p-4 px-5"
         role="navigation"
         aria-label="Primary"
       >
         {/* Logo for desktop */}
         <div className="hidden md:block">
-          <a
-            href="/"
-            className="text-4xl font-bold text-primary"
-            aria-label="نمرتك - Home"
-          >
-            نمرتك
-          </a>
+          <Link href="/" className="block w-fit" aria-label="نمرتك - Home">
+            <LogoIcon className="w-24 text-primary" />
+          </Link>
         </div>
 
         {/* Search bar */}

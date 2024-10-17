@@ -25,17 +25,17 @@ const ProductCard: React.FC<PhoneNumber> = ({ name, phoneNumber, price }) => {
         <div className="flex gap-2">
           <Icon
             className="rounded-full bg-background p-2 text-4xl"
-            icon="bx:bxs-cart"
+            icon="solar:bag-linear"
             aria-label="Add to cart"
           />
           <Icon
             className="rounded-full bg-background p-2 text-4xl"
-            icon="bx:bxs-bookmark"
+            icon="mdi:bookmark-outline"
             aria-label="Bookmark"
           />
           <Icon
             className="rounded-full bg-background p-2 text-4xl"
-            icon="ri:whatsapp-fill"
+            icon="ri:whatsapp-line"
             aria-label="Share on WhatsApp"
           />
         </div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import GoUpButton from "./GoUpButton";
 import { footerList, socialMedia } from "@/constants";
+import LogoIcon from "./LogoIcon";
 
 const currentYear = new Date().getFullYear(); // Moved outside the component
 
@@ -54,13 +55,14 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-5 px-5 py-2 md:flex-row">
-          <a
+          <Link
             href="/"
-            className="max-w-[80%] text-7xl font-extrabold text-background"
+            className="flex items-center justify-center"
             aria-label="نمرتك - Home"
           >
-            نمرتك
-          </a>
+            <LogoIcon className="w-60 max-w-[80%] text-background" />
+          </Link>
+
           <div className="flex flex-col items-center gap-2">
             <GoUpButton />
             <p className="text-base font-medium text-gray-500">

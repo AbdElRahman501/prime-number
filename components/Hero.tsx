@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
       <div className="mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6">
         {/* next Button */}
         <button
-          className="group rounded-full bg-foreground p-3 text-lg text-primary transition-colors hover:bg-primary hover:text-background md:text-2xl"
+          className="group rounded-full bg-foreground p-1 text-primary transition-colors hover:bg-primary hover:text-background md:p-3 md:text-2xl"
           aria-label="Next banner"
         >
           <Icon
@@ -20,15 +20,17 @@ const Hero: React.FC = () => {
 
         {/* Main Content */}
         <div className="m-auto flex max-w-lg flex-col items-center justify-center space-y-8 text-primary">
-          <p className="text-4xl font-bold md:text-7xl">01015753392</p>
+          <p className="text-[2rem] font-bold sm:text-4xl md:text-7xl">
+            01015753392
+          </p>
           <h1
-            className="text-3xl font-bold md:text-5xl md:leading-tight"
+            className="max-w-[80%] text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
             role="heading"
             aria-level={1}
           >
             أحصل علي رقمك المميز الان
           </h1>
-          <p className="text-lg">
+          <p className="max-w-[90%] md:text-lg">
             قم باضافة نص وهمي المميز لتصميم الموقع الخاص بك من خلال اي شي قم
             باضافه المزيد من النصوص الوهميه ها
           </p>
@@ -44,7 +46,7 @@ const Hero: React.FC = () => {
         </div>
         {/* Previous Button */}
         <button
-          className="group rounded-full bg-foreground p-3 text-2xl text-primary transition-colors hover:bg-primary hover:text-background"
+          className="group rounded-full bg-foreground p-1 text-primary transition-colors hover:bg-primary hover:text-background md:p-3 md:text-2xl"
           aria-label="Previous banner"
         >
           <Icon

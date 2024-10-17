@@ -7,7 +7,7 @@ const ProductCard = dynamic(() => import("./ProductCard"), { ssr: false });
 const ProductSlider: React.FC = () => {
   return (
     <section
-      className="max-w-8xl mx-auto bg-background p-5 py-10 text-primary lg:px-20"
+      className="max-w-8xl mx-auto bg-background p-5 py-10 pb-16 text-primary lg:px-20"
       aria-labelledby="featured-products-title"
     >
       <div className="rounded-4xl flex flex-col gap-4">

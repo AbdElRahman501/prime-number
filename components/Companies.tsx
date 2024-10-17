@@ -19,13 +19,13 @@ const Companies: React.FC = () => {
 
 const CompanyCard: React.FC<Company> = ({ number, image }) => {
   return (
-    <div className="relative flex min-h-[45px] min-w-48">
+    <div className="relative flex min-h-[35px] min-w-48 md:min-h-[50px]">
       <Image
         src={image}
         alt="Orange logo"
         priority={true}
         fill
-        className="h-[45px] w-auto object-contain"
+        className="h-[35px] w-auto object-contain md:h-[50px]"
       />
 
       <p
