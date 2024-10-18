@@ -10,7 +10,7 @@ const currentYear = new Date().getFullYear(); // Moved outside the component
 const Footer: React.FC = () => {
   return (
     <footer className="bg-background">
-      <div className="max-w-8xl mx-auto flex flex-col gap-5 rounded-t-[50px] bg-primary px-5 py-5 text-background md:rounded-t-[75px] md:px-20">
+      <div className="max-w-8xl mx-auto flex flex-col gap-5 rounded-t-[50px] bg-primary px-5 py-5 text-white md:rounded-t-[75px] md:px-20">
         <div className="flex grid-cols-3 flex-col gap-5 px-5 py-5 md:grid">
           {footerList.map((item) => (
             <div key={item._id} className="group flex flex-col gap-1">
@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
 
           <div className="flex flex-col items-center gap-2">
             <GoUpButton />
-            <p className="text-base font-medium text-gray-500">
+            <p className="text-base font-medium opacity-60">
               @{currentYear} Prime Number! All Rights reserved
             </p>
           </div>

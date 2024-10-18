@@ -1,4 +1,12 @@
-import { Company, Feature, FooterLink, Link, PhoneNumber } from "@/types";
+import {
+  Company,
+  Feature,
+  FooterLink,
+  Link,
+  Offer,
+  PhoneNumber,
+  Review,
+} from "@/types";
 
 export const companies: Company[] = [
   {
@@ -171,5 +179,53 @@ export const featureList: Feature[] = [
     title: "أسعار تنافسية",
     description:
       "نوفر لك خيارات متعددة تناسب ميزانيتك مع ضمان الحصول على أفضل العروض للأرقام المميزة.",
+  },
+];
+
+export const reviews: Review[] = [
+  {
+    _id: 1,
+    name: "John Doe",
+    review:
+      "تجربتي مع هذا الموقع كانت رائعة. اخترت الرقم المثالي لي بكل سهولة، والعملية كلها كانت سلسة وسريعة. شكراً لفريق الدعم الرائع!",
+  },
+  {
+    _id: 2,
+    name: "Jane Smith",
+    review:
+      "لطالما كنت أبحث عن رقم مميز يعكس شخصيتي، وهذا الموقع وفّر لي خيارات لا حصر لها. أنصح الجميع باستخدام خدماتهم!",
+  },
+  {
+    _id: 3,
+    name: "Bob Johnson",
+    review:
+      "خدمة العملاء ممتازة! أجابوا على كل استفساراتي وساعدوني في العثور على الرقم المثالي لأعمالي التجارية.",
+  },
+];
+
+export const offers: Offer[] = [
+  {
+    _id: 1,
+    title: "ارقام مميزة",
+    description:
+      "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
+    number: " 01015753392",
+    company: "Vodafone",
+  },
+  {
+    _id: 2,
+    title: "ارقام مميزة",
+    description:
+      "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
+    number: "01015753392",
+    company: "Vodafone",
+  },
+  {
+    _id: 3,
+    title: "ارقام مميزة",
+    description:
+      "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
+    number: "01015753392",
+    company: "Vodafone",
   },
 ];

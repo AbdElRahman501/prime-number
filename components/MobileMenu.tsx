@@ -71,6 +71,7 @@ const MobileMenu: React.FC = () => {
         aria-label="Mobile navigation"
       >
         <a
+          role="menuitem"
           href="#home"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="Home"
@@ -78,6 +79,7 @@ const MobileMenu: React.FC = () => {
           الرئيسية
         </a>
         <a
+          role="menuitem"
           href="#about"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="About Us"
@@ -85,6 +87,7 @@ const MobileMenu: React.FC = () => {
           عن الشركة
         </a>
         <a
+          role="menuitem"
           href="#services"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="Special Numbers"
@@ -92,6 +95,7 @@ const MobileMenu: React.FC = () => {
           الأرقام المميزة
         </a>
         <a
+          role="menuitem"
           href="#portfolio"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="Portfolio"
@@ -99,6 +103,7 @@ const MobileMenu: React.FC = () => {
           المعرض
         </a>
         <a
+          role="menuitem"
           href="#contact"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="Contact Us"

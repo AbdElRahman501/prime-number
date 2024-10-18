@@ -23,8 +23,9 @@ const CompanyCard: React.FC<Company> = ({ number, image }) => {
       <Image
         src={image}
         alt="Orange logo"
-        priority={true}
         fill
+        sizes="200px"
+        loading="lazy"
         className="h-[35px] w-auto object-contain md:h-[50px]"
       />
 

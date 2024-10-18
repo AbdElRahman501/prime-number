@@ -1,9 +1,7 @@
 import { Icon } from "@iconify/react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import LogoIcon from "./LogoIcon";
-
-const MobileMenu = dynamic(() => import("./MobileMenu"), { ssr: false });
+import MobileMenu from "./MobileMenu";
 
 const Header: React.FC = () => {
   return (

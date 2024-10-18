@@ -33,3 +33,17 @@ export interface Feature {
   title: string;
   description: string;
 }
+
+export interface Review {
+  _id: number;
+  name: string;
+  review: string;
+}
+
+export interface Offer {
+  _id: number | string;
+  title: string;
+  description: string;
+  number: number | string;
+  company: string;
+}
