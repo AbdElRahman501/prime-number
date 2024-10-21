@@ -70,46 +70,54 @@ const MobileMenu: React.FC = () => {
         role="menu"
         aria-label="Mobile navigation"
       >
-        <a
+        <Link
           role="menuitem"
-          href="#home"
+          href="/"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="Home"
+          aria-label="Home - الرئيسية"
         >
           الرئيسية
-        </a>
-        <a
+        </Link>
+        <Link
+          role="menuitem"
+          href="/shop"
+          className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+          aria-label="Shop - المتجر"
+        >
+          المتجر
+        </Link>
+        <Link
           role="menuitem"
           href="#about"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="About Us"
         >
           عن الشركة
-        </a>
-        <a
+        </Link>
+        <Link
           role="menuitem"
           href="#services"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="Special Numbers"
         >
           الأرقام المميزة
-        </a>
-        <a
+        </Link>
+        <Link
           role="menuitem"
           href="#portfolio"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="Portfolio"
         >
           المعرض
-        </a>
-        <a
+        </Link>
+        <Link
           role="menuitem"
           href="#contact"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="Contact Us"
         >
           اتصل بنا
-        </a>
+        </Link>
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 export interface Company {
   _id: string | number;
-  name: string;
+  name: "vodafone" | "etisalat" | "orange" | "we";
   number: number;
   image: string;
   color: string;

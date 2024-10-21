@@ -1,14 +1,14 @@
 import { companies } from "@/constants";
 import { Company } from "@/types";
-import Image from "next/image";
+import LogoIcons from "./icons/logos";
 
 const Companies: React.FC = () => {
   return (
-    <section aria-labelledby="companies-title" className="bg-background">
+    <section aria-labelledby="اسماء الشركات" className="bg-background">
       <h2 id="companies-title" className="sr-only">
         شركات الاتصالات المتاحة
       </h2>
-      <div className="scroll-bar-hidden flex items-baseline justify-around gap-6 overflow-x-auto rounded-b-[50px] bg-white p-5 py-12 text-primary md:rounded-b-[75px] md:px-20">
+      <div className="scroll-bar-hidden flex justify-around gap-10 overflow-x-auto rounded-b-[50px] bg-white p-5 py-12 text-primary md:rounded-b-[75px] md:px-20">
         {companies.map((company) => (
           <CompanyCard key={company.name} {...company} />
         ))}
@@ -17,24 +17,21 @@ const Companies: React.FC = () => {
   );
 };
 
-const CompanyCard: React.FC<Company> = ({ number, image }) => {
+const CompanyCard: React.FC<Company> = ({ number, name, color }) => {
   return (
-    <div className="relative flex min-h-[35px] min-w-48 md:min-h-[50px]">
-      <Image
-        src={image}
-        alt="Orange logo"
-        fill
-        sizes="200px"
-        loading="lazy"
-        className="h-[35px] w-auto object-contain md:h-[50px]"
-      />
-
-      <p
-        className="absolute -bottom-2 right-0 text-xs"
-        aria-label="12 رقم متاح لشركة فودافون"
-      >
-        {number} رقم متاح
-      </p>
+    <div className="flex min-w-52 justify-end gap-2">
+      <div>
+        <h3
+          className="text-left font-inter text-3xl font-bold"
+          style={{ color }}
+        >
+          {name}
+        </h3>
+        <p className="text-right text-xs" aria-label={` ${number} متاح الان`}>
+          {number} رقم متاح
+        </p>
+      </div>
+      <LogoIcons name={name} className="h-16 w-16" viewBox="0 0 50 50" />
     </div>
   );
 };

@@ -14,7 +14,7 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        rubik: ["var(--font-rubik)"],
+        inter: ["var(--font-inter)"],
       },
     },
   },

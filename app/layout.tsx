@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Rubik, Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 
+// Load fonts with selected weights and subsets
 const rubik = Rubik({
+  weight: ["300", "400", "500", "700", "900"],
   subsets: ["latin", "arabic"],
-  weight: ["400", "500", "700"],
-  variable: "--font-rubik",
 });
 
+const inter = Inter({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+// Dynamically load Footer component with client-side rendering
 const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
 export const metadata: Metadata = {
@@ -24,10 +31,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={rubik.variable}>
-      <body className="font-rubik antialiased">
+    <html
+      lang="ar"
+      dir="rtl"
+      className={`${rubik.className} ${inter.variable}`} // Combining Rubik and Inter fonts
+    >
+      <body className="antialiased">
+        {/* Header Component */}
         <Header />
+
+        {/* Main Content Area */}
         {children}
+
+        {/* Footer Component */}
         <Footer />
       </body>
     </html>

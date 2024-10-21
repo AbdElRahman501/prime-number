@@ -11,31 +11,31 @@ import {
 export const companies: Company[] = [
   {
     _id: "1",
-    name: "Vodafone",
+    name: "vodafone",
     number: 12,
     image: "/images/vodafone.png",
-    color: "#000",
+    color: "#E60000",
   },
   {
     _id: "2",
-    name: "Etisalat",
+    name: "etisalat",
     number: 12,
     image: "/images/etisalat.png",
-    color: "#000",
+    color: "#E00700",
   },
   {
     _id: "3",
-    name: "Orange",
+    name: "orange",
     number: 12,
     image: "/images/orange.png",
-    color: "#000",
+    color: "#F60",
   },
   {
     _id: "4",
     name: "we",
     number: 12,
     image: "/images/we.png",
-    color: "#000",
+    color: "#5C2E91",
   },
 ];
 
@@ -46,7 +46,7 @@ export const phoneNumbers: PhoneNumber[] = [
     description: "بعض الوصف هنا",
     phoneNumber: "0101020000",
     price: 15000,
-    company: "Vodafone",
+    company: "vodafone",
   },
   {
     _id: "2",
@@ -54,7 +54,7 @@ export const phoneNumbers: PhoneNumber[] = [
     description: "بعض الوصف هنا",
     phoneNumber: "0101003000",
     price: 10000,
-    company: "Vodafone",
+    company: "we",
   },
   {
     _id: "3",
@@ -62,7 +62,7 @@ export const phoneNumbers: PhoneNumber[] = [
     description: "بعض الوصف هنا",
     phoneNumber: "0101000009",
     price: 5000,
-    company: "Vodafone",
+    company: "orange",
   },
   {
     _id: "4",
@@ -70,7 +70,7 @@ export const phoneNumbers: PhoneNumber[] = [
     description: "بعض الوصف هنا",
     phoneNumber: "0101000009",
     price: 5000,
-    company: "Vodafone",
+    company: "vodafone",
   },
 ];
 
