@@ -1,7 +1,9 @@
 "use client";
+
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import SessionElement from "./SessionElement";
 
 const MobileMenu: React.FC = () => {
   const [menu, setMenu] = useState(false);
@@ -61,6 +63,16 @@ const MobileMenu: React.FC = () => {
         >
           الرئيسية
         </Link>
+        <SessionElement>
+          <Link
+            role="menuitem"
+            href="/dashboard"
+            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+            aria-label="لوحة التحكم - Dashboard"
+          >
+            لوحة التحكم
+          </Link>
+        </SessionElement>
         <Link
           role="menuitem"
           href="/shop"

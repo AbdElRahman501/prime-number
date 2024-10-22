@@ -5,6 +5,7 @@ import SearchField from "./SearchField";
 import { Suspense } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Cart from "./Cart";
+import SessionElement from "./SessionElement";
 
 const Header: React.FC = () => {
   return (
@@ -38,6 +39,15 @@ const Header: React.FC = () => {
           >
             الرئيسية
           </Link>
+          <SessionElement>
+            <Link
+              href="/dashboard"
+              className="hover:text-foreground"
+              aria-label="لوحة التحكم - Dashboard"
+            >
+              لوحة التحكم
+            </Link>
+          </SessionElement>
           <Link
             href="/shop"
             className="hover:text-foreground"

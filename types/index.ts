@@ -52,3 +52,15 @@ export interface CartItem {
   _id: number | string;
   phoneNumber: number;
 }
+
+export interface Credentials {
+  email: string;
+  password: string;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+}

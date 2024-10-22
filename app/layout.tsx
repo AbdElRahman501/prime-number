@@ -3,6 +3,7 @@ import { Rubik, Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
+import { NextAuthProvider } from "@/NextAuthProvider";
 
 // Load fonts with selected weights and subsets
 const rubik = Rubik({
@@ -38,7 +39,9 @@ export default function RootLayout({
     >
       <body className="antialiased">
         {/* Header Component */}
-        <Header />
+        <NextAuthProvider>
+          <Header />
+        </NextAuthProvider>
 
         {/* Main Content Area */}
         {children}
