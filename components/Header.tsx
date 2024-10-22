@@ -3,6 +3,8 @@ import LogoIcon from "./LogoIcon";
 import MobileMenu from "./MobileMenu";
 import SearchField from "./SearchField";
 import { Suspense } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import Cart from "./Cart";
 
 const Header: React.FC = () => {
   return (
@@ -12,8 +14,9 @@ const Header: React.FC = () => {
         role="navigation"
         aria-label="Primary"
       >
-        {/* Logo for desktop */}
-        <div className="hidden md:block">
+        <MobileMenu />
+
+        <div>
           <Link href="/" className="block w-fit" aria-label="نمرتك - Home">
             <LogoIcon className="w-24 text-primary" />
           </Link>
@@ -43,11 +46,11 @@ const Header: React.FC = () => {
             الأرقام المميزة
           </Link>
           <Link
-            href="#about"
+            href="/about"
             className="hover:text-foreground"
-            aria-label="عن الشركة - About Us"
+            aria-label="من نحن- About Us"
           >
-            عن الشركة
+            من نحن
           </Link>
           <Link
             href="#contact"
@@ -57,7 +60,18 @@ const Header: React.FC = () => {
             اتصل بنا
           </Link>
         </div>
-        <MobileMenu />
+
+        {/* Cart and Save buttons */}
+        <div className="flex gap-4">
+          <Cart />
+          <Link
+            href="/saved"
+            className="text-2xl text-primary hover:text-foreground sm:text-3xl"
+            aria-label="Save for later"
+          >
+            <Icon icon="mdi:bookmark" aria-hidden="true" />
+          </Link>
+        </div>
       </nav>
     </header>
   );

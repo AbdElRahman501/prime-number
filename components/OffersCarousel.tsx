@@ -1,6 +1,7 @@
 "use client";
 import { Offer } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
 import React from "react";
 
 const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
@@ -108,7 +109,7 @@ const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
       {offer.title}
     </h1>
     <p className="max-w-[90%] md:text-lg">{offer.description}</p>
-    <a
+    <Link
       href="#buy"
       className="flex items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
       role="button"
@@ -116,7 +117,7 @@ const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
     >
       <span>شراء الان</span>
       <Icon icon="ri:whatsapp-fill" />
-    </a>
+    </Link>
   </div>
 );
 

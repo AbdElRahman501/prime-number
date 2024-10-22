@@ -1,11 +1,21 @@
 "use client";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { useState } from "react";
-import LogoIcon from "./LogoIcon";
+import { useEffect, useState } from "react";
 
 const MobileMenu: React.FC = () => {
   const [menu, setMenu] = useState(false);
+
+  useEffect(() => {
+    if (menu) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [menu]);
 
   return (
     <>
@@ -25,40 +35,13 @@ const MobileMenu: React.FC = () => {
         )}
       </button>
 
-      {/* Logo for mobile */}
-      <div className="md:hidden">
-        <Link href="/" className="block w-fit" aria-label="نمرتك - Home">
-          <LogoIcon className="w-24 text-primary" />
-        </Link>
-      </div>
-
-      {/* Cart and Save buttons */}
-      <div className="flex gap-4">
-        <a
-          href="#"
-          className="text-2xl text-primary hover:text-foreground sm:text-3xl"
-          aria-label="Cart"
-        >
-          <Icon icon="solar:bag-bold" aria-hidden="true" />
-        </a>
-        <a
-          href="#"
-          className="text-2xl text-primary hover:text-foreground sm:text-3xl"
-          aria-label="Save for later"
-        >
-          <Icon icon="mdi:bookmark" aria-hidden="true" />
-        </a>
-      </div>
       {/* Mobile Menu */}
-      {menu && (
-        <button
-          onClick={() => setMenu(false)}
-          aria-label="Close menu"
-          aria-hidden="true"
-          aria-controls="mobile-menu"
-          className="fixed inset-0 top-[76px] h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden"
-        ></button>
-      )}
+      <div
+        onClick={() => setMenu(false)}
+        aria-hidden="true"
+        className={`${menu ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 top-[76px] h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden`}
+      ></div>
+
       <div
         style={
           menu
@@ -82,39 +65,23 @@ const MobileMenu: React.FC = () => {
           role="menuitem"
           href="/shop"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="Shop - المتجر"
-        >
-          المتجر
-        </Link>
-        <Link
-          role="menuitem"
-          href="#about"
-          className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="About Us"
-        >
-          عن الشركة
-        </Link>
-        <Link
-          role="menuitem"
-          href="#services"
-          className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="Special Numbers"
+          aria-label="الأرقام المميزة - Special Numbers"
         >
           الأرقام المميزة
         </Link>
         <Link
           role="menuitem"
-          href="#portfolio"
+          href="/about"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="Portfolio"
+          aria-label="من نحن- About Us"
         >
-          المعرض
+          من نحن
         </Link>
         <Link
           role="menuitem"
           href="#contact"
           className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="Contact Us"
+          aria-label="اتصل بنا - Contact Us"
         >
           اتصل بنا
         </Link>

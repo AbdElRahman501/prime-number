@@ -47,3 +47,8 @@ export interface Offer {
   number: number | string;
   company: string;
 }
+
+export interface CartItem {
+  _id: number | string;
+  phoneNumber: number;
+}
