@@ -10,7 +10,7 @@ export interface PhoneNumber {
   _id: string | number;
   name: string;
   description: string;
-  phoneNumber: string | number;
+  phoneNumber: string;
   price: number;
   company: string;
 }
@@ -44,15 +44,16 @@ export interface Offer {
   _id: number | string;
   title: string;
   description: string;
-  number: number | string;
+  phoneNumber: string;
   company: string;
 }
 
 export interface CartItem {
-  _id: number | string;
-  phoneNumber: number;
+  name: string;
+  company: string;
+  price: number;
+  phoneNumber: string;
 }
-
 export interface Credentials {
   email: string;
   password: string;

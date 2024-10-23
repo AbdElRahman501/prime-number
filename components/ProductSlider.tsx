@@ -1,10 +1,16 @@
 import { phoneNumbers } from "@/constants";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 const ProductCard = dynamic(() => import("./ProductCard"), { ssr: false });
 
 const ProductSlider: React.FC = () => {
+  const cartData = cookies().get("cart")?.value;
+  const cart: string[] = cartData ? JSON.parse(cartData) : [];
+
+  const wishListData = cookies().get("wishList")?.value;
+  const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
   return (
     <section
       className="max-w-8xl mx-auto bg-background p-5 py-10 pb-16 text-primary lg:px-20"
@@ -34,7 +40,12 @@ const ProductSlider: React.FC = () => {
             aria-label="Product slider"
           >
             {phoneNumbers.map((number) => (
-              <ProductCard key={number._id} {...number} />
+              <ProductCard
+                key={number._id}
+                {...number}
+                cart={cart}
+                wishList={wishList}
+              />
             ))}
           </div>
         </div>

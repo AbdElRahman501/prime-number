@@ -21,6 +21,11 @@
   }
 }
 
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  translate: 0 0;
+}
+
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .scroll-bar-hidden::-webkit-scrollbar {

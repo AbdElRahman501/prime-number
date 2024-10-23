@@ -7,7 +7,7 @@ import SessionElement from "./SessionElement";
 
 const MobileMenu: React.FC = () => {
   const [menu, setMenu] = useState(false);
-
+  const closeMenu = () => setMenu(false);
   useEffect(() => {
     if (menu) {
       document.body.classList.add("overflow-hidden");
@@ -39,7 +39,7 @@ const MobileMenu: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        onClick={() => setMenu(false)}
+        onClick={closeMenu}
         aria-hidden="true"
         className={`${menu ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 top-[76px] h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden`}
       ></div>
@@ -55,47 +55,59 @@ const MobileMenu: React.FC = () => {
         role="menu"
         aria-label="Mobile navigation"
       >
-        <Link
-          role="menuitem"
-          href="/"
-          className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="Home - الرئيسية"
-        >
-          الرئيسية
+        <Link role="menuitem" href="/" aria-label="Home - الرئيسية">
+          <div
+            onClick={closeMenu}
+            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+          >
+            الرئيسية
+          </div>
         </Link>
         <SessionElement>
           <Link
             role="menuitem"
             href="/dashboard"
-            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
             aria-label="لوحة التحكم - Dashboard"
           >
-            لوحة التحكم
+            <div
+              onClick={closeMenu}
+              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+            >
+              لوحة التحكم
+            </div>
           </Link>
         </SessionElement>
         <Link
           role="menuitem"
           href="/shop"
-          className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="الأرقام المميزة - Special Numbers"
         >
-          الأرقام المميزة
+          <div
+            onClick={closeMenu}
+            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+          >
+            الأرقام المميزة
+          </div>
         </Link>
-        <Link
-          role="menuitem"
-          href="/about"
-          className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          aria-label="من نحن- About Us"
-        >
-          من نحن
+        <Link role="menuitem" href="/about" aria-label="من نحن- About Us">
+          <div
+            onClick={closeMenu}
+            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+          >
+            من نحن
+          </div>
         </Link>
         <Link
           role="menuitem"
           href="#contact"
-          className="block px-4 py-2 hover:bg-foreground hover:text-primary"
           aria-label="اتصل بنا - Contact Us"
         >
-          اتصل بنا
+          <div
+            onClick={closeMenu}
+            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+          >
+            اتصل بنا
+          </div>
         </Link>
       </div>
     </>

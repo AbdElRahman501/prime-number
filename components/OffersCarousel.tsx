@@ -99,7 +99,7 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
 const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
   <div className="m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8 text-primary">
     <p className="text-[2rem] font-bold sm:text-4xl md:text-7xl">
-      {offer.number}
+      {offer.phoneNumber}
     </p>
     <h1
       className="max-w-[80%] text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"

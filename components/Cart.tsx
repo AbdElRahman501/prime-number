@@ -1,12 +1,19 @@
 import { cookies } from "next/headers";
 import CartModal from "./CartModal";
-import { CartItem } from "@/types";
+import { getMatchingItemsByKey } from "@/utils";
+import { phoneNumbers } from "@/constants";
+import { PhoneNumber } from "@/types";
 
 const Cart: React.FC = () => {
   const cartData = cookies().get("cart")?.value;
-  const cart: CartItem[] = cartData ? JSON.parse(cartData) : [];
+  const cart: string[] = cartData ? JSON.parse(cartData) : [];
 
-  return <CartModal cart={cart} />;
+  const cartItems: PhoneNumber[] = getMatchingItemsByKey(
+    phoneNumbers as never[],
+    cart,
+    "phoneNumber",
+  );
+  return <CartModal cart={cartItems} />;
 };
 
 export default Cart;

@@ -68,7 +68,7 @@ export const phoneNumbers: PhoneNumber[] = [
     _id: "4",
     name: "رقم مميز",
     description: "بعض الوصف هنا",
-    phoneNumber: "0101000009",
+    phoneNumber: "0101200009",
     price: 5000,
     company: "vodafone",
   },
@@ -209,7 +209,7 @@ export const offers: Offer[] = [
     title: "ارقام مميزة",
     description:
       "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
-    number: " 01015753392",
+    phoneNumber: " 01015753392",
     company: "Vodafone",
   },
   {
@@ -217,7 +217,7 @@ export const offers: Offer[] = [
     title: "ارقام مميزة",
     description:
       "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
-    number: "01015753392",
+    phoneNumber: "01015753392",
     company: "Vodafone",
   },
   {
@@ -225,7 +225,7 @@ export const offers: Offer[] = [
     title: "ارقام مميزة",
     description:
       "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
-    number: "01015753392",
+    phoneNumber: "01015753392",
     company: "Vodafone",
   },
 ];

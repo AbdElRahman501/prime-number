@@ -75,7 +75,7 @@ const Header: React.FC = () => {
         <div className="flex gap-4">
           <Cart />
           <Link
-            href="/saved"
+            href="/wishlist"
             className="text-2xl text-primary hover:text-foreground sm:text-3xl"
             aria-label="Save for later"
           >

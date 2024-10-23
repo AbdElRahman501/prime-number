@@ -4,13 +4,15 @@ import { formatPrice } from "@/utils";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
+import SubmitButton from "./SubmitButton";
+import CartForm from "./CartForm";
+import WishListForm from "./WishListForm";
 
-const ProductCard: React.FC<PhoneNumber> = ({
-  name,
-  phoneNumber,
-  price,
-  company,
-}) => {
+const ProductCard: React.FC<
+  PhoneNumber & { cart?: string[]; wishList?: string[] }
+> = ({ name, phoneNumber, price, company, cart, wishList }) => {
+  const inCart = cart && cart.find((c) => c === phoneNumber);
+  const inWishList = wishList && wishList.find((c) => c === phoneNumber);
   const color = companies.find((c) => c.name === company)?.color || "gray";
   return (
     <div className="w-full min-w-[265px] rounded-3xl bg-foreground pt-6 text-primary">
@@ -35,20 +37,24 @@ const ProductCard: React.FC<PhoneNumber> = ({
           alt={`${company} logo`}
         />
         <div className="flex gap-2">
-          <Link
-            href="#"
-            aria-label={`إضافة ${phoneNumber} إلى السلة`}
-            className="rounded-full bg-background p-2 text-2xl"
-          >
-            <Icon icon="solar:bag-linear" />
-          </Link>
-          <Link
-            href="#"
-            aria-label={`حفظ ${phoneNumber}`}
-            className="rounded-full bg-background p-2 text-2xl"
-          >
-            <Icon icon="mdi:bookmark-outline" />
-          </Link>
+          <CartForm phoneNumber={phoneNumber} type={inCart ? "remove" : "add"}>
+            <SubmitButton
+              aria-label={`إضافة ${phoneNumber} إلى السلة`}
+              className="rounded-full bg-background p-2 text-2xl"
+            >
+              <Icon icon={inCart ? "solar:bag-bold" : "solar:bag-linear"} />
+            </SubmitButton>
+          </CartForm>
+          <WishListForm phoneNumber={phoneNumber}>
+            <SubmitButton
+              aria-label={`إضافة ${phoneNumber} إلى المفضلة`}
+              className="rounded-full bg-background p-2 text-2xl"
+            >
+              <Icon
+                icon={inWishList ? "mdi:bookmark" : "mdi:bookmark-outline"}
+              />
+            </SubmitButton>
+          </WishListForm>
           <Link
             href="#"
             aria-label={`مشاركة ${phoneNumber} على واتساب`}
