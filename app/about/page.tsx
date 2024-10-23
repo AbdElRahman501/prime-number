@@ -1,7 +1,10 @@
+import { store } from "@/constants";
+import { createWhatsAppLink } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 
 export default function page() {
+  // fetch store number
   return (
     <div className="bg-background py-10">
       <main className="container mx-auto px-6" aria-labelledby="about-heading">
@@ -58,7 +61,11 @@ export default function page() {
           </p>
           <div className="flex items-center justify-center gap-3">
             <Link
-              href="#"
+              target="_blank"
+              href={createWhatsAppLink(
+                store.phoneNumber,
+                "مرحبا ,اريد شراء رقم مميز",
+              )}
               className="flex max-w-96 items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
               role="button"
               aria-label="تواصل معنا"

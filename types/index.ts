@@ -1,8 +1,8 @@
 export interface Company {
   _id: string | number;
   name: "vodafone" | "etisalat" | "orange" | "we";
-  number: number;
-  image: string;
+  htmlTitle?: string;
+  image?: string;
   color: string;
 }
 
@@ -12,7 +12,7 @@ export interface PhoneNumber {
   description: string;
   phoneNumber: string;
   price: number;
-  company: string;
+  company: "vodafone" | "etisalat" | "orange" | "we";
 }
 
 export interface FooterLink {
@@ -64,4 +64,8 @@ export interface User {
   name: string;
   email: string;
   password: string;
+}
+
+export interface Store {
+  phoneNumber: string;
 }

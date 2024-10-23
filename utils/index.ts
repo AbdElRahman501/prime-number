@@ -53,3 +53,17 @@ export function toggleWishListItem(wishList: string[], phoneNumber: string) {
     return wishList.filter((x) => x !== phoneNumber);
   }
 }
+
+export function createWhatsAppLink(
+  phoneNumber: string,
+  message: string,
+): string {
+  // Remove any non-numeric characters from the phone number
+  const cleanedNumber = phoneNumber.replace(/\D/g, "");
+
+  // Encode the message to ensure it works with URLs
+  const encodedMessage = encodeURIComponent(message);
+
+  // Return the full WhatsApp API link
+  return `https://api.whatsapp.com/send?phone=${cleanedNumber}&text=${encodedMessage}`;
+}

@@ -4,6 +4,8 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import SessionElement from "./SessionElement";
+import { store } from "@/constants";
+import { createWhatsAppLink } from "@/utils";
 
 const MobileMenu: React.FC = () => {
   const [menu, setMenu] = useState(false);
@@ -98,8 +100,12 @@ const MobileMenu: React.FC = () => {
           </div>
         </Link>
         <Link
+          target="_blank"
+          href={createWhatsAppLink(
+            store.phoneNumber,
+            "مرحا, اريد شراء رقم مميز",
+          )}
           role="menuitem"
-          href="#contact"
           aria-label="اتصل بنا - Contact Us"
         >
           <div

@@ -6,6 +6,8 @@ import { Suspense } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Cart from "./Cart";
 import SessionElement from "./SessionElement";
+import { createWhatsAppLink } from "@/utils";
+import { store } from "@/constants";
 
 const Header: React.FC = () => {
   return (
@@ -63,7 +65,11 @@ const Header: React.FC = () => {
             من نحن
           </Link>
           <Link
-            href="#contact"
+            target="_blank"
+            href={createWhatsAppLink(
+              store.phoneNumber,
+              "مرحا, اريد شراء رقم مميز",
+            )}
             className="hover:text-foreground"
             aria-label="اتصل بنا - Contact Us"
           >

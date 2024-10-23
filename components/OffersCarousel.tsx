@@ -1,5 +1,7 @@
 "use client";
+import { store } from "@/constants";
 import { Offer } from "@/types";
+import { createWhatsAppLink } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import React from "react";
@@ -49,7 +51,7 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
   };
 
   React.useEffect(() => {
-    const interval = setInterval(scrollToNext, 3000);
+    const interval = setInterval(scrollToNext, 5000);
     return () => {
       clearInterval(interval);
     };
@@ -59,18 +61,20 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
   if (offers.length === 0) return null;
 
   return (
-    <div className="mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6">
+    <div className="relative mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6">
       {/* next Button */}
-      <button
-        onClick={scrollToPrev}
-        className={`${currentIndex === 0 ? "invisible" : ""} group rounded-full bg-foreground p-1 text-primary transition-colors hover:bg-primary hover:text-background md:p-3 md:text-2xl`}
-        aria-label="Next banner"
-      >
-        <Icon
-          icon="bi:arrow-right"
-          className="transition-transform duration-300 group-hover:scale-125"
-        />
-      </button>
+      <div className="absolute right-5 top-1/2 -translate-y-1/2">
+        <button
+          onClick={scrollToPrev}
+          className={`${currentIndex === 0 ? "invisible" : ""} group rounded-full bg-foreground p-1 text-primary transition-colors hover:bg-primary hover:text-background md:p-3 md:text-2xl`}
+          aria-label="Next banner"
+        >
+          <Icon
+            icon="bi:arrow-right"
+            className="transition-transform duration-300 group-hover:scale-125"
+          />
+        </button>
+      </div>
 
       {/* Main Content */}
       <div
@@ -82,35 +86,41 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
         ))}
       </div>
       {/* Previous Button */}
-      <button
-        onClick={scrollToNext}
-        className={`${currentIndex === offers.length - 1 ? "invisible" : ""} group rounded-full bg-foreground p-1 text-primary transition-colors hover:bg-primary hover:text-background md:p-3 md:text-2xl`}
-        aria-label="Previous banner"
-      >
-        <Icon
-          icon="bi:arrow-left"
-          className="transition-transform duration-300 group-hover:scale-125"
-        />
-      </button>
+      <div className="absolute left-5 top-1/2 -translate-y-1/2">
+        <button
+          onClick={scrollToNext}
+          className={`${currentIndex === offers.length - 1 ? "invisible" : ""} group rounded-full bg-foreground p-1 text-primary transition-colors hover:bg-primary hover:text-background md:p-3 md:text-2xl`}
+          aria-label="Previous banner"
+        >
+          <Icon
+            icon="bi:arrow-left"
+            className="transition-transform duration-300 group-hover:scale-125"
+          />
+        </button>
+      </div>
     </div>
   );
 };
 
 const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
   <div className="m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8 text-primary">
-    <p className="text-[2rem] font-bold sm:text-4xl md:text-7xl">
+    <p className="text-4xl font-bold sm:text-5xl md:text-7xl">
       {offer.phoneNumber}
     </p>
     <h1
-      className="max-w-[80%] text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
+      className="w-4/5 text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
       role="heading"
       aria-level={1}
     >
       {offer.title}
     </h1>
-    <p className="max-w-[90%] md:text-lg">{offer.description}</p>
+    <p className="w-3/4 text-center text-lg md:text-lg">{offer.description}</p>
     <Link
-      href="#buy"
+      target="_blank"
+      href={createWhatsAppLink(
+        store.phoneNumber,
+        `مرحبا اريد شراء هذا الرقم ${offer.phoneNumber}`,
+      )}
       className="flex items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
       role="button"
       aria-label="Buy Now"

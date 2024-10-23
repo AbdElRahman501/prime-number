@@ -1,12 +1,12 @@
-import { companies } from "@/constants";
+import { companies, store } from "@/constants";
 import { PhoneNumber } from "@/types";
-import { formatPrice } from "@/utils";
+import { createWhatsAppLink, formatPrice } from "@/utils";
 import { Icon } from "@iconify/react";
-import Image from "next/image";
 import Link from "next/link";
 import SubmitButton from "./SubmitButton";
 import CartForm from "./CartForm";
 import WishListForm from "./WishListForm";
+import LogoIcons from "./icons/logos";
 
 const ProductCard: React.FC<
   PhoneNumber & { cart?: string[]; wishList?: string[] }
@@ -28,14 +28,8 @@ const ProductCard: React.FC<
         <h2 className="text-xl font-bold">{name}</h2>
         <h2 className="text-xl font-bold">{formatPrice(price, "EGP")}</h2>
       </div>
-      <div className="flex justify-between p-3">
-        <Image
-          width={75}
-          height={20}
-          className="object-contain"
-          src={`/images/${company}.png`}
-          alt={`${company} logo`}
-        />
+      <div className="flex items-center justify-between p-3">
+        <LogoIcons name={company} className="h-6 w-6" viewBox="0 0 50 50" />
         <div className="flex gap-2">
           <CartForm phoneNumber={phoneNumber} type={inCart ? "remove" : "add"}>
             <SubmitButton
@@ -56,7 +50,11 @@ const ProductCard: React.FC<
             </SubmitButton>
           </WishListForm>
           <Link
-            href="#"
+            target="_blank"
+            href={createWhatsAppLink(
+              store.phoneNumber,
+              `مرحبا اريد شراء هذا الرقم ${phoneNumber}`,
+            )}
             aria-label={`مشاركة ${phoneNumber} على واتساب`}
             className="rounded-full bg-background p-2 text-2xl"
           >

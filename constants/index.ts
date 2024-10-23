@@ -6,35 +6,30 @@ import {
   Offer,
   PhoneNumber,
   Review,
+  Store,
 } from "@/types";
 
 export const companies: Company[] = [
   {
     _id: "1",
     name: "vodafone",
-    number: 12,
-    image: "/images/vodafone.png",
     color: "#E60000",
   },
   {
     _id: "2",
     name: "etisalat",
-    number: 12,
-    image: "/images/etisalat.png",
     color: "#E00700",
   },
   {
     _id: "3",
     name: "orange",
-    number: 12,
-    image: "/images/orange.png",
+    htmlTitle: "<h2 class='font-bold'>orange<sup class='text-xs'>TM</sup></h2>",
     color: "#F60",
   },
   {
     _id: "4",
     name: "we",
-    number: 12,
-    image: "/images/we.png",
+    htmlTitle: "<h2>telecom<strong>egypt</strong></h2>",
     color: "#5C2E91",
   },
 ];
@@ -52,7 +47,7 @@ export const phoneNumbers: PhoneNumber[] = [
     _id: "2",
     name: "رقم مميز",
     description: "بعض الوصف هنا",
-    phoneNumber: "0101003000",
+    phoneNumber: "0131003000",
     price: 10000,
     company: "we",
   },
@@ -60,7 +55,7 @@ export const phoneNumbers: PhoneNumber[] = [
     _id: "3",
     name: "رقم مميز",
     description: "بعض الوصف هنا",
-    phoneNumber: "0101000009",
+    phoneNumber: "0121000009",
     price: 5000,
     company: "orange",
   },
@@ -206,26 +201,30 @@ export const reviews: Review[] = [
 export const offers: Offer[] = [
   {
     _id: 1,
-    title: "ارقام مميزة",
+    title: "أرقام مميزة",
     description:
-      "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
-    phoneNumber: " 01015753392",
+      "احصل على رقم مميز يعزز من هويتك التجارية ويزيد من ثقة عملائك بك.",
+    phoneNumber: "01010101010",
     company: "Vodafone",
   },
   {
     _id: 2,
-    title: "ارقام مميزة",
+    title: "أرقام مميزة",
     description:
-      "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
-    phoneNumber: "01015753392",
-    company: "Vodafone",
+      "رقم فريد يضمن لك التميز ويساهم في تعزيز تواصلك مع عملائك بشكل أفضل.",
+    phoneNumber: "01234567890",
+    company: "Orange",
   },
   {
     _id: 3,
-    title: "ارقام مميزة",
+    title: "أرقام مميزة",
     description:
-      "تمتلك الرقم المثالي للاعبين التجارية مما يجعلهم تتحمل العملاء",
-    phoneNumber: "01015753392",
-    company: "Vodafone",
+      "اجعل رقمك لا يُنسى مع رقم مميز من اتصالات يعكس هوية عملك واحترافك.",
+    phoneNumber: "01123456789",
+    company: "etisalat",
   },
 ];
+
+export const store: Store = {
+  phoneNumber: "01015753392",
+};

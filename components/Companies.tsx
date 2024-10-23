@@ -1,5 +1,5 @@
-import { companies } from "@/constants";
-import { Company } from "@/types";
+import { companies, phoneNumbers } from "@/constants";
+import { Company, PhoneNumber } from "@/types";
 import LogoIcons from "./icons/logos";
 
 const Companies: React.FC = () => {
@@ -10,25 +10,46 @@ const Companies: React.FC = () => {
       </h2>
       <div className="scroll-bar-hidden flex justify-around gap-10 overflow-x-auto rounded-b-[50px] bg-white p-5 py-12 text-primary md:rounded-b-[75px] md:px-20">
         {companies.map((company) => (
-          <CompanyCard key={company.name} {...company} />
+          <CompanyCard
+            key={company.name}
+            {...company}
+            phoneNumbers={phoneNumbers}
+          />
         ))}
       </div>
     </section>
   );
 };
 
-const CompanyCard: React.FC<Company> = ({ number, name, color }) => {
+const CompanyCard: React.FC<Company & { phoneNumbers: PhoneNumber[] }> = ({
+  htmlTitle,
+  name,
+  color,
+  phoneNumbers,
+}) => {
+  const totalAvailable = phoneNumbers.filter((p) => p.company === name).length;
   return (
     <div className="flex min-w-52 justify-end gap-2">
       <div>
-        <h3
-          className="text-left font-inter text-3xl font-bold"
-          style={{ color }}
+        {htmlTitle ? (
+          <div
+            className="text-left font-inter text-3xl"
+            style={{ color }}
+            dangerouslySetInnerHTML={{ __html: htmlTitle }}
+          />
+        ) : (
+          <h2
+            className="text-left font-inter text-3xl font-bold"
+            style={{ color }}
+          >
+            {name}
+          </h2>
+        )}
+        <p
+          className="text-right text-xs"
+          aria-label={` ${totalAvailable} متاح الان`}
         >
-          {name}
-        </h3>
-        <p className="text-right text-xs" aria-label={` ${number} متاح الان`}>
-          {number} رقم متاح
+          {totalAvailable} رقم متاح
         </p>
       </div>
       <LogoIcons name={name} className="h-16 w-16" viewBox="0 0 50 50" />

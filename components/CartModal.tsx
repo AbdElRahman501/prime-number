@@ -2,16 +2,19 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { formatPrice } from "@/utils";
+import { createWhatsAppLink, formatPrice } from "@/utils";
 import CartForm from "./CartForm";
 import SubmitButton from "./SubmitButton";
 import { PhoneNumber } from "@/types";
+import { store } from "@/constants";
 
 export default function CartModal({
   cart,
 }: {
   cart: PhoneNumber[] | undefined;
 }) {
+  // fetch store number
+
   const [isOpen, setIsOpen] = useState(false);
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
@@ -28,6 +31,8 @@ export default function CartModal({
       document.body.classList.remove("overflow-hidden");
     };
   }, [isOpen]);
+
+  const allNumbers = cart?.map((item) => item.phoneNumber).join(", ") || "";
 
   return (
     <>
@@ -126,7 +131,11 @@ export default function CartModal({
           {/* Checkout Button */}
           {cart && cart.length > 0 ? (
             <Link
-              href="#buy"
+              target="_blank"
+              href={createWhatsAppLink(
+                store.phoneNumber,
+                ` مرحبا, اريد شراء هذه الارقام ${allNumbers} `,
+              )}
               className="flex items-center justify-center gap-3 rounded-full bg-background px-10 py-3 text-2xl font-semibold text-primary hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
               aria-label="Buy Now"
             >
