@@ -29,19 +29,15 @@ const CompanyCard: React.FC<Company & { phoneNumbers: PhoneNumber[] }> = ({
 }) => {
   const totalAvailable = phoneNumbers.filter((p) => p.company === name).length;
   return (
-    <div className="flex min-w-52 justify-end gap-2">
+    <div className="flex h-16 justify-end gap-2 text-left font-inter text-3xl">
       <div>
         {htmlTitle ? (
           <div
-            className="text-left font-inter text-3xl"
             style={{ color }}
             dangerouslySetInnerHTML={{ __html: htmlTitle }}
           />
         ) : (
-          <h2
-            className="text-left font-inter text-3xl font-bold"
-            style={{ color }}
-          >
+          <h2 className="font-bold" style={{ color }}>
             {name}
           </h2>
         )}
@@ -52,7 +48,11 @@ const CompanyCard: React.FC<Company & { phoneNumbers: PhoneNumber[] }> = ({
           {totalAvailable} رقم متاح
         </p>
       </div>
-      <LogoIcons name={name} className="h-16 w-16" viewBox="0 0 50 50" />
+      <LogoIcons
+        name={name}
+        className="aspect-square h-full"
+        viewBox="0 0 50 50"
+      />
     </div>
   );
 };

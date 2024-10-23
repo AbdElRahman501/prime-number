@@ -2,22 +2,23 @@
 
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import SessionElement from "./SessionElement";
 import { store } from "@/constants";
 import { createWhatsAppLink } from "@/utils";
+import SearchField from "./SearchField";
 
 const MobileMenu: React.FC = () => {
   const [menu, setMenu] = useState(false);
   const closeMenu = () => setMenu(false);
   useEffect(() => {
     if (menu) {
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add("max-md:overflow-hidden");
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("max-md:overflow-hidden");
     }
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("max-md:overflow-hidden");
     };
   }, [menu]);
 
@@ -52,69 +53,78 @@ const MobileMenu: React.FC = () => {
             ? { right: "10px", height: "50vh", width: "70vw" }
             : { right: "-20vw", height: "0", width: "0", top: "0" }
         }
-        className="fixed top-[86px] z-20 flex h-[50vh] w-[70vw] flex-col justify-start overflow-hidden rounded-[50px] bg-primary p-5 text-background duration-700 ease-in-out md:hidden"
+        className="fixed top-[86px] z-20 flex h-[50vh] w-[70vw] overflow-hidden rounded-[50px] bg-primary text-background duration-700 ease-in-out md:hidden"
         id="mobile-menu"
         role="menu"
         aria-label="Mobile navigation"
       >
-        <Link role="menuitem" href="/" aria-label="Home - الرئيسية">
-          <div
-            onClick={closeMenu}
-            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          >
-            الرئيسية
+        <div className="flex min-h-[50vh] min-w-[70vw] flex-col justify-start p-5">
+          {/* Search bar */}
+          <div className="text-sm text-primary selection:bg-blue-300 selection:text-primary">
+            <Suspense>
+              <SearchField onClick={closeMenu} />
+            </Suspense>
           </div>
-        </Link>
-        <SessionElement>
+
+          <Link role="menuitem" href="/" aria-label="Home - الرئيسية">
+            <div
+              onClick={closeMenu}
+              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+            >
+              الرئيسية
+            </div>
+          </Link>
+          <SessionElement>
+            <Link
+              role="menuitem"
+              href="/dashboard"
+              aria-label="لوحة التحكم - Dashboard"
+            >
+              <div
+                onClick={closeMenu}
+                className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+              >
+                لوحة التحكم
+              </div>
+            </Link>
+          </SessionElement>
           <Link
             role="menuitem"
-            href="/dashboard"
-            aria-label="لوحة التحكم - Dashboard"
+            href="/shop"
+            aria-label="الأرقام المميزة - Special Numbers"
           >
             <div
               onClick={closeMenu}
               className="block px-4 py-2 hover:bg-foreground hover:text-primary"
             >
-              لوحة التحكم
+              الأرقام المميزة
             </div>
           </Link>
-        </SessionElement>
-        <Link
-          role="menuitem"
-          href="/shop"
-          aria-label="الأرقام المميزة - Special Numbers"
-        >
-          <div
-            onClick={closeMenu}
-            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+          <Link role="menuitem" href="/about" aria-label="من نحن- About Us">
+            <div
+              onClick={closeMenu}
+              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+            >
+              من نحن
+            </div>
+          </Link>
+          <Link
+            target="_blank"
+            href={createWhatsAppLink(
+              store.phoneNumber,
+              "مرحا, اريد شراء رقم مميز",
+            )}
+            role="menuitem"
+            aria-label="اتصل بنا - Contact Us"
           >
-            الأرقام المميزة
-          </div>
-        </Link>
-        <Link role="menuitem" href="/about" aria-label="من نحن- About Us">
-          <div
-            onClick={closeMenu}
-            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          >
-            من نحن
-          </div>
-        </Link>
-        <Link
-          target="_blank"
-          href={createWhatsAppLink(
-            store.phoneNumber,
-            "مرحا, اريد شراء رقم مميز",
-          )}
-          role="menuitem"
-          aria-label="اتصل بنا - Contact Us"
-        >
-          <div
-            onClick={closeMenu}
-            className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-          >
-            اتصل بنا
-          </div>
-        </Link>
+            <div
+              onClick={closeMenu}
+              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+            >
+              اتصل بنا
+            </div>
+          </Link>
+        </div>
       </div>
     </>
   );

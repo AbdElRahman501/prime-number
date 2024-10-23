@@ -6,6 +6,7 @@ import {
   Offer,
   PhoneNumber,
   Review,
+  SortOptions,
   Store,
 } from "@/types";
 
@@ -223,6 +224,13 @@ export const offers: Offer[] = [
     phoneNumber: "01123456789",
     company: "etisalat",
   },
+];
+
+export const sortOptions: SortOptions[] = [
+  { name: "الأحدث", value: "Nst" },
+  { name: "الأقدم", value: "Ost" },
+  { name: "الاعلي سعر", value: "Hp" },
+  { name: "الاقل سعر", value: "Lp" },
 ];
 
 export const store: Store = {

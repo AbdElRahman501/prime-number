@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const SearchField: React.FC = () => {
+const SearchField: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialSearchText = searchParams.get("q") || "";
@@ -22,7 +22,7 @@ const SearchField: React.FC = () => {
     } else {
       newParams.delete("q");
     }
-
+    onClick?.();
     router.push(createUrl("/shop", newParams));
   }
 

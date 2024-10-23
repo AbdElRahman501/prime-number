@@ -1,5 +1,7 @@
+import ProductCard from "@/components/ProductCard";
 import { phoneNumbers } from "@/constants";
-import dynamic from "next/dynamic";
+import { CompanyName, Sort } from "@/types";
+import { filterPhoneNumbers } from "@/utils";
 import { cookies } from "next/headers";
 
 export const metadata = {
@@ -7,10 +9,6 @@ export const metadata = {
   description:
     "اكتشف أفضل الأرقام المميزة في مصر، وابحث عن الرقم المثالي لك بسهولة.",
 };
-
-const ProductCard = dynamic(() => import("@/components/ProductCard"), {
-  ssr: false,
-});
 
 export default async function SearchPage({
   searchParams,
@@ -24,9 +22,15 @@ export default async function SearchPage({
   const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
 
   // Destructure searchValue from searchParams
-  const { q: searchValue } = searchParams as {
+  const {
+    q: searchValue,
+    minP,
+    maxP,
+    ctf,
+    sort,
+  } = searchParams as {
     [key: string]: string;
-  };
+  } & { ctf?: CompanyName[]; sort?: Sort };
 
   return (
     <>
@@ -40,7 +44,14 @@ export default async function SearchPage({
       )}
       <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {phoneNumbers.length > 0 ? (
-          phoneNumbers.map((phoneNumber) => (
+          filterPhoneNumbers(
+            phoneNumbers,
+            searchValue,
+            maxP,
+            minP,
+            ctf,
+            sort,
+          ).map((phoneNumber) => (
             <ProductCard
               key={phoneNumber._id}
               {...phoneNumber}

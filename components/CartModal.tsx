@@ -23,12 +23,12 @@ export default function CartModal({
 
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add("max-md:overflow-hidden");
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("max-md:overflow-hidden");
     }
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("max-md:overflow-hidden");
     };
   }, [isOpen]);
 

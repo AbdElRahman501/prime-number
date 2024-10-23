@@ -1,25 +1,84 @@
 "use client";
-import { companies } from "@/constants";
+import { companies, sortOptions } from "@/constants";
+import {
+  createUrl,
+  getSearchParamsAsArray,
+  toggleStringInArray,
+} from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import LogoIcons from "./icons/logos";
 
 const FilterSection: React.FC = () => {
-  const [active, setActive] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const handleToggle = () => setActive((prev) => !prev);
-  const handleClose = () => setActive(false);
+  const initialSort = searchParams?.get("sort") || "";
+  const initialCategories = getSearchParamsAsArray(searchParams, "ctf");
+  const initialMinPrice = parseInt(searchParams?.get("minP") || "");
+  const initialMaxPrice = parseInt(searchParams?.get("maxP") || "");
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [sort, setSort] = useState<string>(initialSort);
+  const [categories, setCategories] = useState<string[]>(initialCategories);
+  const [minPrice, setMinPrice] = useState<number>(initialMinPrice || 0);
+  const [maxPrice, setMaxPrice] = useState<number | string>(
+    initialMaxPrice || "",
+  );
+
+  const changed = useMemo(
+    () => minPrice || maxPrice || categories.length > 0 || sort,
+    [minPrice, maxPrice, categories, sort],
+  );
+
+  // functions
+  const openFilter = () => setIsOpen(true);
+  const closeFilter = () => setIsOpen(false);
+
+  function submitHandler() {
+    // setSubmitChanges(true);
+    closeFilter();
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set("minP", minPrice.toString());
+    newSearchParams.set("maxP", maxPrice.toString());
+    newSearchParams.set("ctf", categories.join(","));
+    newSearchParams.set("sort", sort);
+    const optionUrl = createUrl(pathname, newSearchParams);
+    router.replace(optionUrl, { scroll: false });
+  }
+
+  function onReset() {
+    router.replace(pathname, { scroll: false });
+    setMinPrice(0);
+    setMaxPrice("");
+    setCategories([]);
+    setSort("");
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("max-md:overflow-hidden");
+    } else {
+      document.body.classList.remove("max-md:overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("max-md:overflow-hidden");
+    };
+  }, [isOpen]);
   return (
     <>
       <div
         style={{
-          bottom: active ? "0" : "-100%",
+          bottom: isOpen ? "0" : "-100%",
         }}
         className="scroll-bar-hidden fixed left-0 z-20 flex h-fit w-full flex-col gap-4 overflow-y-auto rounded-3xl bg-background p-5 duration-500 ease-in-out md:static md:h-full md:max-h-none md:min-h-[70dvh] md:w-1/4 2xl:w-1/5"
       >
         <button
           className="absolute left-5 top-5 text-2xl md:hidden"
-          onClick={handleClose}
+          onClick={submitHandler}
           aria-label="إغلاق الفلتر"
         >
           <Icon icon="ic:baseline-close" />
@@ -35,11 +94,17 @@ const FilterSection: React.FC = () => {
           <select
             name="ترتيب"
             id="ترتيب"
-            className="h-10 w-full rounded-xl border border-background text-center text-sm text-primary"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="h-10 w-full rounded-xl border border-background bg-white text-center text-sm text-primary"
             aria-label="اختر ترتيب النتائج"
           >
-            <option value="">الأحدث</option>
-            <option value="">الأقدم</option>
+            <option value="">الإفتراضي</option>
+            {sortOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -48,12 +113,28 @@ const FilterSection: React.FC = () => {
           <div className="flex flex-col gap-1">
             {companies.map((company) => (
               <button
+                onClick={() =>
+                  setCategories(toggleStringInArray(categories, company.name))
+                }
                 key={company._id}
-                className={`rounded-xl border-2 p-2 px-4 text-sm duration-200 hover:scale-105 hover:bg-primary hover:text-background ${
-                  company._id === "2" ? "bg-primary text-background" : ""
+                className={`rounded-xl border-2 p-2 px-4 text-sm hover:border-primary ${
+                  categories.includes(company.name)
+                    ? "bg-primary text-background"
+                    : ""
                 }`}
               >
-                <span>{`${company.name} (${12})`}</span>
+                <div className="flex h-6 items-center justify-center">
+                  <div className="flex h-6 w-32 justify-end gap-2 font-inter text-lg">
+                    <div>
+                      <h2 className="font-bold">{company.name}</h2>
+                    </div>
+                    <LogoIcons
+                      name={company.name}
+                      className="aspect-square h-full min-w-6"
+                      viewBox="0 0 50 50"
+                    />
+                  </div>
+                </div>
               </button>
             ))}
           </div>
@@ -66,6 +147,9 @@ const FilterSection: React.FC = () => {
               type="number"
               placeholder="أقل سعر"
               name="min"
+              min={0}
+              value={minPrice}
+              onChange={(e) => setMinPrice(parseInt(e.target.value))}
               className="h-10 w-full rounded-xl border border-gray-200 text-center text-sm text-primary"
               aria-label="أقل سعر"
             />
@@ -73,6 +157,8 @@ const FilterSection: React.FC = () => {
             <input
               type="number"
               name="max"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
               placeholder="أعلى سعر"
               className="h-10 w-full rounded-xl border border-gray-200 text-center text-sm text-primary"
               aria-label="أعلى سعر"
@@ -80,21 +166,29 @@ const FilterSection: React.FC = () => {
             <input type="submit" className="hidden" />
           </div>
         </div>
-
-        <button
-          onClick={handleClose}
-          className="mt-5 w-full rounded-3xl border-2 border-background bg-primary py-4 font-semibold text-background"
-        >
-          <div className="flex h-full w-full items-center justify-center gap-2">
-            <Icon icon="ic:baseline-filter-list" aria-label="تطبيق الفلتر" />
-            <span className="ml-2">تطبيق الفلتر</span>
-          </div>
-        </button>
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={submitHandler}
+            className="mt-4 w-full rounded-3xl border-2 border-background bg-primary py-4 font-semibold text-background focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
+          >
+            <div className="flex h-full w-full items-center justify-center gap-2">
+              <Icon icon="ic:baseline-filter-list" aria-label="تطبيق الفلتر" />
+              <span className="mr-2">تطبيق الفلتر</span>
+            </div>
+          </button>
+          <button
+            onClick={onReset}
+            className={` ${changed ? "visible" : "invisible"} w-ful font-semibold text-primary`}
+          >
+            مسح الفلتر
+          </button>
+        </div>
       </div>
 
-      {active && (
+      {/* Backdrop  */}
+      {isOpen && (
         <button
-          onClick={handleClose}
+          onClick={submitHandler}
           aria-label="إغلاق القائمة"
           aria-hidden="true"
           className="fixed inset-0 top-[76px] z-10 h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden"
@@ -103,8 +197,8 @@ const FilterSection: React.FC = () => {
 
       <div className="sticky bottom-0 left-0 w-full pb-4 md:hidden">
         <button
-          onClick={handleToggle}
-          className="w-full rounded-3xl border-2 border-background bg-primary py-4 font-semibold text-background"
+          onClick={openFilter}
+          className="w-full rounded-3xl border-2 border-background bg-primary py-4 font-semibold text-background focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
         >
           <div className="flex h-full w-full items-center justify-center">
             <Icon

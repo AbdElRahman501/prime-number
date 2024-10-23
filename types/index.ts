@@ -1,9 +1,17 @@
 export interface Company {
   _id: string | number;
-  name: "vodafone" | "etisalat" | "orange" | "we";
+  name: CompanyName;
   htmlTitle?: string;
   image?: string;
   color: string;
+}
+
+export type CompanyName = "vodafone" | "etisalat" | "orange" | "we";
+export type Sort = "Nst" | "Ost" | "Lp" | "Hp";
+
+export interface SortOptions {
+  name: string;
+  value: Sort;
 }
 
 export interface PhoneNumber {
@@ -12,7 +20,7 @@ export interface PhoneNumber {
   description: string;
   phoneNumber: string;
   price: number;
-  company: "vodafone" | "etisalat" | "orange" | "we";
+  company: CompanyName;
 }
 
 export interface FooterLink {

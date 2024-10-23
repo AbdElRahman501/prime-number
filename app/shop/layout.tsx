@@ -1,12 +1,6 @@
-import dynamic from "next/dynamic";
+import FilterSection from "@/components/FilterSection";
+import SearchField from "@/components/SearchField";
 import { Suspense } from "react";
-
-const SearchField = dynamic(() => import("@/components/SearchField"), {
-  ssr: false,
-});
-const FilterSection = dynamic(() => import("@/components/FilterSection"), {
-  ssr: false,
-});
 
 const layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
