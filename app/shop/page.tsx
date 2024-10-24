@@ -2,13 +2,55 @@ import ProductCard from "@/components/ProductCard";
 import { phoneNumbers } from "@/constants";
 import { CompanyName, Sort } from "@/types";
 import { filterPhoneNumbers } from "@/utils";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-export const metadata = {
-  title: "ابحث عن رقم الهاتف المميز",
-  description:
-    "اكتشف أفضل الأرقام المميزة في مصر، وابحث عن الرقم المثالي لك بسهولة.",
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}): Promise<Metadata> {
+  const { prime } = searchParams as {
+    [key: string]: string;
+  };
+
+  const phoneNumber = phoneNumbers.find((item) => item.phoneNumber === prime);
+  const title = phoneNumber?.phoneNumber
+    ? `شراء رقم الهاتف المميز (${phoneNumber.phoneNumber}) - بريم نمبر`
+    : "شراء رقم الهاتف المميز - بريم نمبر";
+  const description = phoneNumber?.phoneNumber
+    ? "شراء رقم الهاتف المميز (" + phoneNumber.phoneNumber + ") - بريم نمبر"
+    : "شراء رقم الهاتف المميز - بريم نمبر";
+  return {
+    title,
+    description,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
+    },
+    openGraph: {
+      title,
+      images: [
+        {
+          url: `/api/og?title=${encodeURIComponent(phoneNumber?.phoneNumber || "")}`,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      images: [
+        `/api/og?title=${encodeURIComponent(phoneNumber?.phoneNumber || "")}`,
+      ],
+    },
+  };
+}
 
 export default async function SearchPage({
   searchParams,

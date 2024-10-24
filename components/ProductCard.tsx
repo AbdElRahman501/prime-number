@@ -51,10 +51,7 @@ const ProductCard: React.FC<
           </WishListForm>
           <Link
             target="_blank"
-            href={createWhatsAppLink(
-              store.phoneNumber,
-              `مرحبا اريد شراء هذا الرقم ${phoneNumber}`,
-            )}
+            href={createWhatsAppLink(store.phoneNumber, phoneNumber)}
             aria-label={`مشاركة ${phoneNumber} على واتساب`}
             className="rounded-full bg-background p-2 text-2xl"
           >

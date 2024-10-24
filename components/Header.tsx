@@ -66,10 +66,7 @@ const Header: React.FC = () => {
           </Link>
           <Link
             target="_blank"
-            href={createWhatsAppLink(
-              store.phoneNumber,
-              "مرحا, اريد شراء رقم مميز",
-            )}
+            href={createWhatsAppLink(store.phoneNumber)}
             className="hover:text-foreground"
             aria-label="اتصل بنا - Contact Us"
           >

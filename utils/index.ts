@@ -53,14 +53,21 @@ export function toggleWishListItem(wishList: string[], phoneNumber: string) {
     return wishList.filter((x) => x !== phoneNumber);
   }
 }
+const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  : "http://localhost:3000";
 
 export function createWhatsAppLink(
-  phoneNumber: string,
-  message: string,
+  phoneNumber: string, // 01015753392
+  product?: string,
 ): string {
   // Remove any non-numeric characters from the phone number
   const cleanedNumber = phoneNumber.replace(/\D/g, "");
+  const productUrl = `${baseUrl}/shop?prime=${product}`;
 
+  const message = product
+    ? productUrl + ` مرحبا اريد شراء هذا الرقم  ${product} `
+    : `اريد شراء رقم مميز هل يمكنك اطلاعي علي التفاصيل`;
   // Encode the message to ensure it works with URLs
   const encodedMessage = encodeURIComponent(message);
 

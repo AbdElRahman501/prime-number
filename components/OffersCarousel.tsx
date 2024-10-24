@@ -105,25 +105,24 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
 const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
   <div className="m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8 text-primary">
     <p className="text-4xl font-bold sm:text-5xl md:text-7xl">
-      {offer.phoneNumber}
+      <strong>{offer.phoneNumber}</strong>
     </p>
-    <h1
+    <h2
       className="w-4/5 text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
       role="heading"
       aria-level={1}
     >
       {offer.title}
-    </h1>
-    <p className="w-3/4 text-center text-lg md:text-lg">{offer.description}</p>
+    </h2>
+    <p className="w-3/4 max-w-xl text-center text-lg md:text-lg">
+      {offer.description}
+    </p>
     <Link
       target="_blank"
-      href={createWhatsAppLink(
-        store.phoneNumber,
-        `مرحبا اريد شراء هذا الرقم ${offer.phoneNumber}`,
-      )}
+      href={createWhatsAppLink(store.phoneNumber, offer.phoneNumber)}
       className="flex items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
       role="button"
-      aria-label="Buy Now"
+      aria-label="شراء الان"
     >
       <span>شراء الان</span>
       <Icon icon="ri:whatsapp-fill" />

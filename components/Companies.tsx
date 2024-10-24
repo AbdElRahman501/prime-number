@@ -42,7 +42,7 @@ const CompanyCard: React.FC<Company & { phoneNumbers: PhoneNumber[] }> = ({
           </h2>
         )}
         <p
-          className="text-right text-xs"
+          className="text-right text-base"
           aria-label={` ${totalAvailable} متاح الان`}
         >
           {totalAvailable} رقم متاح
