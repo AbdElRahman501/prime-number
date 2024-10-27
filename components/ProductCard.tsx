@@ -35,6 +35,9 @@ const ProductCard: React.FC<
             <SubmitButton
               aria-label={`إضافة ${phoneNumber} إلى السلة`}
               className="rounded-full bg-background p-2 text-2xl"
+              loadingItem={
+                <Icon icon={!inCart ? "solar:bag-bold" : "solar:bag-linear"} />
+              }
             >
               <Icon icon={inCart ? "solar:bag-bold" : "solar:bag-linear"} />
             </SubmitButton>
@@ -43,6 +46,11 @@ const ProductCard: React.FC<
             <SubmitButton
               aria-label={`إضافة ${phoneNumber} إلى المفضلة`}
               className="rounded-full bg-background p-2 text-2xl"
+              loadingItem={
+                <Icon
+                  icon={!inWishList ? "mdi:bookmark" : "mdi:bookmark-outline"}
+                />
+              }
             >
               <Icon
                 icon={inWishList ? "mdi:bookmark" : "mdi:bookmark-outline"}

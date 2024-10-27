@@ -36,13 +36,22 @@ export default function CartModal({
 
   return (
     <>
-      <button
-        aria-label="Open cart"
-        className="text-2xl text-primary hover:text-foreground sm:text-3xl"
-        onClick={openCart}
-      >
-        <Icon icon="solar:bag-bold" aria-hidden="true" />
-      </button>
+      <div className="relative">
+        <button
+          aria-label="Open cart"
+          className="text-2xl text-primary hover:text-foreground sm:text-3xl"
+          onClick={openCart}
+        >
+          <Icon icon="solar:bag-bold" aria-hidden="true" />
+        </button>
+        {cart && cart.length > 0 ? (
+          <span className="absolute right-0 top-0 block aspect-square h-4 w-4 rounded-full bg-red-500 text-center text-xs text-white">
+            {cart?.length}
+          </span>
+        ) : (
+          ""
+        )}
+      </div>
 
       <div
         onClick={closeCart}

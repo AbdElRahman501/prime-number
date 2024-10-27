@@ -1,3 +1,4 @@
+import { companies } from "@/constants";
 import ProductCard from "@/components/ProductCard";
 import { phoneNumbers } from "@/constants";
 import { CompanyName, Sort } from "@/types";
@@ -10,11 +11,13 @@ export async function generateMetadata({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }): Promise<Metadata> {
-  const { prime } = searchParams as {
+  const { q: prime } = searchParams as {
     [key: string]: string;
   };
 
   const phoneNumber = phoneNumbers.find((item) => item.phoneNumber === prime);
+  const color =
+    companies.find((c) => c.name === phoneNumber?.company)?.color || "gray";
   const title = phoneNumber?.phoneNumber
     ? `شراء رقم الهاتف المميز (${phoneNumber.phoneNumber}) - بريم نمبر`
     : "شراء رقم الهاتف المميز - بريم نمبر";
@@ -36,7 +39,7 @@ export async function generateMetadata({
       title,
       images: [
         {
-          url: `/api/og?title=${encodeURIComponent(phoneNumber?.phoneNumber || "")}`,
+          url: `/api/og?title=${encodeURIComponent(phoneNumber?.phoneNumber || "")}&color=${encodeURIComponent(color)}`,
           width: 1200,
           height: 630,
         },
@@ -46,7 +49,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       images: [
-        `/api/og?title=${encodeURIComponent(phoneNumber?.phoneNumber || "")}`,
+        `/api/og?title=${encodeURIComponent(phoneNumber?.phoneNumber || "")}&color=${encodeURIComponent(color)}`,
       ],
     },
   };
@@ -112,12 +115,12 @@ export default async function SearchPage({
           </p>
         )}
       </div>
-      <button
+      {/* <button
         className="mt-4 w-full rounded-3xl border border-primary py-4 text-center font-semibold text-primary transition-colors duration-200 hover:bg-primary hover:text-white"
         aria-label="تحميل المزيد من الأرقام"
       >
         تحميل المزيد...
-      </button>
+      </button> */}
     </section>
   );
 }

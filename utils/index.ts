@@ -63,7 +63,7 @@ export function createWhatsAppLink(
 ): string {
   // Remove any non-numeric characters from the phone number
   const cleanedNumber = phoneNumber.replace(/\D/g, "");
-  const productUrl = `${baseUrl}/shop?prime=${product}`;
+  const productUrl = `${baseUrl}/shop?q=${product}`;
 
   const message = product
     ? productUrl + ` مرحبا اريد شراء هذا الرقم  ${product} `
