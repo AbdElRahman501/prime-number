@@ -14,6 +14,7 @@ const ProductSlider = dynamic(() => import("@/components/ProductSlider"), {
 export default function Home() {
   return (
     <main>
+      <h1 className="sr-only">بريم نمبر, ارقام مميزه في مصر</h1>
       <Hero />
       <Companies />
       <ProductSlider />

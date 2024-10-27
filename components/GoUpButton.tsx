@@ -14,7 +14,7 @@ const GoUpButton = () => {
         className="m-[5px] flex h-[50px] w-[50px] items-center justify-center rounded-full bg-white text-3xl text-black dark:text-black"
         aria-label="Scroll to top"
       >
-        <Icon icon="mdi:arrow-up" className="w-5" />
+        <Icon icon="bi:arrow-up" className="w-5" />
       </button>
     </div>
   );

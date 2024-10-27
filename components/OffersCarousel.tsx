@@ -61,7 +61,10 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
   if (offers.length === 0) return null;
 
   return (
-    <div className="relative mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6">
+    <div
+      aria-labelledby="offers"
+      className="container relative mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6"
+    >
       {/* next Button */}
       <div className="absolute right-5 top-1/2 -translate-y-1/2">
         <button
@@ -107,13 +110,13 @@ const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
     <p className="text-4xl font-bold sm:text-5xl md:text-7xl">
       <strong>{offer.phoneNumber}</strong>
     </p>
-    <h2
+    <h3
       className="w-4/5 text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
       role="heading"
       aria-level={1}
     >
       {offer.title}
-    </h2>
+    </h3>
     <p className="w-3/4 max-w-xl text-center text-lg md:text-lg">
       {offer.description}
     </p>

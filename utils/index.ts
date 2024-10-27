@@ -1,6 +1,6 @@
 import { CartItem, CompanyName, PhoneNumber, Sort } from "@/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
-
+import { companies } from "@/constants";
 export function formatPrice(price: number, currency: "EGP" | "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -99,24 +99,31 @@ export const filterPhoneNumbers = (
   query: string = "",
   maxPrice: string = "",
   minPrice: string = "",
-  companies: CompanyName[] = [],
+  companiesFilter: CompanyName[] = [],
   sortBy: Sort | "default" = "default",
 ): PhoneNumber[] => {
   // Convert maxPrice and minPrice to numbers
   const maxPriceNum = parseFloat(maxPrice) || Infinity;
   const minPriceNum = parseFloat(minPrice) || 0;
-
   // Filter by query, price range, and company
   let filtered = phoneNumbers.filter((product) => {
+    const companyAr =
+      companies.find((company) => company.name === product.company)?.nameAr ||
+      product.company;
+
     const matchesQuery = query
       ? product.name.includes(query) ||
         product.description.includes(query) ||
-        product.phoneNumber.includes(query)
+        product.phoneNumber.includes(query) ||
+        product.company.includes(query) ||
+        companyAr.includes(query)
       : true;
     const withinPriceRange =
       product.price >= minPriceNum && product.price <= maxPriceNum;
     const matchesCompany =
-      companies.length > 0 ? companies.includes(product.company) : true;
+      companiesFilter.length > 0
+        ? companiesFilter.includes(product.company)
+        : true;
 
     return matchesQuery && withinPriceRange && matchesCompany;
   });

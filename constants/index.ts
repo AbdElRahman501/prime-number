@@ -14,22 +14,26 @@ export const companies: Company[] = [
   {
     _id: "1",
     name: "vodafone",
+    nameAr: "فودافون",
     color: "#E60000",
   },
   {
     _id: "2",
     name: "etisalat",
+    nameAr: "اتصالات",
     color: "#E00700",
   },
   {
     _id: "3",
     name: "orange",
+    nameAr: "اورانج",
     htmlTitle: "<h2 class='font-bold'>orange<sup class='text-xs'>TM</sup></h2>",
     color: "#F60",
   },
   {
     _id: "4",
     name: "we",
+    nameAr: "وي",
     htmlTitle: "<h2>telecom<strong>egypt</strong></h2>",
     color: "#5C2E91",
   },

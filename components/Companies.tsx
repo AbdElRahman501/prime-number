@@ -4,18 +4,24 @@ import LogoIcons from "./icons/logos";
 
 const Companies: React.FC = () => {
   return (
-    <section aria-labelledby="اسماء الشركات" className="bg-background">
-      <h2 id="companies-title" className="sr-only">
-        شركات الاتصالات المتاحة
+    <section
+      aria-labelledby="companies"
+      role="companies"
+      className="bg-background"
+    >
+      <h2 id="companies" className="sr-only">
+        جميع شركات الاتصالات المصريه متاحه فودافون و اوراج واتصالات و وي
       </h2>
-      <div className="scroll-bar-hidden flex justify-around gap-10 overflow-x-auto rounded-b-[50px] bg-white p-5 py-12 text-primary md:rounded-b-[75px] md:px-20">
-        {companies.map((company) => (
-          <CompanyCard
-            key={company.name}
-            {...company}
-            phoneNumbers={phoneNumbers}
-          />
-        ))}
+      <div className="w-full rounded-b-[50px] bg-white p-5 py-12 md:rounded-b-[75px]">
+        <div className="scroll-bar-hidden container mx-auto flex justify-around gap-10 overflow-x-auto text-primary">
+          {companies.map((company) => (
+            <CompanyCard
+              key={company.name}
+              {...company}
+              phoneNumbers={phoneNumbers}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -37,9 +43,9 @@ const CompanyCard: React.FC<Company & { phoneNumbers: PhoneNumber[] }> = ({
             dangerouslySetInnerHTML={{ __html: htmlTitle }}
           />
         ) : (
-          <h2 className="font-bold" style={{ color }}>
+          <h3 className="font-bold" style={{ color }}>
             {name}
-          </h2>
+          </h3>
         )}
         <p
           className="text-right text-base"

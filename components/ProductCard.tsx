@@ -17,16 +17,16 @@ const ProductCard: React.FC<
   return (
     <div className="w-full min-w-[265px] rounded-3xl bg-foreground pt-6 text-primary">
       <div className="bg-background py-3">
-        <h1
+        <h3
           className="text-center text-4xl font-bold drop-shadow"
           style={{ color }}
         >
           {phoneNumber}
-        </h1>
+        </h3>
       </div>
       <div className="flex justify-between p-3 pb-0">
-        <h2 className="text-xl font-bold">{name}</h2>
-        <h2 className="text-xl font-bold">{formatPrice(price, "EGP")}</h2>
+        <h4 className="text-xl font-bold">{name}</h4>
+        <h4 className="text-xl font-bold">{formatPrice(price, "EGP")}</h4>
       </div>
       <div className="flex items-center justify-between p-3">
         <LogoIcons name={company} className="h-6 w-6" viewBox="0 0 50 50" />

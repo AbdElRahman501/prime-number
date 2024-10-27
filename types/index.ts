@@ -1,6 +1,7 @@
 export interface Company {
   _id: string | number;
   name: CompanyName;
+  nameAr: string;
   htmlTitle?: string;
   image?: string;
   color: string;

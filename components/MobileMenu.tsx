@@ -60,7 +60,7 @@ const MobileMenu: React.FC = () => {
       >
         <div className="flex min-h-[50vh] min-w-[70vw] flex-col justify-start p-5">
           {/* Search bar */}
-          <div className="text-sm text-primary selection:bg-blue-300 selection:text-primary">
+          <div className="mb-6 text-sm text-primary selection:bg-blue-300 selection:text-primary">
             <Suspense>
               <SearchField onClick={closeMenu} />
             </Suspense>

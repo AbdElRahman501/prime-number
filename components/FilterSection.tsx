@@ -17,14 +17,16 @@ const FilterSection: React.FC = () => {
 
   const initialSort = searchParams?.get("sort") || "";
   const initialCategories = getSearchParamsAsArray(searchParams, "ctf");
-  const initialMinPrice = parseInt(searchParams?.get("minP") || "");
-  const initialMaxPrice = parseInt(searchParams?.get("maxP") || "");
+  const initialMinPrice = parseInt(searchParams?.get("minP") || "") || "";
+  const initialMaxPrice = parseInt(searchParams?.get("maxP") || "") || "";
 
   const [isOpen, setIsOpen] = useState(false);
 
   const [sort, setSort] = useState<string>(initialSort);
   const [categories, setCategories] = useState<string[]>(initialCategories);
-  const [minPrice, setMinPrice] = useState<number>(initialMinPrice || 0);
+  const [minPrice, setMinPrice] = useState<number | string>(
+    initialMinPrice || "",
+  );
   const [maxPrice, setMaxPrice] = useState<number | string>(
     initialMaxPrice || "",
   );
@@ -35,17 +37,27 @@ const FilterSection: React.FC = () => {
   );
 
   // functions
-  const openFilter = () => setIsOpen(true);
+  const openFilter = () => {
+    initializeFilter();
+    setIsOpen(true);
+  };
   const closeFilter = () => setIsOpen(false);
+
+  const initializeFilter = () => {
+    setSort(initialSort);
+    setCategories(initialCategories);
+    setMinPrice(initialMinPrice);
+    setMaxPrice(initialMaxPrice);
+  };
 
   function submitHandler() {
     // setSubmitChanges(true);
     closeFilter();
     const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set("sort", sort);
+    newSearchParams.set("ctf", categories.join(","));
     newSearchParams.set("minP", minPrice.toString());
     newSearchParams.set("maxP", maxPrice.toString());
-    newSearchParams.set("ctf", categories.join(","));
-    newSearchParams.set("sort", sort);
     const optionUrl = createUrl(pathname, newSearchParams);
     router.replace(optionUrl, { scroll: false });
   }
@@ -68,6 +80,7 @@ const FilterSection: React.FC = () => {
       document.body.classList.remove("max-md:overflow-hidden");
     };
   }, [isOpen]);
+
   return (
     <>
       <div
@@ -84,10 +97,10 @@ const FilterSection: React.FC = () => {
           <Icon icon="ic:baseline-close" />
         </button>
 
-        <h1 className="text-3xl font-bold">تصفية البحث</h1>
+        <h2 className="text-3xl font-bold">تصفية البحث</h2>
 
         <div className="flex flex-col gap-3">
-          <h2 className="text-xl font-semibold">الترتيب</h2>
+          <h3 className="text-xl font-semibold">الترتيب</h3>
           <label htmlFor="ترتيب" className="sr-only">
             اختر ترتيب النتائج
           </label>
@@ -109,7 +122,7 @@ const FilterSection: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h2 className="text-xl font-semibold">المجموعات</h2>
+          <h3 className="text-xl font-semibold">المجموعات</h3>
           <div className="flex flex-col gap-1">
             {companies.map((company) => (
               <button
@@ -124,15 +137,15 @@ const FilterSection: React.FC = () => {
                 }`}
               >
                 <div className="flex h-6 items-center justify-center">
-                  <div className="flex h-6 w-32 justify-end gap-2 font-inter text-lg">
-                    <div>
-                      <h2 className="font-bold">{company.name}</h2>
-                    </div>
+                  <div className="flex h-6 w-32 justify-start gap-2 font-inter text-lg">
                     <LogoIcons
                       name={company.name}
                       className="aspect-square h-full min-w-6"
                       viewBox="0 0 50 50"
                     />
+                    <div>
+                      <p className="font-bold">{company.nameAr}</p>
+                    </div>
                   </div>
                 </div>
               </button>
@@ -141,7 +154,7 @@ const FilterSection: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h2 className="text-xl font-semibold">السعر</h2>
+          <h3 className="text-xl font-semibold">السعر</h3>
           <div className="flex w-full items-center gap-1">
             <input
               type="number"
