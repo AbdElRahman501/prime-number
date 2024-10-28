@@ -62,7 +62,7 @@ const MobileMenu: React.FC = () => {
           {/* Search bar */}
           <div className="mb-6 text-sm text-primary selection:bg-blue-300 selection:text-primary">
             <Suspense>
-              <SearchField onClick={closeMenu} />
+              <SearchField pathname="/shop" onClick={closeMenu} />
             </Suspense>
           </div>
 

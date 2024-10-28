@@ -3,6 +3,19 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useState } from "react";
 
+const SidebarLinks = [
+  {
+    name: "الرئيسية",
+    path: "/dashboard",
+    icon: "mdi:home",
+  },
+  {
+    name: "المنتجات",
+    path: "/dashboard/products",
+    icon: "mdi:package-variant-closed",
+  },
+];
+
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -13,7 +26,7 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <aside
-        className={` ${isOpen ? "w-64" : "-right-24 w-20 md:right-auto"} fixed top-[86px] z-20 m-2 flex h-[calc(100vh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300 md:sticky`}
+        className={` ${isOpen ? "w-64" : "-right-24 w-20 md:right-auto"} fixed top-[86px] z-20 m-2 flex h-[calc(100dvh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300 md:sticky`}
       >
         <h2
           className={`${isOpen ? "" : "hidden"} z-10 mb-6 text-2xl font-bold`}
@@ -21,27 +34,16 @@ const Sidebar: React.FC = () => {
           لوحة التحكم
         </h2>
         <nav className="flex h-full flex-col gap-4">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 rounded p-2 hover:bg-gray-700"
-          >
-            <Icon icon="mdi:home" width={34} />
-            <span className={isOpen ? "" : "hidden"}>الصفحة الرئيسية</span>
-          </Link>
-          <Link
-            className="flex items-center gap-2 rounded p-2 hover:bg-gray-700"
-            href="/dashboard/reports"
-          >
-            <Icon icon="mdi:chart-line" width={34} />
-            <span className={isOpen ? "" : "hidden"}>الصفحة الرئيسية</span>
-          </Link>
-          <Link
-            className="flex items-center gap-2 rounded p-2 hover:bg-gray-700"
-            href="/dashboard/settings"
-          >
-            <Icon icon="mdi:cog" width={34} />
-            <span className={isOpen ? "" : "hidden"}>الصفحة الرئيسية</span>
-          </Link>
+          {SidebarLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.path}
+              className="flex items-center gap-2 rounded p-2 hover:bg-gray-700"
+            >
+              <Icon icon={link.icon} width={34} />
+              <span className={isOpen ? "" : "hidden"}>{link.name}</span>
+            </Link>
+          ))}
         </nav>
         <div
           className={`${isOpen ? "translate-x-0" : "-translate-x-20"} flex w-full justify-end duration-1000 md:translate-x-0`}

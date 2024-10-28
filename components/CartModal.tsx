@@ -57,17 +57,17 @@ export default function CartModal({
         )}
       </div>
 
+      {/* backdrop Overlay */}
       <div
         onClick={closeCart}
-        aria-hidden="true"
         className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 h-screen w-screen bg-black/30 backdrop-blur-sm duration-700`}
+        aria-hidden="true"
       ></div>
 
       {/* Cart Modal */}
 
       <div
         style={{ right: isOpen ? "0" : "-100%" }}
-        aria-hidden="true"
         className="fixed inset-0 z-10 flex h-full w-full flex-col border-l border-neutral-200 bg-black/80 p-6 text-background backdrop-blur-xl duration-500 ease-in-out md:w-[390px] dark:border-neutral-700"
       >
         {/* Header */}
@@ -87,11 +87,7 @@ export default function CartModal({
           (cart.length === 0 && (
             <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
               {/* Empty Cart */}
-              <Icon
-                icon="solar:bag-bold"
-                className="h-20 w-20"
-                aria-hidden="true"
-              />
+              <Icon icon="solar:bag-bold" className="h-20 w-20" />
               <p className="mt-6 text-center text-2xl font-bold">
                 الحقيبة فارغة.
               </p>
@@ -151,7 +147,7 @@ export default function CartModal({
               aria-label="Buy Now"
             >
               <span>شراء الان</span>
-              <Icon icon="ri:whatsapp-fill" />
+              <Icon icon="ri:whatsapp-fill" aria-hidden="true" />
             </Link>
           ) : (
             <Link

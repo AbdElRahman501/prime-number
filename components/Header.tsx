@@ -33,7 +33,7 @@ const Header: React.FC = () => {
         {/* Search bar */}
         <div className="hidden text-sm md:block lg:text-base">
           <Suspense>
-            <SearchField />
+            <SearchField pathname="/shop" />
           </Suspense>
         </div>
 
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
         <div className="hidden gap-3 text-sm font-semibold text-primary md:flex lg:gap-8 lg:text-base">
           <Link
             href="/"
-            className="hover:text-foreground"
+            className="text-nowrap hover:text-foreground"
             aria-label="الرئيسية - Home"
           >
             الرئيسية
@@ -49,7 +49,7 @@ const Header: React.FC = () => {
           <SessionElement>
             <Link
               href="/dashboard"
-              className="hover:text-foreground"
+              className="text-nowrap hover:text-foreground"
               aria-label="لوحة التحكم - Dashboard"
             >
               لوحة التحكم
@@ -57,14 +57,14 @@ const Header: React.FC = () => {
           </SessionElement>
           <Link
             href="/shop"
-            className="hover:text-foreground"
+            className="text-nowrap hover:text-foreground"
             aria-label="الأرقام المميزة - Special Numbers"
           >
             الأرقام المميزة
           </Link>
           <Link
             href="/about"
-            className="hover:text-foreground"
+            className="text-nowrap hover:text-foreground"
             aria-label="من نحن- About Us"
           >
             من نحن
@@ -72,7 +72,7 @@ const Header: React.FC = () => {
           <Link
             target="_blank"
             href={createWhatsAppLink(store.phoneNumber)}
-            className="hover:text-foreground"
+            className="text-nowrap hover:text-foreground"
             aria-label="اتصل بنا - Contact Us"
           >
             اتصل بنا

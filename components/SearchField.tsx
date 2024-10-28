@@ -1,12 +1,17 @@
 "use client";
 import { createUrl } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const SearchField: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
+const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
+  onClick,
+  pathname: initialPathname,
+}) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  let pathname = usePathname();
+  pathname = initialPathname || pathname;
   const initialSearchText = searchParams.get("q") || "";
   const [searchText, setSearchText] = useState(initialSearchText);
 
@@ -23,13 +28,13 @@ const SearchField: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
       newParams.delete("q");
     }
     onClick?.();
-    router.push(createUrl("/shop", newParams));
+    router.push(createUrl(pathname, newParams));
   }
 
   const clearSearch = () => {
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.delete("q");
-    router.push(createUrl("/shop", newParams));
+    router.push(createUrl(pathname, newParams));
     setSearchText("");
   };
 

@@ -16,7 +16,7 @@ export interface SortOptions {
 }
 
 export interface PhoneNumber {
-  _id: string | number;
+  _id: string;
   name: string;
   description: string;
   phoneNumber: string;
@@ -77,4 +77,11 @@ export interface User {
 
 export interface Store {
   phoneNumber: string;
+}
+
+export interface Column<T> {
+  key?: keyof T;
+  label: string | JSX.Element;
+  type?: "string" | "boolean" | "image" | "action";
+  RowAction?: (item: T) => JSX.Element;
 }

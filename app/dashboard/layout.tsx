@@ -8,11 +8,7 @@ const layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Main Content */}
       <div className="flex flex-1 flex-col">
-        {/* Navbar */}
-        {/* <Navbar /> */}
-
-        {/* Content Area */}
-        <main className="flex-1 p-6">{children}</main>
+        <main>{children}</main>
       </div>
     </div>
   );

@@ -1,52 +1,85 @@
-const cards = [
-  {
-    title: "مبيعات اليوم",
-    value: "$12,345",
-  },
-  {
-    title: "العملاء الجدد",
-    value: "234",
-  },
-  {
-    title: "الطلبات الجديدة",
-    value: "98",
-  },
-  {
-    title: "الارباح اليومية",
-    value: "$45,123",
-  },
-  {
-    title: "المسخدمين",
-    value: "67",
-  },
-  {
-    title: "المسخدمين",
-    value: "67",
-  },
-];
-
-const page = () => {
+const page = ({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) => {
+  console.log("🚀 ~ searchParams:", searchParams);
   return (
-    <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-      {cards.map((card) => (
-        <Card key={card.title} {...card} />
-      ))}
+    <div>
+      <div className="container m-5 mx-auto flex flex-col gap-5">
+        <div className="rounded-3xl bg-white p-5 shadow-sm">
+          <form action="">
+            <label htmlFor="" className="text-xl text-primary">
+              رقم الهاتف{" "}
+            </label>
+            <input
+              type="text"
+              name="phoneNumber"
+              id="phoneNumber"
+              placeholder="ادخل رقم الهاتف"
+              required
+              className="mt-4 h-14 w-full rounded-full border p-4 px-6"
+            />
+          </form>
+        </div>
+        <div className="rounded-3xl bg-white p-5 shadow-sm">
+          <form action="">
+            <label htmlFor="" className="text-xl text-primary">
+              العنوان{" "}
+            </label>
+            <input
+              type="text"
+              name="address"
+              id="address"
+              placeholder="ادخل العنوان"
+              required
+              className="mt-4 h-14 w-full rounded-full border p-4 px-6"
+            />
+          </form>
+        </div>
+        <div className="rounded-3xl bg-white p-5 shadow-sm">
+          <form action="">
+            <label htmlFor="" className="text-xl text-primary">
+              البريد الالكتروني{" "}
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="ادخل البريد الالكتروني"
+              required
+              className="mt-4 h-14 w-full rounded-full border p-4 px-6"
+            />
+          </form>
+        </div>
+        <div className="rounded-3xl bg-white p-5 shadow-sm">
+          <form action="">
+            <label htmlFor="" className="text-xl text-primary">
+              مواعيد العمل{" "}
+            </label>
+            <div className="flex gap-5">
+              <input
+                type="time"
+                name="startingHours"
+                id="startingHours"
+                placeholder="ادخل مواعيد العمل"
+                required
+                className="mt-4 h-14 w-full rounded-full border p-4 px-6"
+              />
+              <input
+                type="time"
+                name="endingHours"
+                id="endingHours"
+                placeholder="ادخل مواعيد العمل"
+                required
+                className="mt-4 h-14 w-full rounded-full border p-4 px-6"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default page;
-
-interface CardProps {
-  title: string;
-  value: string;
-}
-
-const Card: React.FC<CardProps> = ({ title, value }) => {
-  return (
-    <div className="flex flex-col items-center rounded-3xl bg-white p-6 text-primary shadow-sm">
-      <h3 className="mb-2 text-lg font-semibold">{title}</h3>
-      <p className="text-2xl font-bold">{value}</p>
-    </div>
-  );
-};
