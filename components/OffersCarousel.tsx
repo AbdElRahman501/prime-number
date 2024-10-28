@@ -63,7 +63,7 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
   return (
     <div
       aria-labelledby="offers"
-      className="container relative mx-auto flex h-[75vh] items-center justify-around gap-4 p-5 text-center md:w-5/6"
+      className="container relative mx-auto flex h-[75vh] max-h-[800px] min-h-[500px] items-center justify-around gap-4 p-5 text-center md:w-5/6"
     >
       {/* next Button */}
       <div className="absolute right-5 top-1/2 -translate-y-1/2">

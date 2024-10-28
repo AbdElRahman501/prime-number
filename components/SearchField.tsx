@@ -29,7 +29,8 @@ const SearchField: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   const clearSearch = () => {
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.delete("q");
-    router.push("/shop");
+    router.push(createUrl("/shop", newParams));
+    setSearchText("");
   };
 
   useEffect(() => {

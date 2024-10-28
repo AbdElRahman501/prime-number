@@ -14,7 +14,7 @@ const Features: React.FC = () => {
         اكتشف أهم مزايا الأرقام الفريدة والمصممة لتلبية احتياجاتك الشخصية
         والتجارية
       </h2>
-      <div className="mx-auto flex flex-col items-center justify-center gap-8 sm:flex-row sm:flex-wrap">
+      <div className="mx-auto flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
         {featureList.map((feature) => (
           <FeatureCard key={feature._id} {...feature} />
         ))}

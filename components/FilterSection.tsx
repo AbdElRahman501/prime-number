@@ -87,17 +87,18 @@ const FilterSection: React.FC = () => {
         style={{
           bottom: isOpen ? "0" : "-100%",
         }}
-        className="scroll-bar-hidden fixed left-0 z-20 flex h-fit w-full flex-col gap-4 overflow-y-auto rounded-3xl bg-background p-5 duration-500 ease-in-out md:static md:h-full md:max-h-none md:min-h-[70dvh] md:w-1/4 2xl:w-1/5"
+        className="scroll-bar-hidden fixed left-0 z-20 flex h-fit max-h-[calc(100dvh-200px)] w-full flex-col gap-4 overflow-y-auto rounded-3xl bg-background p-5 duration-500 ease-in-out md:static md:h-full md:max-h-none md:min-h-[70dvh] md:w-1/4 2xl:w-1/5"
       >
-        <button
-          className="absolute left-5 top-5 text-2xl md:hidden"
-          onClick={submitHandler}
-          aria-label="إغلاق الفلتر"
-        >
-          <Icon icon="ic:baseline-close" />
-        </button>
-
-        <h2 className="text-3xl font-bold">تصفية البحث</h2>
+        <div className="sticky top-0 flex items-center justify-between bg-background">
+          <h2 className="text-3xl font-bold">تصفية البحث</h2>
+          <button
+            className="text-xl md:hidden"
+            onClick={submitHandler}
+            aria-label="إغلاق الفلتر"
+          >
+            <Icon icon="ic:baseline-close" />
+          </button>
+        </div>
 
         <div className="flex flex-col gap-3">
           <h3 className="text-xl font-semibold">الترتيب</h3>
@@ -137,7 +138,7 @@ const FilterSection: React.FC = () => {
                 }`}
               >
                 <div className="flex h-6 items-center justify-center">
-                  <div className="flex h-6 w-32 justify-start gap-2 font-inter text-lg">
+                  <div className="flex h-6 w-20 justify-start gap-2 font-inter text-lg">
                     <LogoIcons
                       name={company.name}
                       className="aspect-square h-full min-w-6"
@@ -204,7 +205,7 @@ const FilterSection: React.FC = () => {
           onClick={submitHandler}
           aria-label="إغلاق القائمة"
           aria-hidden="true"
-          className="fixed inset-0 top-[76px] z-10 h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden"
+          className="z- fixed left-0 top-0 h-screen w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden"
         />
       )}
 

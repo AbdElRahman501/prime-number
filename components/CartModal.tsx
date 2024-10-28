@@ -45,7 +45,11 @@ export default function CartModal({
           <Icon icon="solar:bag-bold" aria-hidden="true" />
         </button>
         {cart && cart.length > 0 ? (
-          <span className="absolute right-0 top-0 block aspect-square h-4 w-4 rounded-full bg-red-500 text-center text-xs text-white">
+          <span
+            role="status"
+            aria-live="polite"
+            className="pointer-events-none absolute right-0 top-0 block aspect-square h-4 w-4 rounded-full bg-red-500 text-center text-xs text-white"
+          >
             {cart?.length}
           </span>
         ) : (
@@ -63,6 +67,7 @@ export default function CartModal({
 
       <div
         style={{ right: isOpen ? "0" : "-100%" }}
+        aria-hidden="true"
         className="fixed inset-0 z-10 flex h-full w-full flex-col border-l border-neutral-200 bg-black/80 p-6 text-background backdrop-blur-xl duration-500 ease-in-out md:w-[390px] dark:border-neutral-700"
       >
         {/* Header */}

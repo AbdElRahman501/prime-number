@@ -40,7 +40,7 @@ const MobileMenu: React.FC = () => {
         )}
       </button>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu backdrop */}
       <div
         onClick={closeMenu}
         aria-hidden="true"

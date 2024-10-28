@@ -58,16 +58,20 @@ const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   : "http://localhost:3000";
 
 export function createWhatsAppLink(
-  phoneNumber: string, // 01015753392
-  product?: string,
+  phoneNumber: string, // e.g., supplier's WhatsApp number like 01015753392
+  product?: string, // e.g., the number you want to buy
 ): string {
   // Remove any non-numeric characters from the phone number
   const cleanedNumber = phoneNumber.replace(/\D/g, "");
   const productUrl = `${baseUrl}/shop?q=${product}`;
 
+  // Construct a more readable, detailed message with line breaks
   const message = product
-    ? productUrl + ` مرحبا اريد شراء هذا الرقم  ${product} `
-    : `اريد شراء رقم مميز هل يمكنك اطلاعي علي التفاصيل`;
+    ? `مرحبا، اريد شراء هذا الرقم: ${product}\n` +
+      `رابط الرقم المطلوب: ${productUrl}\n`
+    : `مرحبا، اريد شراء رقم مميز.\n` +
+      `هل يمكنك اطلاعي على التفاصيل ألارقام المتاحة للشراء؟\n`;
+
   // Encode the message to ensure it works with URLs
   const encodedMessage = encodeURIComponent(message);
 
