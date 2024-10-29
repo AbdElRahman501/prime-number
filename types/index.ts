@@ -24,12 +24,6 @@ export interface PhoneNumber {
   company: CompanyName;
 }
 
-export interface FooterLink {
-  _id: string | number;
-  title: string;
-  links: Link[];
-}
-
 export interface Link {
   _id: string | number;
   title: string;
@@ -50,7 +44,7 @@ export interface Review {
 }
 
 export interface Offer {
-  _id: number | string;
+  _id: string;
   title: string;
   description: string;
   phoneNumber: string;
@@ -76,7 +70,16 @@ export interface User {
 }
 
 export interface Store {
+  contacts: contacts;
+  socialMedia: Link[];
+  links: Link[];
+}
+
+export interface contacts {
   phoneNumber: string;
+  address: string;
+  email: string;
+  workHours: string;
 }
 
 export interface Column<T> {

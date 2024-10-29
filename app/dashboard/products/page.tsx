@@ -10,14 +10,14 @@ const page = ({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
   return (
-    <div>
-      <div className="max-w-screen flex flex-col gap-5 p-5">
-        <CustomTable
-          searchParams={searchParams}
-          data={phoneNumbers}
-          columns={columns}
-        />
-      </div>
+    <div className="flex flex-col gap-5 p-5">
+      <h1 className="text-3xl font-bold">المنتجات</h1>
+      <CustomTable
+        searchParams={searchParams}
+        data={phoneNumbers}
+        columns={columns}
+        pages={10}
+      />
     </div>
   );
 };

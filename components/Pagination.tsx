@@ -24,13 +24,13 @@ const Pagination: React.FC<PaginationProps> = ({
             page: currentPage - 1 >= 1 ? currentPage - 1 : currentPage,
           },
         }}
-        className={`${currentPage === 1 ? "cursor-not-allowed opacity-50" : ""} px-3 py-1 text-xl font-semibold text-primary duration-300 hover:scale-105`}
+        className={`${currentPage === 1 ? "cursor-not-allowed opacity-40" : ""} px-3 py-1 text-xl font-semibold text-primary duration-300 hover:scale-105`}
       >
         <Icon icon="mdi:chevron-right" />
       </Link>
 
       {/* Page Numbers */}
-      {generatePageNumbers(currentPage, totalPages).map((page) => (
+      {generatePageNumbers(currentPage, totalPages).map((page, index) => (
         <Link
           href={{
             query: {
@@ -38,10 +38,10 @@ const Pagination: React.FC<PaginationProps> = ({
               page,
             },
           }}
-          key={page}
+          key={index}
           className={`rounded-md px-3 py-1 text-sm font-semibold text-primary ${
-            currentPage === page ? "" : "opacity-50 hover:scale-105"
-          } ${page === "..." ? "cursor-not-allowed opacity-50" : ""} `}
+            currentPage === page ? "" : "opacity-40 hover:scale-105"
+          } ${page === "..." ? "cursor-not-allowed opacity-40" : ""} `}
         >
           {page}
         </Link>
@@ -55,7 +55,7 @@ const Pagination: React.FC<PaginationProps> = ({
             page: currentPage + 1 <= totalPages ? currentPage + 1 : currentPage,
           },
         }}
-        className={`${currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""} px-3 py-1 text-xl font-semibold text-primary duration-300 hover:scale-105`}
+        className={`${currentPage === totalPages ? "cursor-not-allowed opacity-40" : ""} px-3 py-1 text-xl font-semibold text-primary duration-300 hover:scale-105`}
       >
         <Icon icon="mdi:chevron-left" />
       </Link>

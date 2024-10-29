@@ -1,6 +1,7 @@
 "use client";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const SidebarLinks = [
@@ -14,13 +15,20 @@ const SidebarLinks = [
     path: "/dashboard/products",
     icon: "mdi:package-variant-closed",
   },
+  {
+    name: "العروض",
+    path: "/dashboard/offers",
+    icon: "mdi:tag",
+  },
 ];
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const closeSidebar = () => setIsOpen(false);
+  const pathname = usePathname();
+  const curentPage = pathname.split("/").pop();
 
   // const desckClass = ` ${isOpen ? "w-64" : "w-20"}  sticky top-24 m-2 flex h-[calc(100vh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300`
-
   // const mobileClass = ` ${isOpen ? "w-64" : "w-20"}  m-2 flex h-[calc(100vh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300`
 
   return (
@@ -38,7 +46,8 @@ const Sidebar: React.FC = () => {
             <Link
               key={link.name}
               href={link.path}
-              className="flex items-center gap-2 rounded p-2 hover:bg-gray-700"
+              onClick={closeSidebar}
+              className={`${curentPage === link.path.split("/").pop() ? "" : "opacity-50"} flex items-center gap-2 rounded p-2 hover:bg-gray-700`}
             >
               <Icon icon={link.icon} width={34} />
               <span className={isOpen ? "" : "hidden"}>{link.name}</span>
@@ -59,9 +68,9 @@ const Sidebar: React.FC = () => {
       </aside>
       {/* Mobile menu backdrop */}
       <div
-        onClick={() => setIsOpen(false)}
+        onClick={closeSidebar}
         aria-hidden="true"
-        className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 top-[76px] z-0 h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden`}
+        className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 top-[76px] z-10 h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden`}
       ></div>
     </>
   );

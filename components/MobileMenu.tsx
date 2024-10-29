@@ -4,13 +4,18 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import SessionElement from "./SessionElement";
-import { store } from "@/constants";
+import { headerLinks, store } from "@/constants";
 import { createWhatsAppLink } from "@/utils";
 import SearchField from "./SearchField";
+import { usePathname } from "next/navigation";
 
 const MobileMenu: React.FC = () => {
   const [menu, setMenu] = useState(false);
   const closeMenu = () => setMenu(false);
+
+  const pathname = usePathname();
+  const currentPage = pathname.split("/").pop();
+
   useEffect(() => {
     if (menu) {
       document.body.classList.add("max-md:overflow-hidden");
@@ -65,48 +70,34 @@ const MobileMenu: React.FC = () => {
             </Suspense>
           </div>
 
-          <Link href="/" aria-label="Home - الرئيسية">
-            <div
+          {headerLinks.map((link) => (
+            <Link
+              key={link._id}
               onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+              className={`${currentPage === link.url.split("/").pop() ? "" : "opacity-50"} block px-4 py-2 hover:bg-foreground hover:text-primary`}
+              href={link.url}
             >
-              الرئيسية
-            </div>
-          </Link>
+              {link.title}
+            </Link>
+          ))}
           <SessionElement>
             <Link href="/dashboard" aria-label="لوحة التحكم - Dashboard">
               <div
                 onClick={closeMenu}
-                className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+                className={`${currentPage === "dashboard" ? "" : "opacity-50"} block px-4 py-2 hover:bg-foreground hover:text-primary`}
               >
                 لوحة التحكم
               </div>
             </Link>
           </SessionElement>
-          <Link href="/shop" aria-label="الأرقام المميزة - Special Numbers">
-            <div
-              onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-            >
-              الأرقام المميزة
-            </div>
-          </Link>
-          <Link href="/about" aria-label="من نحن- About Us">
-            <div
-              onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
-            >
-              من نحن
-            </div>
-          </Link>
           <Link
             target="_blank"
-            href={createWhatsAppLink(store.phoneNumber)}
-            aria-label="اتصل بنا - Contact Us"
+            href={createWhatsAppLink(store.contacts.phoneNumber)}
+            aria-label="تواصل معنا عبر الواتساب"
           >
             <div
               onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-foreground hover:text-primary"
+              className="block px-4 py-2 opacity-50 hover:bg-foreground hover:text-primary focus:opacity-100"
             >
               اتصل بنا
             </div>

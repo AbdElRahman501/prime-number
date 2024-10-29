@@ -1,14 +1,19 @@
 import {
   Company,
   Feature,
-  FooterLink,
-  Link,
   Offer,
   PhoneNumber,
   Review,
   SortOptions,
   Store,
+  Link,
 } from "@/types";
+
+export const headerLinks: Link[] = [
+  { _id: "1", title: "الرئيسية", url: "/" },
+  { _id: "2", title: "ارقامنا المميزه", url: "/shop" },
+  { _id: "3", title: "من نحن", url: "/about" },
+];
 
 export const companies: Company[] = [
   {
@@ -75,93 +80,6 @@ export const phoneNumbers: PhoneNumber[] = [
   },
 ];
 
-export const footerList: FooterLink[] = [
-  {
-    _id: "1",
-    title: "معلومات التواصل",
-    links: [
-      {
-        _id: "1",
-        title: "0123456789",
-        url: "tel:+1234567890",
-        icon: "mdi:phone",
-      },
-      {
-        _id: "2",
-        title: "primenumber.eg@outlook.com",
-        url: "mailto:primenumber.eg@outlook.com",
-        icon: "mdi:email",
-      },
-      {
-        _id: "3",
-        title: "من 6 صباحا إلى 6 مساءا",
-        url: "#",
-        icon: "mdi:clock-outline",
-      },
-      {
-        _id: "4",
-        title: "بنها - القليوبيه - مصر",
-        url: "#",
-        icon: "mdi:map-marker",
-      },
-    ],
-  },
-  {
-    _id: "2",
-    title: "روابط سريعة",
-    links: [
-      {
-        _id: "1",
-        title: "الصفحه الرئيسية",
-        url: "/",
-      },
-      {
-        _id: "2",
-        title: "الارقام المثالية",
-        url: "/",
-      },
-      { _id: "3", title: "اراء العملاء", url: "/" },
-      { _id: "4", title: "اتصل بنا", url: "/" },
-      { _id: "5", title: "سياسة الخصوصية", url: "/" },
-      { _id: "6", title: "الشروط والأحكام", url: "/" },
-      { _id: "7", title: "معلومات عنا", url: "/" },
-    ],
-  },
-];
-
-export const socialMedia: Link[] = [
-  {
-    _id: "1",
-    title: "Facebook",
-    url: "https://www.facebook.com/",
-    icon: "mdi:facebook",
-  },
-  {
-    _id: "2",
-    title: "Twitter",
-    url: "https://twitter.com/",
-    icon: "mdi:twitter",
-  },
-  {
-    _id: "3",
-    title: "Instagram",
-    url: "https://www.instagram.com/",
-    icon: "mdi:instagram",
-  },
-  {
-    _id: "4",
-    title: "LinkedIn",
-    url: "https://www.linkedin.com/",
-    icon: "mdi:linkedin",
-  },
-  {
-    _id: "5",
-    title: "YouTube",
-    url: "https://www.youtube.com/",
-    icon: "mdi:youtube",
-  },
-];
-
 export const featureList: Feature[] = [
   {
     _id: 1,
@@ -206,7 +124,7 @@ export const reviews: Review[] = [
 
 export const offers: Offer[] = [
   {
-    _id: 1,
+    _id: "1",
     title: "أرقام فودافون مميزة",
     description:
       "احصل على رقم مميز من فودافون يعزز من هويتك التجارية ويزيد من ثقة عملائك بك. أرقام فودافون المميزة تعتبر مثالية للاستخدام التجاري والشخصي.",
@@ -214,7 +132,7 @@ export const offers: Offer[] = [
     company: "Vodafone",
   },
   {
-    _id: 2,
+    _id: "2",
     title: "أرقام أورانج حصرية",
     description:
       "رقم فريد من أورانج يضمن لك التميز ويساهم في تعزيز تواصلك مع عملائك بشكل أفضل. أرقام أورانج المميزة تناسب رجال الأعمال وأصحاب المشاريع.",
@@ -222,7 +140,7 @@ export const offers: Offer[] = [
     company: "Orange",
   },
   {
-    _id: 3,
+    _id: "3",
     title: "أرقام اتصالات لا مثيل لها",
     description:
       "اجعل رقمك لا يُنسى مع رقم مميز من اتصالات يعكس هوية عملك واحترافك. أرقام اتصالات المميزة هي الخيار المثالي لرجال الأعمال والعملاء المميزين.",
@@ -239,5 +157,59 @@ export const sortOptions: SortOptions[] = [
 ];
 
 export const store: Store = {
-  phoneNumber: "+201015753392",
+  contacts: {
+    phoneNumber: "+201015753392",
+    address: "بنها - القليوبيه - مصر",
+    email: "primenumber.eg@outlook.com",
+    workHours: "6:00 AM - 10:00 PM",
+  },
+  socialMedia: [
+    {
+      _id: "1",
+      title: "Facebook",
+      url: "https://www.facebook.com/",
+      icon: "mdi:facebook",
+    },
+    {
+      _id: "2",
+      title: "Twitter",
+      url: "https://twitter.com/",
+      icon: "mdi:twitter",
+    },
+    {
+      _id: "3",
+      title: "Instagram",
+      url: "https://www.instagram.com/",
+      icon: "mdi:instagram",
+    },
+    {
+      _id: "4",
+      title: "LinkedIn",
+      url: "https://www.linkedin.com/",
+      icon: "mdi:linkedin",
+    },
+    {
+      _id: "5",
+      title: "YouTube",
+      url: "https://www.youtube.com/",
+      icon: "mdi:youtube",
+    },
+  ],
+  links: [
+    {
+      _id: "1",
+      title: "الصفحه الرئيسية",
+      url: "/",
+    },
+    {
+      _id: "2",
+      title: "الارقام المثالية",
+      url: "/",
+    },
+    { _id: "3", title: "اراء العملاء", url: "#" },
+    { _id: "4", title: "اتصل بنا", url: "#" },
+    { _id: "5", title: "سياسة الخصوصية", url: "#" },
+    { _id: "6", title: "الشروط والأحكام", url: "#" },
+    { _id: "7", title: "معلومات عنا", url: "#" },
+  ],
 };

@@ -7,7 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Cart from "./Cart";
 import SessionElement from "./SessionElement";
 import { createWhatsAppLink } from "@/utils";
-import { store } from "@/constants";
+import { headerLinks, store } from "@/constants";
 
 const Header: React.FC = () => {
   return (
@@ -38,41 +38,29 @@ const Header: React.FC = () => {
 
         {/* Navigation links */}
         <div className="hidden gap-3 text-sm font-semibold text-primary md:flex lg:gap-8 lg:text-base">
-          <Link
-            href="/"
-            className="text-nowrap hover:text-foreground"
-            aria-label="الرئيسية - Home"
-          >
-            الرئيسية
-          </Link>
+          {headerLinks.map((link) => (
+            <Link
+              key={link._id}
+              href={link.url}
+              className="text-nowrap hover:text-foreground"
+              aria-label={link.title}
+            >
+              {link.title}
+            </Link>
+          ))}
           <SessionElement>
             <Link
               href="/dashboard"
               className="text-nowrap hover:text-foreground"
-              aria-label="لوحة التحكم - Dashboard"
             >
               لوحة التحكم
             </Link>
           </SessionElement>
           <Link
-            href="/shop"
-            className="text-nowrap hover:text-foreground"
-            aria-label="الأرقام المميزة - Special Numbers"
-          >
-            الأرقام المميزة
-          </Link>
-          <Link
-            href="/about"
-            className="text-nowrap hover:text-foreground"
-            aria-label="من نحن- About Us"
-          >
-            من نحن
-          </Link>
-          <Link
             target="_blank"
-            href={createWhatsAppLink(store.phoneNumber)}
+            href={createWhatsAppLink(store.contacts.phoneNumber)}
             className="text-nowrap hover:text-foreground"
-            aria-label="اتصل بنا - Contact Us"
+            aria-label="تواصل معنا عبر الواتساب"
           >
             اتصل بنا
           </Link>

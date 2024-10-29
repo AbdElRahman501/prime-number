@@ -1,4 +1,10 @@
-import { getSort, searchInData, sortByKey } from "@/utils";
+import {
+  areAllItemsSelected,
+  getSort,
+  isSelected,
+  searchInData,
+  sortByKey,
+} from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,12 +14,12 @@ import Pagination from "./Pagination";
 
 interface TableProps<T> {
   data: T[];
-  columns?: Column<T>[];
+  columns: Column<T>[];
   searchParams?: { [key: string]: string | string[] | undefined };
   pages?: number;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function CustomTable<T extends Record<string, any>>({
+export function CustomTable<T extends { _id: string } & Record<string, any>>({
   data,
   columns,
   searchParams,
@@ -25,44 +31,41 @@ export function CustomTable<T extends Record<string, any>>({
   const selected: string | undefined = searchParams?.sed as string;
   const selectedItems = selected ? selected?.split(",") : [];
 
-  const selectedAll = searchParams?.sedAll;
-  const currentPage = (searchParams?.page || "1") as string;
-  function isSelected(arr: string[], id: string) {
-    if (!arr) return false;
-    return arr.find((item) => item === id);
-  }
+  let areAllSelected = searchParams?.sedAll as string;
+  areAllSelected = areAllItemsSelected(data, selectedItems);
 
+  const currentPage = (searchParams?.page || "1") as string;
   return (
-    <div className="scroll-bar-hidden w-fit max-w-[90vw] overflow-x-scroll rounded-3xl border border-blue-300 bg-white p-5 shadow-md">
-      <div className="flex h-fit w-full items-center justify-between gap-3">
-        <Link
-          href={{
-            query: {
-              ...searchParams,
-              sed:
-                selectedAll === "true"
-                  ? ""
-                  : data.map((item) => item._id).join(","),
-              sedAll: selectedAll === "true" ? "false" : "true",
-            },
-          }}
-          scroll={false}
-          className="flex items-center justify-center text-nowrap rounded-3xl bg-primary px-4 py-2 text-sm font-medium text-background"
-        >
-          {selectedAll === "true" ? "الغاء التحديد" : "حدد الكل"}
-        </Link>
+    <div className="scroll-bar-hidden relative overflow-x-auto rounded-3xl bg-white p-5">
+      <div className="w-fit">
         <SearchField />
       </div>
-      <table className="divide-y divide-gray-200">
+      <table className="min-w-full border-collapse divide-y divide-gray-200">
         <thead>
           <tr>
-            <th className="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-primary">
-              حدد
+            <th className="cursor-pointer px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-primary">
+              <Link
+                href={{
+                  query: {
+                    ...searchParams,
+                    sed:
+                      areAllSelected === "true"
+                        ? ""
+                        : data.map((item) => item._id).join(","),
+                    sedAll: areAllSelected === "true" ? "false" : "true",
+                  },
+                }}
+                scroll={false}
+              >
+                {areAllSelected === "true"
+                  ? "الغاء التحديد الكل"
+                  : "تحديد الكل"}
+              </Link>
             </th>
             {columns?.map((column) => (
               <th
                 key={String(column.key)}
-                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-primary"
+                className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-primary"
               >
                 {/* AddParamLink */}
                 {column.key ? (
@@ -109,7 +112,12 @@ export function CustomTable<T extends Record<string, any>>({
                               .filter((id) => id !== item._id)
                               .join(",")
                           : [...selectedItems, item._id].join(","),
-                        sedAll: "false",
+                        sedAll: areAllItemsSelected(data, [
+                          ...selectedItems,
+                          item._id,
+                        ])
+                          ? "true"
+                          : "false",
                       },
                     }}
                     scroll={false}

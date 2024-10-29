@@ -139,7 +139,7 @@ export default function CartModal({
           {cart && cart.length > 0 ? (
             <Link
               target="_blank"
-              href={createWhatsAppLink(store.phoneNumber, allNumbers)}
+              href={createWhatsAppLink(store.contacts.phoneNumber, allNumbers)}
               className="flex items-center justify-center gap-3 rounded-full bg-background px-10 py-3 text-2xl font-semibold text-primary hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
               aria-label="Buy Now"
             >

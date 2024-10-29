@@ -235,3 +235,37 @@ export const generatePageNumbers = (
 
   return pages;
 };
+
+export function formatToTimeInput(value: string) {
+  // Convert to 24-hour format if it's in 12-hour format
+  const [time, modifier] = value.split(" ");
+
+  // eslint-disable-next-line prefer-const
+  let [hours, minutes] = time.split(":");
+  if (hours.length === 1) {
+    hours = `0${hours}`; // Add leading zero if hour is single digit
+  }
+
+  if (modifier === "PM" && hours !== "12") {
+    hours = String(parseInt(hours, 10) + 12);
+  } else if (modifier === "AM" && hours === "12") {
+    hours = "00";
+  }
+
+  return `${hours}:${minutes}`;
+}
+
+export function isSelected(arr: string[], id: string) {
+  if (!arr) return false;
+  return arr.find((item) => item === id);
+}
+
+export function areAllItemsSelected<T extends { _id: string }>(
+  items: T[],
+  selectedIds: string[],
+): string {
+  // Create a Set from selectedIds for O(1) lookup time
+  const selectedIdsSet = new Set(selectedIds);
+  const areAllSelected = items.every((item) => selectedIdsSet.has(item._id));
+  return areAllSelected ? "true" : "false";
+}

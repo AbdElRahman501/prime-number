@@ -121,7 +121,7 @@ const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
     </p>
     <Link
       target="_blank"
-      href={createWhatsAppLink(store.phoneNumber, offer.phoneNumber)}
+      href={createWhatsAppLink(store.contacts.phoneNumber, offer.phoneNumber)}
       className="flex items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
       role="button"
       aria-label="شراء الان"
