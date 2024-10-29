@@ -112,7 +112,6 @@ const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
     </p>
     <h3
       className="w-4/5 text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
-      role="heading"
       aria-level={1}
     >
       {offer.title}

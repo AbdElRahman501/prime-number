@@ -50,14 +50,13 @@ export const FilterBar = () => {
   });
   return (
     <div
-      role="filter"
+      aria-label="Filter options"
       style={{ paddingTop: filterParams.length > 0 ? "16px" : "0" }}
       className="scroll-bar-hidden flex items-center gap-3 overflow-scroll px-5 md:hidden md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4"
     >
       {allKeysHaveValues(params) && (
         <button
           type="button"
-          role="button"
           onClick={() => router.replace(pathname, { scroll: false })}
           className="flex justify-between gap-2 text-nowrap rounded-xl border border-foreground p-3"
         >
@@ -86,7 +85,6 @@ const Item: React.FC<{ id: string; value: string; provider: Provider }> = ({
           <div className="flex justify-between gap-2 text-nowrap rounded-xl border border-foreground p-3">
             <button
               type="button"
-              role="button"
               onClick={() => updateParam(provider, id, "")}
               className="cursor-pointer text-sm"
             >
@@ -103,7 +101,6 @@ const Item: React.FC<{ id: string; value: string; provider: Provider }> = ({
           <div className="flex justify-between gap-2 text-nowrap rounded-xl border border-foreground p-3">
             <button
               type="button"
-              role="button"
               onClick={() => updateParam(provider, id, "")}
               className="cursor-pointer text-sm"
             >
@@ -121,7 +118,6 @@ const Item: React.FC<{ id: string; value: string; provider: Provider }> = ({
         <div className="flex justify-between gap-2 text-nowrap rounded-xl border border-foreground p-3">
           <button
             type="button"
-            role="button"
             onClick={() => updateParam(provider, id, "")}
             className="cursor-pointer text-sm"
           >
@@ -142,7 +138,6 @@ const Item: React.FC<{ id: string; value: string; provider: Provider }> = ({
         >
           <button
             type="button"
-            role="button"
             onClick={() =>
               updateParam(
                 provider,
@@ -169,7 +164,6 @@ const Item: React.FC<{ id: string; value: string; provider: Provider }> = ({
         <div className="flex justify-between gap-2 text-nowrap rounded-xl border border-foreground p-3">
           <button
             type="button"
-            role="button"
             onClick={() => updateParam(provider, id, "")}
             className="cursor-pointer text-sm"
           >

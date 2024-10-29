@@ -15,7 +15,7 @@ const ProductSlider: React.FC = () => {
   return (
     <section
       className="bg-background p-5 py-10 pb-16 text-primary lg:px-20"
-      role="products"
+      role="region"
       aria-labelledby="products"
     >
       <div className="rounded-4xl container mx-auto flex flex-col gap-4">

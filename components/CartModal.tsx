@@ -50,18 +50,15 @@ export default function CartModal({
             aria-live="polite"
             className="pointer-events-none absolute right-0 top-0 block aspect-square h-4 w-4 rounded-full bg-red-500 text-center text-xs text-white"
           >
-            {cart?.length}
+            {cart.length}
           </span>
-        ) : (
-          ""
-        )}
+        ) : null}
       </div>
 
       {/* backdrop Overlay */}
       <div
         onClick={closeCart}
         className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 h-screen w-screen bg-black/30 backdrop-blur-sm duration-700`}
-        aria-hidden="true"
       ></div>
 
       {/* Cart Modal */}

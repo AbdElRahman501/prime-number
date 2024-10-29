@@ -144,6 +144,7 @@ export default function page() {
           <div className="flex items-center justify-center gap-3">
             <Link
               target="_blank"
+              rel="noopener noreferrer"
               href={createWhatsAppLink(store.phoneNumber)}
               className="flex max-w-96 items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
               role="button"

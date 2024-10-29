@@ -13,14 +13,13 @@ const Header: React.FC = () => {
   return (
     <header
       id="header"
-      role="header"
       aria-label="Header"
       className="sticky top-0 z-50 bg-background"
     >
       <nav
         className="container mx-auto flex items-center justify-between gap-3 p-4 px-5"
         role="navigation"
-        aria-label="navigation"
+        aria-label="Main Navigation"
       >
         <MobileMenu />
 

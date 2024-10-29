@@ -5,11 +5,7 @@ import React from "react";
 // Features component to display key features of the prime number calculator
 const Features: React.FC = () => {
   return (
-    <section
-      className="px-5 py-20 md:px-20"
-      role="features"
-      aria-labelledby="features"
-    >
+    <section className="px-5 py-20 md:px-20" aria-labelledby="features">
       <h2 id="features" className="sr-only">
         اكتشف أهم مزايا الأرقام الفريدة والمصممة لتلبية احتياجاتك الشخصية
         والتجارية

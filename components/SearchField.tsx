@@ -61,7 +61,7 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
         <input
           type="text"
           id="search"
-          aria-label="ابحث هنا"
+          aria-labelledby="search-label" // Link to the label
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           placeholder="ابحث هنا..."
@@ -70,6 +70,7 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
         <button
           type="submit"
           aria-label="إرسال البحث"
+          title="إرسال البحث" // Added title for better UX
           className="absolute inset-y-0 left-0 flex items-center pl-3 text-foreground peer-focus:text-primary"
         >
           <Icon icon="akar-icons:search" aria-hidden="true" />

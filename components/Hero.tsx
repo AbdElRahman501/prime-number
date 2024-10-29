@@ -5,7 +5,7 @@ const Hero: React.FC = () => {
   return (
     <section
       className="rounded-b-[50px] bg-background md:rounded-b-[75px]"
-      role="offers"
+      aria-labelledby="offers"
     >
       <h2 id="offers" className="sr-only">
         عروض حصريه لارقام مميزه في مصر

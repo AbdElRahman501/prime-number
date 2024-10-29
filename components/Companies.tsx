@@ -4,11 +4,7 @@ import LogoIcons from "./icons/logos";
 
 const Companies: React.FC = () => {
   return (
-    <section
-      aria-labelledby="companies"
-      role="companies"
-      className="bg-background"
-    >
+    <section aria-labelledby="companies" className="bg-background">
       <h2 id="companies" className="sr-only">
         جميع شركات الاتصالات المصريه متاحه فودافون و اوراج واتصالات و وي
       </h2>
@@ -43,7 +39,7 @@ const CompanyCard: React.FC<Company & { phoneNumbers: PhoneNumber[] }> = ({
             dangerouslySetInnerHTML={{ __html: htmlTitle }}
           />
         ) : (
-          <h3 className="font-bold" style={{ color }}>
+          <h3 className="font-bold drop-shadow-lg" style={{ color }}>
             {name}
           </h3>
         )}

@@ -78,12 +78,7 @@ export default async function SearchPage({
   } & { ctf?: CompanyName[]; sort?: Sort };
 
   return (
-    <section
-      role="products"
-      id="products"
-      aria-labelledby=""
-      className="flex min-h-[60vh] flex-1 flex-col gap-4"
-    >
+    <section className="flex min-h-[60vh] flex-1 flex-col gap-4">
       {searchValue && (
         <p className="mb-4" aria-live="polite">
           {phoneNumbers.length === 0

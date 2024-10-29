@@ -55,7 +55,6 @@ const MobileMenu: React.FC = () => {
         }
         className="fixed top-[86px] z-20 flex h-[50vh] w-[70vw] overflow-hidden rounded-[50px] bg-primary text-background duration-700 ease-in-out md:hidden"
         id="mobile-menu"
-        role="menu"
         aria-label="Mobile navigation"
       >
         <div className="flex min-h-[50vh] min-w-[70vw] flex-col justify-start p-5">
@@ -66,7 +65,7 @@ const MobileMenu: React.FC = () => {
             </Suspense>
           </div>
 
-          <Link role="menuitem" href="/" aria-label="Home - الرئيسية">
+          <Link href="/" aria-label="Home - الرئيسية">
             <div
               onClick={closeMenu}
               className="block px-4 py-2 hover:bg-foreground hover:text-primary"
@@ -75,11 +74,7 @@ const MobileMenu: React.FC = () => {
             </div>
           </Link>
           <SessionElement>
-            <Link
-              role="menuitem"
-              href="/dashboard"
-              aria-label="لوحة التحكم - Dashboard"
-            >
+            <Link href="/dashboard" aria-label="لوحة التحكم - Dashboard">
               <div
                 onClick={closeMenu}
                 className="block px-4 py-2 hover:bg-foreground hover:text-primary"
@@ -88,11 +83,7 @@ const MobileMenu: React.FC = () => {
               </div>
             </Link>
           </SessionElement>
-          <Link
-            role="menuitem"
-            href="/shop"
-            aria-label="الأرقام المميزة - Special Numbers"
-          >
+          <Link href="/shop" aria-label="الأرقام المميزة - Special Numbers">
             <div
               onClick={closeMenu}
               className="block px-4 py-2 hover:bg-foreground hover:text-primary"
@@ -100,7 +91,7 @@ const MobileMenu: React.FC = () => {
               الأرقام المميزة
             </div>
           </Link>
-          <Link role="menuitem" href="/about" aria-label="من نحن- About Us">
+          <Link href="/about" aria-label="من نحن- About Us">
             <div
               onClick={closeMenu}
               className="block px-4 py-2 hover:bg-foreground hover:text-primary"
@@ -111,7 +102,6 @@ const MobileMenu: React.FC = () => {
           <Link
             target="_blank"
             href={createWhatsAppLink(store.phoneNumber)}
-            role="menuitem"
             aria-label="اتصل بنا - Contact Us"
           >
             <div
