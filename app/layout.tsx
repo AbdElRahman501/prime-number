@@ -7,6 +7,7 @@ import { NextAuthProvider } from "@/NextAuthProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleTagManager } from "@next/third-parties/google";
+import LocalStorage from "@/components/LocalStorage";
 
 // Load fonts with selected weights and subsets
 const rubik = Rubik({
@@ -42,6 +43,7 @@ export default function RootLayout({
     >
       <GoogleTagManager gtmId="GTM-P759KG7P" />
       <body className="antialiased">
+        <LocalStorage />
         {/* Header Component */}
         <NextAuthProvider>
           <Header />

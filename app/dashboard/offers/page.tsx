@@ -15,6 +15,7 @@ const page = ({
         searchParams={searchParams}
         data={offers}
         columns={columns}
+        name="offer"
       />
     </div>
   );
@@ -29,6 +30,6 @@ const columns: Column<Offer>[] = [
   {
     label: "التحكم",
     type: "action",
-    RowAction: (item) => <ActionButtons name="review" id={item._id} />,
+    RowAction: (item) => <ActionButtons name="offer" id={item._id} />,
   },
 ];

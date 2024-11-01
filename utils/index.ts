@@ -269,3 +269,44 @@ export function areAllItemsSelected<T extends { _id: string }>(
   const areAllSelected = items.every((item) => selectedIdsSet.has(item._id));
   return areAllSelected ? "true" : "false";
 }
+
+export function formatDate(inputDate: string) {
+  // Extract year, month, and day from the input string
+  const month = inputDate.substring(4, 6);
+  const day = inputDate.substring(6, 8);
+
+  // Convert month to a more readable format (1-12 to Jan-Dec)
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Format day and month
+  const formattedDay = parseInt(day, 10); // Convert string to number to remove leading zeros
+  const formattedMonth = monthNames[parseInt(month, 10) - 1]; // Get month name
+
+  // Return formatted date
+  return `${formattedDay} ${formattedMonth}`;
+}
+
+export const isMobile = (userAgent: string): boolean => {
+  return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);
+};
+
+export function removeDuplicates(stringsArray: string[]): string[] {
+  return Array.from(new Set(stringsArray));
+}
+
+export function subtractArrays(array1: string[], array2: string[]) {
+  return array1.filter((item) => !array2.includes(item));
+}

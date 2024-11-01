@@ -52,6 +52,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <Link
         href={{
           query: {
+            ...searchParams,
             page: currentPage + 1 <= totalPages ? currentPage + 1 : currentPage,
           },
         }}

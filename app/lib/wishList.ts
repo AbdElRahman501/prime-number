@@ -20,3 +20,12 @@ export async function wishListHandler(
     console.log("🚀 ~ error:", error);
   }
 }
+
+export async function addWishListItems(
+  previousState: unknown,
+  wishList: string[],
+) {
+  cookies().set("wishList", JSON.stringify(wishList));
+  revalidateTag("wishList");
+  return "added to wishList";
+}

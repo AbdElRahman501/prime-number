@@ -65,7 +65,7 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           placeholder="ابحث هنا..."
-          className="peer w-full rounded-full border border-foreground px-10 py-2 focus:border-primary focus:outline-none lg:w-80"
+          className="peer w-full rounded-full border border-foreground px-10 py-2 focus:border-primary focus:outline-none"
         />
         <button
           type="submit"

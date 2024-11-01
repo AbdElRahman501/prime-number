@@ -87,7 +87,7 @@ const FilterSection: React.FC = () => {
         style={{
           bottom: isOpen ? "0" : "-100%",
         }}
-        className="fixed left-0 z-20 w-full overflow-hidden rounded-3xl bg-background p-5 py-0 duration-500 ease-in-out md:static md:h-full md:max-h-none md:min-h-[70dvh] md:w-1/4 2xl:w-1/5"
+        className="fixed left-0 z-20 w-full overflow-hidden rounded-3xl bg-background p-5 pt-0 duration-500 ease-in-out md:static md:h-full md:max-h-none md:min-h-[70dvh] md:w-1/4 2xl:w-1/5"
       >
         <div className="scroll-bar-hidden flex h-fit max-h-[calc(100dvh-200px)] w-full flex-col gap-4 overflow-y-auto">
           <div className="sticky top-0 flex items-center justify-between bg-background py-4">

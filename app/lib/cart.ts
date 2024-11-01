@@ -27,3 +27,8 @@ export async function cartHandler(
     return removeItem(previousState, phoneNumber);
   }
 }
+export async function addCartItems(previousState: unknown, cart: string[]) {
+  cookies().set("cart", JSON.stringify(cart));
+  revalidateTag("cart");
+  return "added to cart items";
+}

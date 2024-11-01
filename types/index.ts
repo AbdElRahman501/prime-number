@@ -8,7 +8,15 @@ export interface Company {
 }
 
 export type CompanyName = "vodafone" | "etisalat" | "orange" | "we";
-export type Sort = "Nst" | "Ost" | "Lp" | "Hp";
+export type Sort = "Nst" | "Ost" | "Lp" | "Hp" | "Tr";
+
+export type Metric =
+  | "activeUsers"
+  | "sessions"
+  | "newUsers"
+  | "screenPageViews";
+export type Dimension = "date";
+export type CartType = "line" | "bar" | "pie" | "doughnut";
 
 export interface SortOptions {
   name: string;
@@ -18,6 +26,9 @@ export interface SortOptions {
 export interface PhoneNumber {
   _id: string;
   name: string;
+  active?: boolean;
+  category?: string;
+  score?: number;
   description: string;
   phoneNumber: string;
   price: number;
@@ -25,7 +36,7 @@ export interface PhoneNumber {
 }
 
 export interface Link {
-  _id: string | number;
+  _id: string;
   title: string;
   url: string;
   icon?: string;
@@ -87,4 +98,9 @@ export interface Column<T> {
   label: string | JSX.Element;
   type?: "string" | "boolean" | "image" | "action";
   RowAction?: (item: T) => JSX.Element;
+}
+
+export interface Row {
+  date: string;
+  value: string;
 }

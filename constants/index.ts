@@ -34,7 +34,7 @@ export const companies: Company[] = [
     nameAr: "اورانج",
     htmlTitle:
       "<h3 class='font-bold drop-shadow-lg'>orange<sup class='text-xs'>TM</sup></h3>",
-    color: "#D14904",
+    color: "#F60",
   },
   {
     _id: "4",
@@ -45,10 +45,11 @@ export const companies: Company[] = [
   },
 ];
 
+// TODO : no need to have phone numbers constants instead we will use data base
 export const phoneNumbers: PhoneNumber[] = [
   {
     _id: "1",
-    name: "رقم مميز",
+    name: "رقم ذهبي",
     description: "بعض الوصف هنا",
     phoneNumber: "0101020000",
     price: 15000,
@@ -56,7 +57,7 @@ export const phoneNumbers: PhoneNumber[] = [
   },
   {
     _id: "2",
-    name: "رقم مميز",
+    name: "رقم ذهبي",
     description: "بعض الوصف هنا",
     phoneNumber: "0131003000",
     price: 10000,
@@ -64,7 +65,7 @@ export const phoneNumbers: PhoneNumber[] = [
   },
   {
     _id: "3",
-    name: "رقم مميز",
+    name: "رقم فضي",
     description: "بعض الوصف هنا",
     phoneNumber: "0121000009",
     price: 5000,
@@ -72,11 +73,83 @@ export const phoneNumbers: PhoneNumber[] = [
   },
   {
     _id: "4",
-    name: "رقم مميز",
+    name: "رقم فضي",
     description: "بعض الوصف هنا",
     phoneNumber: "0101200009",
     price: 5000,
     company: "vodafone",
+  },
+  {
+    _id: "1",
+    active: true,
+    name: "رقم ذهبي",
+    description: "A premium number for VIP clients.",
+    phoneNumber: "0101122334",
+    price: 20000,
+    company: "vodafone",
+  },
+  {
+    _id: "2",
+    active: true,
+    name: "رقم النخبه",
+    description: "Stand out with this unique number.",
+    phoneNumber: "0155588999",
+    price: 18000,
+    company: "etisalat",
+  },
+  {
+    _id: "3",
+    active: true,
+    name: "رقم رجال الاعمال",
+    description: "An easy-to-remember number for professionals.",
+    phoneNumber: "0123445566",
+    price: 12000,
+    company: "orange",
+  },
+  {
+    _id: "4",
+    active: true,
+    name: "رقم رجال الاعمال",
+    description: "A prestigious number for business executives.",
+    phoneNumber: "0111777888",
+    price: 25000,
+    company: "we",
+  },
+  {
+    _id: "5",
+    active: true,
+    name: "رقم المشاهير",
+    description: "A memorable number for frequent callers.",
+    phoneNumber: "0145566778",
+    price: 9000,
+    company: "vodafone",
+  },
+  {
+    _id: "6",
+    active: true,
+    name: "رقم VIP",
+    description: "A high-end number for distinguished clients.",
+    phoneNumber: "0101102020",
+    price: 30000,
+    company: "etisalat",
+  },
+  {
+    _id: "7",
+    active: true,
+    name: "رقم VIP",
+    description: "Ideal for business owners who value quality.",
+    phoneNumber: "0133222444",
+    price: 15000,
+    company: "orange",
+  },
+  {
+    _id: "8",
+    active: true,
+    name: "رقم رائع",
+    description: "A top-tier number for corporate leaders.",
+    phoneNumber: "0125667788",
+    price: 22000,
+    company: "we",
   },
 ];
 
@@ -154,6 +227,7 @@ export const sortOptions: SortOptions[] = [
   { name: "الأقدم", value: "Ost" },
   { name: "الاعلي سعر", value: "Hp" },
   { name: "الاقل سعر", value: "Lp" },
+  { name: "الاكثر اقبالا", value: "Tr" },
 ];
 
 export const store: Store = {
@@ -212,4 +286,14 @@ export const store: Store = {
     { _id: "6", title: "الشروط والأحكام", url: "#" },
     { _id: "7", title: "معلومات عنا", url: "#" },
   ],
+};
+// TODO : remove unused tags
+export const tags = {
+  products: "products",
+  quickProducts: "quick-products",
+  topRatedProducts: "top-rated-products",
+  newestProducts: "newest-products",
+  reviews: "reviews",
+  offers: "offers",
+  store: "store",
 };

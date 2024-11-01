@@ -14,12 +14,9 @@ const CartForm: React.FC<{
 
   const addItemAction = () => {
     if (typeof window == "undefined") return;
-    const cartData = localStorage.getItem("cartItems");
+    const cartData = localStorage.getItem("cart");
     const cart: string[] = cartData ? JSON.parse(cartData) : [];
-    localStorage.setItem(
-      "cartItems",
-      JSON.stringify(addToCart(cart, phoneNumber)),
-    );
+    localStorage.setItem("cart", JSON.stringify(addToCart(cart, phoneNumber)));
     actionWithVariant();
   };
 

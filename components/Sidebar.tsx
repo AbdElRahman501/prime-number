@@ -3,10 +3,11 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { SignOutButton } from "./SessionElement";
 
 const SidebarLinks = [
   {
-    name: "الرئيسية",
+    name: "لوحة التحكم",
     path: "/dashboard",
     icon: "mdi:home",
   },
@@ -19,6 +20,11 @@ const SidebarLinks = [
     name: "العروض",
     path: "/dashboard/offers",
     icon: "mdi:tag",
+  },
+  {
+    name: "الاعدادات",
+    path: "/dashboard/settings",
+    icon: "mdi:settings",
   },
 ];
 
@@ -36,23 +42,26 @@ const Sidebar: React.FC = () => {
       <aside
         className={` ${isOpen ? "w-64" : "-right-24 w-20 md:right-auto"} fixed top-[86px] z-20 m-2 flex h-[calc(100dvh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300 md:sticky`}
       >
-        <h2
-          className={`${isOpen ? "" : "hidden"} z-10 mb-6 text-2xl font-bold`}
-        >
-          لوحة التحكم
-        </h2>
-        <nav className="flex h-full flex-col gap-4">
+        <nav className="flex h-full flex-col gap-4 overflow-hidden">
           {SidebarLinks.map((link) => (
             <Link
               key={link.name}
               href={link.path}
               onClick={closeSidebar}
-              className={`${curentPage === link.path.split("/").pop() ? "" : "opacity-50"} flex items-center gap-2 rounded p-2 hover:bg-gray-700`}
+              className={`${curentPage === link.path.split("/").pop() ? "" : "opacity-50"} flex w-fit items-center gap-2 text-nowrap rounded p-2 hover:bg-gray-700`}
             >
               <Icon icon={link.icon} width={34} />
               <span className={isOpen ? "" : "hidden"}>{link.name}</span>
             </Link>
           ))}
+          <SignOutButton>
+            <div
+              className={`flex w-fit items-center gap-2 text-nowrap rounded p-2 text-red-500 hover:bg-red-700`}
+            >
+              <Icon icon="mdi:logout" width={34} />
+              <span className={isOpen ? "" : "hidden"}>تسجيل الخروج</span>
+            </div>
+          </SignOutButton>
         </nav>
         <div
           className={`${isOpen ? "translate-x-0" : "-translate-x-20"} flex w-full justify-end duration-1000 md:translate-x-0`}

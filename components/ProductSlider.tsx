@@ -1,17 +1,22 @@
-import { phoneNumbers } from "@/constants";
+import { getQuickProducts } from "@/lib/actions/product.actions";
+import { Sort } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import ProductCard from "./ProductCard";
 
-const ProductCard = dynamic(() => import("./ProductCard"), { ssr: false });
-
-const ProductSlider: React.FC = () => {
+const ProductSlider: React.FC<{
+  title: string;
+  sort: Sort;
+}> = async ({ sort, title }) => {
   const cartData = cookies().get("cart")?.value;
   const cart: string[] = cartData ? JSON.parse(cartData) : [];
 
   const wishListData = cookies().get("wishList")?.value;
   const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
+
+  const phoneNumbers = await getQuickProducts(sort);
+
   return (
     <section
       className="bg-background p-5 py-10 pb-16 text-primary lg:px-20"
@@ -24,10 +29,13 @@ const ProductSlider: React.FC = () => {
             id="products"
             className="text-3xl font-bold uppercase md:text-4xl"
           >
-            الأرقام المميزة
+            {title}
           </h2>
           <Link
-            href="/shop"
+            href={{
+              pathname: "/shop",
+              query: { sort: sort },
+            }}
             className="group flex items-center gap-1 rounded-full text-sm md:text-base"
             aria-label="View all"
           >

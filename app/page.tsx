@@ -1,15 +1,10 @@
 import Companies from "@/components/Companies";
+import Features from "@/components/Features";
 import Hero from "@/components/Hero";
-import dynamic from "next/dynamic";
-
-const Testimonial = dynamic(() => import("@/components/Testimonial"), {
-  ssr: false,
-});
-const Features = dynamic(() => import("@/components/Features"), { ssr: false });
-
-const ProductSlider = dynamic(() => import("@/components/ProductSlider"), {
-  ssr: false,
-});
+import { ProductSliderSkeleton } from "@/components/LoadingSkeleton";
+import ProductSlider from "@/components/ProductSlider";
+import Testimonial from "@/components/Testimonial";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -17,9 +12,13 @@ export default function Home() {
       <h1 className="sr-only">بريم نمبر, ارقام مميزه في مصر</h1>
       <Hero />
       <Companies />
-      <ProductSlider />
+      <Suspense fallback={<ProductSliderSkeleton />}>
+        <ProductSlider title="الأرقام المميزة" sort="Tr" />
+      </Suspense>
       <Features />
-      <ProductSlider />
+      <Suspense fallback={<ProductSliderSkeleton />}>
+        <ProductSlider title="المضاف حديثا" sort="Nst" />
+      </Suspense>
       <Testimonial />
     </main>
   );
