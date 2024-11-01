@@ -39,15 +39,12 @@ const Footer: React.FC = () => {
                   <p className="break-all">{store.contacts.email}</p>
                 </div>
               </Link>
-              <Link
-                href={`${store.contacts.address}`}
-                className="text-base font-medium opacity-60 duration-300 hover:!opacity-100 group-hover:opacity-40"
-              >
+              <div className="text-base font-medium opacity-60 duration-300 hover:!opacity-100 group-hover:opacity-40">
                 <div className="flex items-center gap-2">
                   <Icon icon="mdi:map-marker" className="text-2xl" />
                   <p className="break-all">{store.contacts.address}</p>
                 </div>
-              </Link>
+              </div>
               <div className="text-base font-medium opacity-60 duration-300 hover:!opacity-100 group-hover:opacity-40">
                 <div className="flex items-center gap-2">
                   <Icon icon="mdi:clock-outline" className="text-2xl" />

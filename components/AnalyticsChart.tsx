@@ -9,6 +9,7 @@ const AnalyticsChart: React.FC<{
   type?: CartType;
 }> = async ({ className, type, metric }) => {
   const data = (await fetchData(metric, "date")) as Row[];
+  if (!data) return <div>No data found</div>;
   return (
     <div className={className}>
       <CustomChart data={data} type={type} />
