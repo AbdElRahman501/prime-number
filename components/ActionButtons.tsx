@@ -1,5 +1,5 @@
 "use client";
-import { createUrl } from "@/utils";
+import { createUrl, modalKey } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
@@ -15,8 +15,8 @@ const ActionButtons = ({
   const pathname = usePathname();
   const router = useRouter();
 
-  const editPathName = `edit${name || ""}Id`;
-  const removePathName = `remove${name || ""}Id`;
+  const editPathName = modalKey("edit", name);
+  const removePathName = modalKey("remove", name);
 
   const edit = () => {
     const newSearchParams = new URLSearchParams(searchParams.toString());

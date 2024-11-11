@@ -1,20 +1,29 @@
 "use client";
-import { removeAction } from "@/lib/actions";
-import { createUrl } from "@/utils";
+import { createUrl, modalKey } from "@/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import LoadingDots from "./loading-dots";
 
-// TODO : make its model in another component with more functions
+interface SwitchProps<T> {
+  name: "product" | "offer";
+  item?: T;
+  children: React.ReactNode;
+  action: (item: T) => Promise<void>;
+}
 
-const RemoveModal: React.FC<{
-  name?: "product" | "offer";
-}> = ({ name }) => {
+export default function RemoveModal<T>({
+  name,
+  item,
+  action,
+  children,
+}: SwitchProps<T>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const key = `remove${name || ""}Id`;
-  const id = searchParams.get(key);
 
-  if (!id) return null;
+  const key = modalKey("remove", name);
+
+  const [loading, setLoading] = useState(false);
 
   const close = () => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -23,31 +32,34 @@ const RemoveModal: React.FC<{
     router.replace(optionUrl, { scroll: false });
   };
 
+  if (!item) return null;
   return (
     <div className="fixed inset-0 top-[76px] z-30 flex h-[calc(100dvh-50px)] w-screen items-center justify-center bg-black/30 backdrop-blur-sm duration-300">
       <div className="flex flex-col items-center justify-between gap-2 rounded-3xl bg-white p-5">
-        <p className="text-lg font-bold">هل انت متاكد من حذف هذا المنتج</p>
-        {/* <input type="text" name="NAME" value={name} readOnly hidden />
-        <input type="text" name="id" value={id} readOnly hidden /> */}
-        <button
-          onClick={close}
-          className="mt-4 w-full rounded-3xl border-2 border-primary py-4 text-center font-semibold text-primary focus:outline-none focus:ring focus:ring-inset focus:ring-orange-400"
-        >
-          الغاء
-        </button>
-        <button
-          type="button"
-          className="mt-4 flex w-full items-center justify-center rounded-3xl border-2 border-background bg-red-500 py-4 font-semibold text-background focus:outline-none focus:ring focus:ring-inset focus:ring-red-300"
-          onClick={async () => {
-            await removeAction(id, name);
-            close();
-          }}
-        >
-          احذف
-        </button>
+        {children}
+        <div className="flex w-full justify-center gap-2">
+          <button
+            onClick={close}
+            className="mt-4 w-full max-w-[200px] rounded-3xl border-2 border-primary py-4 text-center font-semibold text-primary focus:outline-none focus:ring focus:ring-inset focus:ring-orange-400"
+          >
+            الغاء
+          </button>
+          <button
+            type="button"
+            className="mt-4 flex w-full max-w-[200px] items-center justify-center rounded-3xl border-2 border-background bg-red-500 py-4 font-semibold text-background focus:outline-none focus:ring focus:ring-inset focus:ring-red-300"
+            onClick={async () => {
+              setLoading(true);
+              if (action) {
+                await action(item);
+              }
+              setLoading(false);
+              close();
+            }}
+          >
+            {loading ? <LoadingDots className="text-2xl" /> : "احذف"}
+          </button>
+        </div>
       </div>
     </div>
   );
-};
-
-export default RemoveModal;
+}

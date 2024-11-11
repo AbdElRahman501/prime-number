@@ -1,19 +1,21 @@
 "use server";
-import { toggleWishListItem } from "@/utils";
+import { increaseScore } from "@/lib/actions/product.actions";
+import { toggleItemInArray } from "@/utils";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function wishListHandler(
-  previousState: unknown,
-  phoneNumber: string,
-) {
+export async function wishListHandler(phoneNumber: string) {
   try {
     const wishListData = cookies().get("wishList")?.value;
     const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
+    const inWishList = wishList.find((x) => x === phoneNumber);
     cookies().set(
       "wishList",
-      JSON.stringify(toggleWishListItem(wishList, phoneNumber)),
+      JSON.stringify(toggleItemInArray(wishList, phoneNumber)),
     );
+    if (!inWishList) {
+      increaseScore(phoneNumber);
+    }
     revalidateTag("wishList");
     return "added to wishList";
   } catch (error) {

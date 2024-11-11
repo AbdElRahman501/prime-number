@@ -24,6 +24,7 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
 
     if (search.value) {
       newParams.set("q", search.value);
+      newParams.delete("page");
     } else {
       newParams.delete("q");
     }

@@ -2,11 +2,15 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { createWhatsAppLink, formatPrice } from "@/utils";
-import CartForm from "./CartForm";
-import SubmitButton from "./SubmitButton";
+import {
+  addToLocalStorage,
+  createWhatsAppLink,
+  formatPrice,
+  toggleItemInArray,
+} from "@/utils";
 import { PhoneNumber } from "@/types";
 import { store } from "@/constants";
+import { cartHandler } from "@/app/lib/cart";
 
 export default function CartModal({
   cart,
@@ -108,19 +112,27 @@ export default function CartModal({
                 <p className="text-lg font-semibold text-neutral-500">
                   {item.phoneNumber}
                 </p>
-                <CartForm phoneNumber={item.phoneNumber} type="remove">
-                  <SubmitButton
-                    aria-label={`ازالة ${item.phoneNumber}`}
-                    className="text-lg"
-                  >
-                    <Icon
-                      id="trash"
-                      className="h-5 w-5 text-background"
-                      icon="solar:trash-bin-trash-bold"
-                      aria-hidden="true"
-                    />
-                  </SubmitButton>
-                </CartForm>
+                <button
+                  onClick={async () => {
+                    await cartHandler(item.phoneNumber);
+                    addToLocalStorage(
+                      "cart",
+                      toggleItemInArray(
+                        cart.map((item) => item.phoneNumber),
+                        item.phoneNumber,
+                      ),
+                    );
+                  }}
+                  aria-label={`ازالة ${item.phoneNumber}`}
+                  className="text-lg"
+                >
+                  <Icon
+                    id="trash"
+                    className="h-5 w-5 text-background"
+                    icon="solar:trash-bin-trash-bold"
+                    aria-hidden="true"
+                  />
+                </button>
               </li>
             ))}
           </ul>

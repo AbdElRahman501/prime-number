@@ -17,6 +17,7 @@ const ProductSlider: React.FC<{
 
   const phoneNumbers = await getQuickProducts(sort);
 
+  if (phoneNumbers.length < 3) return null;
   return (
     <section
       className="bg-background p-5 py-10 pb-16 text-primary lg:px-20"

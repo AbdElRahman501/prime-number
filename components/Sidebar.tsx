@@ -68,7 +68,7 @@ const Sidebar: React.FC = () => {
         >
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`${isOpen ? "rotate-0 bg-background text-primary" : "rotate-180 bg-primary text-background"} flex h-[50px] w-[50px] items-center justify-center rounded-full text-3xl transition-transform duration-1000 md:static md:bg-background md:text-primary`}
+            className={`${isOpen ? "rotate-0 bg-background text-primary" : "rotate-180 bg-primary text-background"} flex h-[50px] w-[50px] items-center justify-center rounded-full border-2 border-background text-3xl transition-transform duration-1000 md:static md:bg-background md:text-primary`}
             aria-label="Scroll to top"
           >
             <Icon icon="bi:arrow-right" className="w-5" />

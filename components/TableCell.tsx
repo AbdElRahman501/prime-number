@@ -1,30 +1,21 @@
 import { Column } from "@/types";
 import Image from "next/image";
+import Switch from "./Switch";
+import { formatDateAt } from "@/utils";
 
 interface CellProps<T> {
   item: T;
   column: Column<T>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function TableCell<T extends Record<string, any>>({
-  item,
-  column,
-}: CellProps<T>) {
+export default function TableCell<T>({ item, column }: CellProps<T>) {
   const { key } = column;
   switch (column.type) {
     case "boolean":
+      if (!key) return null;
+      if (typeof item[key] !== "boolean") return null;
       return (
-        // TODO add edit function then applied here to just edit the value of the key only
-        key && (
-          <td className="whitespace-nowrap px-6 py-4">
-            <div
-              className={`${item[key] ? "justify-end bg-green-500" : "justify-start bg-red-500"} flex h-6 w-12 items-center rounded-full p-1`}
-            >
-              <div className="h-4 w-4 rounded-full bg-white"></div>
-            </div>
-          </td>
-        )
+        <Switch<T> checked={item[key]} item={item} action={column.action} />
       );
     case "image":
       return (
@@ -44,7 +35,16 @@ export default function TableCell<T extends Record<string, any>>({
       const { RowAction } = column;
       return (
         <td className="whitespace-nowrap px-6 py-4">
-          {RowAction ? <RowAction {...item} /> : null}
+          {RowAction ? <RowAction item={item} /> : null}
+        </td>
+      );
+    case "date":
+      const date =
+        key &&
+        (typeof item[key] === "string" ? item[key] : JSON.stringify(item[key]));
+      return (
+        <td className="whitespace-nowrap px-6 py-4">
+          {formatDateAt(date as string)}
         </td>
       );
     default:

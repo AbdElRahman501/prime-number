@@ -1,6 +1,12 @@
 import { CartItem, CompanyName, PhoneNumber, Sort } from "@/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { companies } from "@/constants";
+
+export const addToLocalStorage = (key: string, items: string[]) => {
+  if (typeof window == "undefined") return;
+  localStorage.setItem(key, JSON.stringify(items));
+};
+
 export function formatPrice(price: number, currency: "EGP" | "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -45,12 +51,12 @@ export const getMatchingItemsByKey = (
   return arr1.filter((item1) => arr2.includes(item1[key])) as never[];
 };
 
-export function toggleWishListItem(wishList: string[], phoneNumber: string) {
-  const isInWishList = wishList.find((x) => x === phoneNumber);
-  if (!isInWishList) {
-    return [...wishList, phoneNumber];
+export function toggleItemInArray(array: string[], item: string) {
+  const inArray = array.find((x) => x === item);
+  if (!inArray) {
+    return [...array, item];
   } else {
-    return wishList.filter((x) => x !== phoneNumber);
+    return array.filter((x) => x !== item);
   }
 }
 const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
@@ -299,6 +305,13 @@ export function formatDate(inputDate: string) {
   return `${formattedDay} ${formattedMonth}`;
 }
 
+export function formatDateAt(dateString: string) {
+  const date = new Date(dateString);
+  const day = date.getUTCDate();
+  const month = date.toLocaleString("en-US", { month: "short" });
+  return `${day} ${month}`;
+}
+
 export const isMobile = (userAgent: string): boolean => {
   return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);
 };
@@ -309,4 +322,30 @@ export function removeDuplicates(stringsArray: string[]): string[] {
 
 export function subtractArrays(array1: string[], array2: string[]) {
   return array1.filter((item) => !array2.includes(item));
+}
+
+export function modalKey(type: "remove" | "add" | "edit", key?: string) {
+  key = key ? key : "";
+  return type + "-" + key + "key";
+}
+
+export function getActionItems<T extends { _id: string }>(
+  data: T[],
+  searchParams?: { [key: string]: string | string[] | undefined },
+  name?: string,
+) {
+  if (!searchParams || !name) return {};
+  const removeKey = modalKey("remove", name);
+  const removeId = searchParams?.[removeKey] as string;
+
+  const removeItem: T | undefined = data.find((item) => item._id === removeId);
+  const editKey = modalKey("edit", name);
+  const editId = searchParams?.[editKey] as string;
+
+  const editItem: T | undefined = data.find((item) => item._id === editId);
+
+  const addKey = modalKey("add", name);
+  const isAddItem = searchParams?.[addKey] as string;
+
+  return { removeItem, editItem, isAddItem };
 }

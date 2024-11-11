@@ -17,6 +17,13 @@ export type Metric =
   | "screenPageViews";
 export type Dimension = "date";
 export type CartType = "line" | "bar" | "pie" | "doughnut";
+export type FormElements =
+  | "number"
+  | "text"
+  | "select"
+  | "textarea"
+  | "checkbox"
+  | "radio";
 
 export interface SortOptions {
   name: string;
@@ -33,6 +40,8 @@ export interface PhoneNumber {
   phoneNumber: string;
   price: number;
   company: CompanyName;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 export interface Link {
@@ -96,8 +105,9 @@ export interface contacts {
 export interface Column<T> {
   key?: keyof T;
   label: string | JSX.Element;
-  type?: "string" | "boolean" | "image" | "action";
-  RowAction?: (item: T) => JSX.Element;
+  type?: "string" | "boolean" | "image" | "action" | "date";
+  RowAction?: (props: { item: T }) => JSX.Element;
+  action?: (item: T) => Promise<void>;
 }
 
 export interface Row {
