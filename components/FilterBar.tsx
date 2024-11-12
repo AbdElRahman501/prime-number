@@ -3,7 +3,7 @@ import { companies, sortOptions } from "@/constants";
 import { createUrl, formatPrice } from "@/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
-import LogoIcons from "./icons/logos";
+import CompanyLogoIcons from "./icons/logos";
 
 interface Provider {
   searchParams: URLSearchParams;
@@ -151,7 +151,7 @@ const Item: React.FC<{ id: string; value: string; provider: Provider }> = ({
           >
             &#10005;
           </button>
-          <LogoIcons
+          <CompanyLogoIcons
             name={company.name}
             className="aspect-square h-6"
             viewBox="0 0 50 50"

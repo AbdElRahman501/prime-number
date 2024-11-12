@@ -1,6 +1,6 @@
 import { companies, phoneNumbers } from "@/constants";
 import { Company, PhoneNumber } from "@/types";
-import LogoIcons from "./icons/logos";
+import CompanyLogoIcons from "./icons/logos";
 
 const Companies: React.FC = () => {
   return (
@@ -50,7 +50,7 @@ const CompanyCard: React.FC<Company & { phoneNumbers: PhoneNumber[] }> = ({
           {totalAvailable} رقم متاح
         </p>
       </div>
-      <LogoIcons
+      <CompanyLogoIcons
         name={name}
         className="aspect-square h-full"
         viewBox="0 0 50 50"

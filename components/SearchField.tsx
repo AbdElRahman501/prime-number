@@ -25,6 +25,7 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
     if (search.value) {
       newParams.set("q", search.value);
       newParams.delete("page");
+      newParams.delete("prime");
     } else {
       newParams.delete("q");
     }
@@ -35,6 +36,7 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
   const clearSearch = () => {
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.delete("q");
+    newParams.delete("prime");
     router.push(createUrl(pathname, newParams));
     setSearchText("");
   };

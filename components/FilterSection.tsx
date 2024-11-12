@@ -8,7 +8,7 @@ import {
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import LogoIcons from "./icons/logos";
+import CompanyLogoIcons from "./icons/logos";
 
 const FilterSection: React.FC = () => {
   const searchParams = useSearchParams();
@@ -140,7 +140,7 @@ const FilterSection: React.FC = () => {
                 >
                   <div className="flex h-6 items-center justify-center">
                     <div className="flex h-6 w-20 justify-start gap-2 font-inter text-lg">
-                      <LogoIcons
+                      <CompanyLogoIcons
                         name={company.name}
                         className="aspect-square h-full min-w-6"
                         viewBox="0 0 50 50"

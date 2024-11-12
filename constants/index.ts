@@ -223,11 +223,11 @@ export const offers: Offer[] = [
 ];
 
 export const sortOptions: SortOptions[] = [
-  { name: "الأحدث", value: "Nst" },
-  { name: "الأقدم", value: "Ost" },
-  { name: "الاعلي سعر", value: "Hp" },
-  { name: "الاقل سعر", value: "Lp" },
-  { name: "الاكثر اقبالا", value: "Tr" },
+  { name: "الأحدث", value: "Nst", sort: "desc", sortBy: "createdAt" },
+  { name: "الأقدم", value: "Ost", sort: "asc", sortBy: "createdAt" },
+  { name: "الاعلي سعر", value: "Hp", sort: "desc", sortBy: "price" },
+  { name: "الاقل سعر", value: "Lp", sort: "asc", sortBy: "price" },
+  { name: "الاكثر اقبالا", value: "Tr", sort: "desc", sortBy: "score" },
 ];
 
 export const store: Store = {

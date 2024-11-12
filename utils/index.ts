@@ -69,7 +69,7 @@ export function createWhatsAppLink(
 ): string {
   // Remove any non-numeric characters from the phone number
   const cleanedNumber = phoneNumber.replace(/\D/g, "");
-  const productUrl = `${baseUrl}/shop?q=${product}`;
+  const productUrl = `${baseUrl}/shop?prime=${product}`;
 
   // Construct a more readable, detailed message with line breaks
   const message = product

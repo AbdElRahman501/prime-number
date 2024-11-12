@@ -16,7 +16,7 @@ const layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Main Layout */}
       <div className="flex flex-col gap-4 p-5 md:flex-row">
         {/* Product Listing */}
-        {children}
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         {/* FilterSection */}
         <FilterSection />
       </div>

@@ -28,6 +28,8 @@ export type FormElements =
 export interface SortOptions {
   name: string;
   value: Sort;
+  sort: "asc" | "desc";
+  sortBy: keyof PhoneNumber;
 }
 
 export interface PhoneNumber {
