@@ -1,21 +1,24 @@
-import { companies } from "@/constants";
+import { companies, sortOptions } from "@/constants";
 import ProductCard from "@/components/ProductCard";
-import { phoneNumbers } from "@/constants";
-import { CompanyName, Sort } from "@/types";
-import { filterPhoneNumbers } from "@/utils";
+import { CompanyName } from "@/types";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
+import {
+  fetchFilteredProducts,
+  fetchProductByPhoneNumber,
+} from "@/lib/actions/product.actions";
+import Link from "next/link";
 
 export async function generateMetadata({
   searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }): Promise<Metadata> {
-  const { q: prime } = searchParams as {
+  const { prime } = searchParams as {
     [key: string]: string;
   };
 
-  const phoneNumber = phoneNumbers.find((item) => item.phoneNumber === prime);
+  const phoneNumber = await fetchProductByPhoneNumber(prime);
   const color =
     companies.find((c) => c.name === phoneNumber?.company)?.color || "gray";
   const title = phoneNumber?.phoneNumber
@@ -68,35 +71,48 @@ export default async function SearchPage({
 
   // Destructure searchValue from searchParams
   const {
-    q: searchValue,
+    q: query,
     minP,
     maxP,
     ctf,
-    sort,
+    sort: sortKey,
+    prime,
+    lim,
   } = searchParams as {
     [key: string]: string;
-  } & { ctf?: CompanyName[]; sort?: Sort };
+  };
+
+  const { sortBy, sort } =
+    sortOptions.find((option) => option.value === sortKey) || {};
+
+  const limit = parseInt(lim) || 10;
+  const minPrice = parseInt(minP) || 0;
+  const maxPrice = parseInt(maxP) || Infinity;
+  const companies = ctf?.split(",") as CompanyName[];
+
+  const { phoneNumbers, totalProducts } = await fetchFilteredProducts({
+    limit,
+    sort,
+    minPrice,
+    maxPrice,
+    companies,
+    sortBy,
+    query: prime || query,
+  });
 
   return (
     <section className="flex min-h-[60vh] flex-1 flex-col gap-4">
-      {searchValue && (
+      {query && (
         <p className="mb-4" aria-live="polite">
           {phoneNumbers.length === 0
             ? "لا توجد نتائج مطابقة"
             : `عرض ${phoneNumbers.length} نتيجة مطابقة لـ `}
-          <span className="font-bold">&quot;{searchValue}&quot;</span>
+          <span className="font-bold">&quot;{query}&quot;</span>
         </p>
       )}
       <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {phoneNumbers.length > 0 ? (
-          filterPhoneNumbers(
-            phoneNumbers,
-            searchValue,
-            maxP,
-            minP,
-            ctf,
-            sort,
-          ).map((phoneNumber) => (
+          phoneNumbers.map((phoneNumber) => (
             <ProductCard
               key={phoneNumber._id}
               {...phoneNumber}
@@ -110,12 +126,21 @@ export default async function SearchPage({
           </p>
         )}
       </div>
-      {/* <button
-        className="mt-4 w-full rounded-3xl border border-primary py-4 text-center font-semibold text-primary transition-colors duration-200 hover:bg-primary hover:text-white"
-        aria-label="تحميل المزيد من الأرقام"
-      >
-        تحميل المزيد...
-      </button> */}
+      {totalProducts > limit ? (
+        <Link
+          href={{
+            query: {
+              ...searchParams,
+              lim: String(limit + 10),
+            },
+          }}
+          scroll={false}
+          className="mt-4 w-full rounded-3xl border border-primary py-4 text-center font-semibold text-primary transition-colors duration-200 hover:bg-primary hover:text-white"
+          aria-label="تحميل المزيد من الأرقام"
+        >
+          تحميل المزيد...
+        </Link>
+      ) : null}
     </section>
   );
 }

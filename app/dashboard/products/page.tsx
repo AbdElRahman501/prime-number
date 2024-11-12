@@ -37,7 +37,6 @@ const page = async ({
   const { editItem, removeItem, isAddItem } = getActionItems<PhoneNumber>(
     phoneNumbers,
     searchParams,
-    "product",
   );
 
   return (
@@ -48,7 +47,7 @@ const page = async ({
           href={{
             query: {
               ...searchParams,
-              [modalKey("add", "product")]: "true",
+              [modalKey("add")]: "true",
             },
           }}
           className="self-end rounded-md bg-primary px-4 py-2 text-white"
@@ -62,7 +61,7 @@ const page = async ({
       <Modal isOpen={!!editItem}>
         <ProductForm item={editItem} />
       </Modal>
-      <RemoveModal name="product" item={removeItem} action={deleteProductById}>
+      <RemoveModal item={removeItem} action={deleteProductById}>
         <div className="min-w-[70vw] md:min-w-[350px]">
           <p>هل انت متاكد من حذف هذا المنتج ؟</p>
           <ProductCard {...(removeItem as PhoneNumber)} />
@@ -70,7 +69,6 @@ const page = async ({
       </RemoveModal>
       <CustomTable
         data={phoneNumbers}
-        select
         search
         searchParams={searchParams}
         columns={ProductsColumns}
@@ -113,6 +111,6 @@ const ProductsColumns: Column<PhoneNumber>[] = [
   {
     label: "ACTION",
     type: "action",
-    RowAction: ({ item }) => <ActionButtons name="product" id={item._id} />,
+    RowAction: ({ item }) => <ActionButtons id={item._id} />,
   },
 ];

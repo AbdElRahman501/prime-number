@@ -1,4 +1,11 @@
-import { CartItem, CompanyName, PhoneNumber, Sort } from "@/types";
+import {
+  CartItem,
+  Company,
+  CompanyName,
+  CompanyProductCount,
+  PhoneNumber,
+  Sort,
+} from "@/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { companies } from "@/constants";
 
@@ -69,7 +76,7 @@ export function createWhatsAppLink(
 ): string {
   // Remove any non-numeric characters from the phone number
   const cleanedNumber = phoneNumber.replace(/\D/g, "");
-  const productUrl = `${baseUrl}/shop?q=${product}`;
+  const productUrl = `${baseUrl}/shop?prime=${product}`;
 
   // Construct a more readable, detailed message with line breaks
   const message = product
@@ -306,6 +313,7 @@ export function formatDate(inputDate: string) {
 }
 
 export function formatDateAt(dateString: string) {
+  if (!dateString) return "";
   const date = new Date(dateString);
   const day = date.getUTCDate();
   const month = date.toLocaleString("en-US", { month: "short" });
@@ -334,7 +342,7 @@ export function getActionItems<T extends { _id: string }>(
   searchParams?: { [key: string]: string | string[] | undefined },
   name?: string,
 ) {
-  if (!searchParams || !name) return {};
+  if (!searchParams) return {};
   const removeKey = modalKey("remove", name);
   const removeId = searchParams?.[removeKey] as string;
 
@@ -349,3 +357,18 @@ export function getActionItems<T extends { _id: string }>(
 
   return { removeItem, editItem, isAddItem };
 }
+
+export const mergeCompanyProductCounts = (
+  companies: Company[],
+  productCounts: CompanyProductCount[],
+): Company[] => {
+  return companies.map((company) => {
+    const productCount = productCounts.find(
+      (count) => count.company === company.name,
+    );
+    return {
+      ...company,
+      count: productCount ? productCount.count : 0, // Set count to 0 if no match is found
+    };
+  });
+};

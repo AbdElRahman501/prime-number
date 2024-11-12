@@ -12,13 +12,17 @@ const layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <SearchField />
         </Suspense>
       </div>
-      <FilterBar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <FilterBar />
+      </Suspense>
       {/* Main Layout */}
       <div className="flex flex-col gap-4 p-5 md:flex-row">
         {/* Product Listing */}
-        {children}
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         {/* FilterSection */}
-        <FilterSection />
+        <Suspense fallback={<div>Loading...</div>}>
+          <FilterSection />
+        </Suspense>
       </div>
     </main>
   );

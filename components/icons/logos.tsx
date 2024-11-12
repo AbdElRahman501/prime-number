@@ -104,7 +104,7 @@ interface LocalIconProps extends SVGProps<SVGSVGElement> {
   name: "vodafone" | "etisalat" | "orange" | "we";
 }
 
-const LogoIcons: React.FC<LocalIconProps> = ({ name, ...props }) => {
+const CompanyLogoIcons: React.FC<LocalIconProps> = ({ name, ...props }) => {
   switch (name) {
     case "vodafone":
       return <VodafoneIcon {...props} />;
@@ -119,4 +119,4 @@ const LogoIcons: React.FC<LocalIconProps> = ({ name, ...props }) => {
   }
 };
 
-export default LogoIcons;
+export default CompanyLogoIcons;

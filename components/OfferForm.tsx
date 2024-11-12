@@ -1,18 +1,15 @@
 "use client";
 import { createUrl, modalKey } from "@/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CompanyName, PhoneNumber } from "@/types";
+import { Offer } from "@/types";
 import { useState } from "react";
-import { CustomInput, CustomSelect } from "./CustomFormeElement";
-import { addProduct, updateProductById } from "@/lib/actions/product.actions";
-import ProductCard from "./ProductCard";
-import { companies } from "@/constants";
+import { CustomInput, CustomTextArea } from "./CustomFormeElement";
 import LoadingDots from "./loading-dots";
+import { addOffer, updateOfferById } from "@/lib/actions/offer.actions";
+import { OfferCard } from "./OffersCarousel";
 
-type Pattern = Record<CompanyName, string>;
-
-const ProductForm: React.FC<{
-  item?: PhoneNumber;
+const OfferForm: React.FC<{
+  item?: Offer;
 }> = ({ item }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -22,15 +19,17 @@ const ProductForm: React.FC<{
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [data, setData] = useState<PhoneNumber>(
+  const [data, setData] = useState<Offer>(
     item ||
       ({
-        name: "",
+        company: "",
+        description: "",
         phoneNumber: "",
-        price: 0,
-        company: "vodafone",
+        title: "",
+        end: "",
+        start: Date.now().toString(),
         active: true,
-      } as PhoneNumber),
+      } as Offer),
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,24 +40,12 @@ const ProductForm: React.FC<{
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const target = e.target as HTMLSelectElement;
-    const { name, value } = target;
-    setData((prevData) => ({ ...prevData, [name]: value }));
-  };
 
   const close = () => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.delete(key);
     const optionUrl = createUrl(pathname, newSearchParams);
     router.replace(optionUrl, { scroll: false });
-  };
-
-  const pattern: Pattern = {
-    vodafone: "^(010)[0-9]{8}$",
-    etisalat: "^(011)[0-9]{8}$",
-    orange: "^(012)[0-9]{8}$",
-    we: "^(015)[0-9]{8}$",
   };
 
   return (
@@ -69,9 +56,9 @@ const ProductForm: React.FC<{
           setLoading(true);
           try {
             if (item?._id) {
-              await updateProductById(data);
+              await updateOfferById(data);
             } else {
-              await addProduct(data);
+              await addOffer(data);
             }
             close();
             setLoading(false);
@@ -87,45 +74,55 @@ const ProductForm: React.FC<{
         className="flex w-[60vw] max-w-lg flex-col items-center gap-4"
       >
         <CustomInput
-          name="name"
-          label="الاسم"
-          value={data.name || ""}
-          required
-          maxLength={20}
-          type="text"
-          error="الاسم مطلوب"
-          onChange={handleChange}
-        />
-        <CustomInput
           label="الرقم"
           name="phoneNumber"
           value={data.phoneNumber || ""}
           required
-          pattern={pattern[data.company || "vodafone"]}
           type="tel"
           maxLength={11}
           minLength={11}
           error={`هذا الرقم غير صالح للشركه ${data.company || "vodafone"}`}
           onChange={handleChange}
         />
-        <CustomSelect
-          label="الشركه"
-          name="company"
-          value={data.company || ""}
-          required
-          onChange={handleSelectChange}
-          options={companies.map((company) => company.name)}
-        />
         <CustomInput
-          name="price"
-          label="السعر"
-          value={data.price || ""}
-          pattern="^[0-9]*$"
+          name="title"
+          label="العنوان"
+          value={data.title || ""}
           required
-          error="السعر مطلوب"
-          type="number"
+          maxLength={30}
+          type="text"
+          error="العنوان مطلوب"
           onChange={handleChange}
         />
+
+        <CustomTextArea
+          name="description"
+          placeholder="الوصف"
+          value={data.description || ""}
+          maxLength={150}
+          error="الوصف مطلوب"
+          required
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setData({ ...data, description: e.target.value })
+          }
+        />
+        <div className="flex w-full flex-col items-center justify-start gap-2 md:flex-row">
+          <CustomInput
+            name="start"
+            label="البداية"
+            value={data.start || ""}
+            type="date"
+            onChange={handleChange}
+          />
+          <CustomInput
+            name="end"
+            label="النهاية"
+            value={data.end || ""}
+            type="date"
+            onChange={handleChange}
+          />
+        </div>
+
         <div className="flex w-full items-center justify-start gap-2">
           <div className="h-6 w-12">
             <button
@@ -139,9 +136,7 @@ const ProductForm: React.FC<{
             </button>
           </div>
           <p className="w-full text-sm">
-            {data.active
-              ? "هذا المنتج مفعل (يظهر في المتجر)"
-              : "هذا المنتج غير مفعل (لن يظهر في المتجر)"}
+            {data.active ? "هذا العرض مفعل" : "هذا العرض غير مفعل "}
           </p>
         </div>
         <p className="text-sm text-red-500">{error}</p>
@@ -162,9 +157,11 @@ const ProductForm: React.FC<{
           </button>
         </div>
       </form>
-      <ProductCard {...(data as PhoneNumber)} />
+      <div className="scale-75 text-center">
+        <OfferCard offer={data} viewOnly />
+      </div>
     </div>
   );
 };
 
-export default ProductForm;
+export default OfferForm;

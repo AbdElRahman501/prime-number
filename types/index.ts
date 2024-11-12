@@ -1,10 +1,16 @@
 export interface Company {
   _id: string | number;
   name: CompanyName;
+  count?: number;
   nameAr: string;
   htmlTitle?: string;
   image?: string;
   color: string;
+}
+
+export interface CompanyProductCount {
+  company: string;
+  count: number;
 }
 
 export type CompanyName = "vodafone" | "etisalat" | "orange" | "we";
@@ -28,6 +34,8 @@ export type FormElements =
 export interface SortOptions {
   name: string;
   value: Sort;
+  sort: "asc" | "desc";
+  sortBy: keyof PhoneNumber;
 }
 
 export interface PhoneNumber {
@@ -67,6 +75,9 @@ export interface Offer {
   _id: string;
   title: string;
   description: string;
+  start?: string;
+  end?: string;
+  active?: boolean;
   phoneNumber: string;
   company: string;
 }

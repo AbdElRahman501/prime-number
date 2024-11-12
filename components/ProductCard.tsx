@@ -1,7 +1,7 @@
 import { companies, store } from "@/constants";
 import { PhoneNumber } from "@/types";
 import { formatPrice } from "@/utils";
-import LogoIcons from "./icons/logos";
+import CompanyLogoIcons from "./icons/logos";
 import dynamic from "next/dynamic";
 import WhatsAppButton from "./WhatsAppButton";
 
@@ -51,7 +51,11 @@ const ProductCard: React.FC<
         </h4>
       </div>
       <div className="flex items-center justify-between p-3">
-        <LogoIcons name={company} className="h-6 w-6" viewBox="0 0 50 50" />
+        <CompanyLogoIcons
+          name={company}
+          className="h-6 w-6"
+          viewBox="0 0 50 50"
+        />
         <div className="flex gap-2">
           {cart ? <CartButton phoneNumber={phoneNumber} cart={cart} /> : null}
           {wishList ? (

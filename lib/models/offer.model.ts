@@ -2,9 +2,12 @@ import mongoose from "mongoose";
 
 const offerSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  description: { type: String },
+  description: { type: String, required: true },
   phoneNumber: { type: String, required: true },
-  company: { type: String },
+  start: { type: String },
+  end: { type: String },
+  company: { type: String, required: true },
+  active: { type: Boolean, default: true },
 });
 
 const Offer = mongoose.models.Offer || mongoose.model("Offer", offerSchema);

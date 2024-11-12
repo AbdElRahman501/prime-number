@@ -68,7 +68,9 @@ const Header: React.FC = () => {
 
         {/* Cart and Save buttons */}
         <div className="flex gap-4">
-          <Cart />
+          <Suspense fallback={null}>
+            <Cart />
+          </Suspense>
           <Link
             href="/wishlist"
             className="text-2xl text-primary hover:text-foreground sm:text-3xl"

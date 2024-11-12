@@ -1,8 +1,8 @@
-import LogoIcon, {
+import CompanyLogoIcons, {
   VodafoneIcon,
   EtisalatIcon,
   OrangeIcon,
   WeIcon,
 } from "./logos";
 
-export { VodafoneIcon, EtisalatIcon, OrangeIcon, WeIcon, LogoIcon };
+export { VodafoneIcon, EtisalatIcon, OrangeIcon, WeIcon, CompanyLogoIcons };
