@@ -13,7 +13,9 @@ import { Column } from "@/types";
 import Pagination from "./Pagination";
 import { headers } from "next/headers";
 import TableCell from "./TableCell";
-
+// TODO: try make it stand alone component
+// add edit and remove states that will have the edit and remove items and have a close state that will close the modal
+// and will have multiple edit and delete buttons
 interface TableProps<T> {
   data: T[];
   columns: Column<T>[];

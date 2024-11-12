@@ -13,10 +13,15 @@ export default function TableCell<T>({ item, column }: CellProps<T>) {
   switch (column.type) {
     case "boolean":
       if (!key) return null;
-      if (typeof item[key] !== "boolean") return null;
-      return (
-        <Switch<T> checked={item[key]} item={item} action={column.action} />
-      );
+      if (typeof item[key] !== "boolean")
+        return (
+          <td className="whitespace-nowrap px-6 py-4">
+            {typeof item[key] === "string"
+              ? item[key]
+              : JSON.stringify(item[key])}
+          </td>
+        );
+      return <Switch<T> checkKey={key} item={item} action={column.action} />;
     case "image":
       return (
         key && (

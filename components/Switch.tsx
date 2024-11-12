@@ -3,16 +3,13 @@
 import { useEffect, useState } from "react";
 
 interface SwitchProps<T> {
-  checked: boolean;
+  checkKey: keyof T;
   item: T;
   action?: (item: T) => Promise<void>;
 }
 
-export default function Switch<T>({
-  checked: initialChecked,
-  item,
-  action,
-}: SwitchProps<T>) {
+export default function Switch<T>({ checkKey, item, action }: SwitchProps<T>) {
+  const initialChecked = item[checkKey] as boolean;
   const [checked, setChecked] = useState(initialChecked);
 
   // Update the `checked` state only if `initialChecked` changes and differs from the current `checked` state
@@ -23,14 +20,13 @@ export default function Switch<T>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialChecked]);
 
-  // TODO : make it take update button action not specific action in case there is multiple checkbox so you don't hav to create multiple actions
   return (
     <td className="whitespace-nowrap px-6 py-4">
       <button
         onClick={async () => {
           if (action) {
             setChecked(!checked);
-            await action(item);
+            await action({ ...item, [checkKey]: !checked });
           }
         }}
         className={`${checked ? "bg-green-500" : "bg-red-500"} h-6 w-12 rounded-full p-1 duration-300`}

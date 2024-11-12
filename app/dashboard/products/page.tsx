@@ -7,7 +7,7 @@ import RemoveModal from "@/components/RemoveModal";
 import {
   deleteProductById,
   fetchProducts,
-  switchProductActive,
+  updateProductById,
 } from "@/lib/actions/product.actions";
 import { Column, PhoneNumber } from "@/types";
 import { getActionItems, modalKey } from "@/utils";
@@ -102,7 +102,7 @@ const ProductsColumns: Column<PhoneNumber>[] = [
     key: "active",
     label: "الحالة",
     type: "boolean",
-    action: switchProductActive,
+    action: updateProductById,
   },
   { key: "name", label: "الاسم" },
   { key: "updatedAt", label: "اخر تحديث", type: "date" },

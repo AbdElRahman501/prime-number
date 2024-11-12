@@ -287,7 +287,7 @@ export const store: Store = {
     { _id: "7", title: "معلومات عنا", url: "#" },
   ],
 };
-// TODO : remove unused tags
+
 export const tags = {
   products: "products",
   quickProducts: "quick-products",
