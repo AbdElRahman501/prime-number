@@ -99,13 +99,16 @@ export const CustomInput: React.FC<CustomInputProps> = (props) => {
   );
 };
 
-export const CustomTextArea: React.FC<React.HTMLProps<HTMLTextAreaElement>> = (
-  props,
-) => {
+export const CustomTextArea: React.FC<
+  React.HTMLProps<HTMLTextAreaElement> & { error?: string }
+> = (props) => {
+  const letterLength: number =
+    typeof props.value === "string" ? props.value?.length : 0;
   return (
     <div className="relative flex w-full flex-col">
       <textarea
         {...props}
+        placeholder=" "
         className="peer h-20 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-5 text-base outline-none placeholder-shown:pt-0 focus:border-2 focus:border-black focus:pt-5 focus:ring-blue-500 placeholder-shown:invalid:focus:border-black motion-reduce:transition-none"
       />
       <label
@@ -114,8 +117,13 @@ export const CustomTextArea: React.FC<React.HTMLProps<HTMLTextAreaElement>> = (
       >
         {props.placeholder}
       </label>
-      <p className="hidden text-sm text-pink-600 peer-invalid:block">
-        add valid {props.name} value
+      {props.maxLength ? (
+        <p className="inline-block px-2 text-sm text-primary peer-invalid:text-pink-600 peer-placeholder-shown:peer-invalid:text-primary">
+          {"(" + props.maxLength + "-" + letterLength + ")"}
+        </p>
+      ) : null}
+      <p className="hidden px-2 text-sm text-pink-600 peer-invalid:inline-block peer-placeholder-shown:peer-invalid:hidden peer-focus:hidden">
+        {props.error}
       </p>
     </div>
   );

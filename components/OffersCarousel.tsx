@@ -105,7 +105,10 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
   );
 };
 
-const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
+export const OfferCard: React.FC<{ offer: Offer; viewOnly?: boolean }> = ({
+  offer,
+  viewOnly = false,
+}) => (
   <div className="m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8 text-primary">
     <p className="text-4xl font-bold sm:text-5xl md:text-7xl">
       <strong>{offer.phoneNumber}</strong>
@@ -119,16 +122,18 @@ const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => (
     <p className="w-3/4 max-w-xl text-center text-lg md:text-lg">
       {offer.description}
     </p>
-    <Link
-      target="_blank"
-      href={createWhatsAppLink(store.contacts.phoneNumber, offer.phoneNumber)}
-      className="flex items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
-      role="button"
-      aria-label="شراء الان"
-    >
-      <span>شراء الان</span>
-      <Icon icon="ri:whatsapp-fill" />
-    </Link>
+    {viewOnly ? null : (
+      <Link
+        target="_blank"
+        href={createWhatsAppLink(store.contacts.phoneNumber, offer.phoneNumber)}
+        className="flex items-center justify-center gap-3 rounded-full bg-primary px-10 py-3 text-2xl font-semibold text-white hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
+        role="button"
+        aria-label="شراء الان"
+      >
+        <span>شراء الان</span>
+        <Icon icon="ri:whatsapp-fill" />
+      </Link>
+    )}
   </div>
 );
 

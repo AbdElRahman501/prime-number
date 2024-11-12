@@ -29,7 +29,7 @@ export default function Switch<T>({ checkKey, item, action }: SwitchProps<T>) {
             await action({ ...item, [checkKey]: !checked });
           }
         }}
-        className={`${checked ? "bg-green-500" : "bg-red-500"} h-6 w-12 rounded-full p-1 duration-300`}
+        className={` ${action ? "" : "pointer-events-none"} ${checked ? "bg-green-500" : "bg-red-500"} h-6 w-12 rounded-full p-1 duration-300`}
       >
         <div
           className={`${checked ? "translate-x-0" : "-translate-x-6"} h-4 w-4 rounded-full bg-white duration-300`}

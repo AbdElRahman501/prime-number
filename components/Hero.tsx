@@ -1,7 +1,10 @@
-import { offers } from "@/constants";
 import OffersCarousel from "./OffersCarousel";
+import { fetchAllOffers } from "@/lib/actions/offer.actions";
 
-const Hero: React.FC = () => {
+const Hero: React.FC = async () => {
+  // TODO: make it only active and add time start and end
+  const offers = await fetchAllOffers();
+
   return (
     <section
       className="rounded-b-[50px] bg-background md:rounded-b-[75px]"

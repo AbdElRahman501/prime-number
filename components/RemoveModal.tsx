@@ -5,7 +5,7 @@ import { useState } from "react";
 import LoadingDots from "./loading-dots";
 
 interface SwitchProps<T> {
-  name: "product" | "offer";
+  name?: "product" | "offer";
   item?: T;
   children: React.ReactNode;
   action: (item: T) => Promise<void>;
@@ -34,7 +34,7 @@ export default function RemoveModal<T>({
 
   if (!item) return null;
   return (
-    <div className="fixed inset-0 top-[76px] z-30 flex h-[calc(100dvh-50px)] w-screen items-center justify-center bg-black/30 backdrop-blur-sm duration-300">
+    <div className="fixed inset-0 top-[76px] z-30 flex h-[calc(100dvh-50px)] w-screen items-center justify-center bg-black/30 p-5 backdrop-blur-sm duration-300">
       <div className="flex flex-col items-center justify-between gap-2 rounded-3xl bg-white p-5">
         {children}
         <div className="flex w-full justify-center gap-2">
