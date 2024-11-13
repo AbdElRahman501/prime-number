@@ -79,7 +79,6 @@ export interface Offer {
   end?: string;
   active?: boolean;
   phoneNumber: string;
-  company: string;
 }
 
 export interface CartItem {

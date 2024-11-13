@@ -79,7 +79,6 @@ const columns: Column<Offer>[] = [
   },
   { key: "start", label: "البداية", type: "date" },
   { key: "end", label: "النهاية", type: "date" },
-  { key: "company", label: "الشركة" },
   {
     label: "التحكم",
     type: "action",

@@ -5,6 +5,7 @@ import Product from "../models/products.model";
 import { connectToDatabase } from "../mongoose";
 import { revalidateTag, unstable_cache } from "next/cache";
 import { tags } from "@/constants";
+import Offer from "../models/offer.model";
 
 interface FetchOptions {
   page?: number;
@@ -258,24 +259,18 @@ export const updateProductById = async (data: PhoneNumber) => {
   }
 };
 
-export const switchProductActive = async (data: PhoneNumber) => {
-  const { _id, ...updateData } = data;
-  try {
-    await connectToDatabase();
-    await Product.findOneAndUpdate({ _id }, { active: !updateData.active });
-    revalidateTag(tags.products);
-  } catch (error: any) {
-    throw new Error(`Error updating product with ID ${_id}: ${error.message}`);
-  }
-};
-
 // Delete a product by ID
 export const deleteProductById = async (item: PhoneNumber) => {
   const id = item._id;
   try {
     await connectToDatabase();
-    await Product.findByIdAndDelete(id);
-    revalidateTag(tags.products);
+    const isInOffers = await Offer.findOne({ phoneNumber: item.phoneNumber });
+    if (!isInOffers) {
+      await Product.findByIdAndDelete(id);
+      revalidateTag(tags.products);
+    } else {
+      throw new Error(`this product is in offer`);
+    }
   } catch (error: any) {
     throw new Error(`Error deleting product with ID ${id}: ${error.message}`);
   }
@@ -294,10 +289,31 @@ export const fetchProductById = async (id: string) => {
 export const fetchProductByPhoneNumber = async (phoneNumber: string) => {
   try {
     await connectToDatabase();
-    return await Product.findOne({ phoneNumber });
+    const data = await Product.findOne({ phoneNumber });
+    const product: PhoneNumber = JSON.parse(JSON.stringify(data));
+    return product;
   } catch (error: any) {
     throw new Error(
       `Error fetching product with phoneNumber ${phoneNumber}: ${error.message}`,
+    );
+  }
+};
+
+export const fetchProductsByPhoneNumber = async (query: string) => {
+  const searchCriteria = query
+    ? {
+        $or: [{ phoneNumber: { $regex: `^${query}`, $options: "i" } }],
+      }
+    : {};
+
+  try {
+    await connectToDatabase();
+    const data = await Product.findOne(searchCriteria);
+    const product: PhoneNumber = JSON.parse(JSON.stringify(data));
+    return product;
+  } catch (error: any) {
+    throw new Error(
+      `Error fetching product with phoneNumber ${query}: ${error.message}`,
     );
   }
 };

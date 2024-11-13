@@ -104,15 +104,32 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
     </div>
   );
 };
+const renderTextWithLineBreaks = (text: string) => {
+  return text.split("\n").map((str, index) => (
+    <span key={index}>
+      {str}
+      <br />
+    </span>
+  ));
+};
 
 export const OfferCard: React.FC<{ offer: Offer; viewOnly?: boolean }> = ({
   offer,
   viewOnly = false,
 }) => (
   <div className="m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8 text-primary">
+    {viewOnly ? (
+      <p
+        aria-hidden
+        className="m-0 h-0.5 text-4xl font-bold text-transparent sm:text-5xl md:text-7xl"
+      >
+        <strong>01010101010</strong>
+      </p>
+    ) : null}
     <p className="text-4xl font-bold sm:text-5xl md:text-7xl">
       <strong>{offer.phoneNumber}</strong>
     </p>
+
     <h3
       className="w-4/5 text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
       aria-level={1}
@@ -120,7 +137,7 @@ export const OfferCard: React.FC<{ offer: Offer; viewOnly?: boolean }> = ({
       {offer.title}
     </h3>
     <p className="w-3/4 max-w-xl text-center text-lg md:text-lg">
-      {offer.description}
+      {renderTextWithLineBreaks(offer.description)}
     </p>
     {viewOnly ? null : (
       <Link

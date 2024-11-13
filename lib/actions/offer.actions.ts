@@ -3,7 +3,7 @@
 import { Offer as OfferType } from "@/types";
 import { connectToDatabase } from "../mongoose";
 import Offer from "../models/offer.model";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { tags } from "@/constants";
 
 export const fetchAllOffers = async () => {
@@ -20,6 +20,27 @@ export const fetchAllOffers = async () => {
     }
   }
 };
+export const fetchOffers = unstable_cache(
+  async () => {
+    try {
+      await connectToDatabase();
+      const data = await Offer.find({ active: true });
+      const offers: OfferType[] = JSON.parse(JSON.stringify(data));
+      return offers;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(`Error fetching offers: ${error.message}`);
+      } else {
+        throw new Error(`An unknown error occurred`);
+      }
+    }
+  },
+  [tags.offers],
+  {
+    tags: [tags.offers],
+    revalidate: 60 * 60 * 24 * 7, // 2 days
+  },
+);
 
 export const insertManyOffers = async (
   productsArray: Omit<OfferType, "_id">[],
@@ -43,6 +64,7 @@ export const deleteOfferById = async (item: OfferType) => {
   try {
     await connectToDatabase();
     await Offer.findByIdAndDelete(id);
+    revalidateTag(tags.offers);
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Error deleting offer with ID ${id}: ${error.message}`);

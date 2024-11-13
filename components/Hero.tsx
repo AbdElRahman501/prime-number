@@ -1,10 +1,10 @@
+import { isCurrentDateInRange } from "@/utils";
 import OffersCarousel from "./OffersCarousel";
-import { fetchAllOffers } from "@/lib/actions/offer.actions";
+import { fetchOffers } from "@/lib/actions/offer.actions";
 
 const Hero: React.FC = async () => {
-  // TODO: make it only active and add time start and end
-  const offers = await fetchAllOffers();
-
+  const data = await fetchOffers();
+  const offers = data.filter((offer) => isCurrentDateInRange(offer));
   return (
     <section
       className="rounded-b-[50px] bg-background md:rounded-b-[75px]"

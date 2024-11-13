@@ -64,7 +64,7 @@ const ProductCard: React.FC = () => {
 
 export const CompaniesSkeleton: React.FC = () => {
   return (
-    <section aria-labelledby="companies" className="bg-background">
+    <section aria-busy="true" className="bg-background">
       <h2 id="companies" className="sr-only">
         جميع شركات الاتصالات المصريه متاحه فودافون و اوراج واتصالات و وي
       </h2>
@@ -82,50 +82,10 @@ export const CompaniesSkeleton: React.FC = () => {
 export const HeroSkeleton: React.FC = () => {
   return (
     <section
-      className="rounded-b-[50px] bg-background text-white md:rounded-b-[75px]"
-      aria-labelledby="offers"
+      className="rounded-b-[50px] bg-background md:rounded-b-[75px]"
+      aria-busy="true"
     >
-      <h2 id="offers" className="sr-only">
-        عروض حصريه لارقام مميزه في مصر
-      </h2>
-      <div
-        aria-labelledby="offers"
-        className="container relative mx-auto flex h-[75vh] max-h-[800px] min-h-[500px] items-center justify-around gap-4 p-5 text-center md:w-5/6"
-      >
-        {/* next Button */}
-        <div className="absolute right-5 top-1/2 -translate-y-1/2">
-          <div className="icon-skeleton h-10 w-10 animate-pulse rounded-full bg-white"></div>
-        </div>
-
-        {/* Main Content */}
-        <div className="scroll-bar-hidden flex w-full snap-x snap-mandatory overflow-x-auto">
-          <div className="m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8">
-            <p className="animate-pulse bg-white text-4xl font-bold sm:text-5xl md:text-7xl">
-              <strong>00000000</strong>
-            </p>
-            <h3
-              className="w-4/5 animate-pulse bg-white text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
-              aria-level={1}
-            >
-              رقم مميز
-            </h3>
-            <p className="w-3/4 max-w-xl animate-pulse bg-white text-center text-lg md:text-lg">
-              رقم مميز
-            </p>
-            <div
-              className="flex animate-pulse items-center justify-center gap-3 rounded-full bg-primary bg-white px-10 py-3 text-2xl font-semibold"
-              aria-label="شراء الان"
-            >
-              <span>شراء الان</span>
-              <div className="icon-skeleton h-10 w-10 animate-pulse rounded-full bg-white"></div>
-            </div>
-          </div>
-        </div>
-        {/* Previous Button */}
-        <div className="absolute left-5 top-1/2 -translate-y-1/2">
-          <div className="icon-skeleton h-10 w-10 animate-pulse rounded-full bg-white"></div>
-        </div>
-      </div>
+      <div className="container relative mx-auto flex h-[75vh] max-h-[800px] min-h-[500px] items-center justify-around gap-4 p-5 text-center md:w-5/6"></div>
     </section>
   );
 };

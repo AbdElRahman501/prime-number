@@ -3,10 +3,16 @@ import { createUrl, modalKey } from "@/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Offer } from "@/types";
 import { useState } from "react";
-import { CustomInput, CustomTextArea } from "./CustomFormeElement";
+import {
+  CustomInput,
+  CustomInputWithSuggestions,
+  CustomTextArea,
+} from "./CustomFormeElement";
 import LoadingDots from "./loading-dots";
 import { addOffer, updateOfferById } from "@/lib/actions/offer.actions";
 import { OfferCard } from "./OffersCarousel";
+import { useDebouncedCallback } from "use-debounce";
+import { fetchProductsByPhoneNumber } from "@/lib/actions/product.actions";
 
 const OfferForm: React.FC<{
   item?: Offer;
@@ -19,10 +25,10 @@ const OfferForm: React.FC<{
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [phoneNumberSuggestion, setPhoneNumber] = useState<string>("");
   const [data, setData] = useState<Offer>(
     item ||
       ({
-        company: "",
         description: "",
         phoneNumber: "",
         title: "",
@@ -31,6 +37,33 @@ const OfferForm: React.FC<{
         active: true,
       } as Offer),
   );
+
+  const checkPhoneNumber = useDebouncedCallback(async (phoneNumber: string) => {
+    try {
+      const item = await fetchProductsByPhoneNumber(phoneNumber);
+      if (item) {
+        setPhoneNumber(item.phoneNumber);
+        setError("");
+      } else {
+        setPhoneNumber("");
+        setError("Phone number not found");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred");
+      }
+    }
+  }, 300);
+
+  const phoneNumberHandel = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const phoneNumber = e.target.value;
+    setData({ ...data, phoneNumber });
+    if (phoneNumber.length > 2) {
+      checkPhoneNumber(phoneNumber);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -46,6 +79,18 @@ const OfferForm: React.FC<{
     newSearchParams.delete(key);
     const optionUrl = createUrl(pathname, newSearchParams);
     router.replace(optionUrl, { scroll: false });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" || e.key === "Tab") {
+      e.preventDefault(); // Prevent default behavior (e.g., moving focus)
+
+      if (phoneNumberSuggestion !== data.phoneNumber) {
+        setData({ ...data, phoneNumber: phoneNumberSuggestion }); // Complete the input with the best match
+      } else {
+        (e.target as HTMLInputElement).blur();
+      }
+    }
   };
 
   return (
@@ -73,16 +118,19 @@ const OfferForm: React.FC<{
         }}
         className="flex w-[60vw] max-w-lg flex-col items-center gap-4"
       >
-        <CustomInput
+        <CustomInputWithSuggestions
           label="الرقم"
           name="phoneNumber"
           value={data.phoneNumber || ""}
           required
           type="tel"
+          suggestion={phoneNumberSuggestion}
+          noValidate={!phoneNumberSuggestion}
           maxLength={11}
+          onKeyDown={handleKeyDown}
           minLength={11}
-          error={`هذا الرقم غير صالح للشركه ${data.company || "vodafone"}`}
-          onChange={handleChange}
+          error={`هذا الرقم غير صالح `}
+          onChange={phoneNumberHandel}
         />
         <CustomInput
           name="title"
@@ -112,6 +160,7 @@ const OfferForm: React.FC<{
             label="البداية"
             value={data.start || ""}
             type="date"
+            max={data.end || ""}
             onChange={handleChange}
           />
           <CustomInput
@@ -119,6 +168,7 @@ const OfferForm: React.FC<{
             label="النهاية"
             value={data.end || ""}
             type="date"
+            min={data.start || ""}
             onChange={handleChange}
           />
         </div>
@@ -151,7 +201,8 @@ const OfferForm: React.FC<{
           </button>
           <button
             type="submit"
-            className="mt-4 flex w-full items-center justify-center rounded-3xl border-2 border-background bg-primary py-4 font-semibold text-background focus:outline-none focus:ring focus:ring-inset focus:ring-orange-400 md:max-w-[200px]"
+            disabled={loading || error !== ""}
+            className="mt-4 flex w-full items-center justify-center rounded-3xl border-2 border-background bg-primary py-4 font-semibold text-background focus:outline-none focus:ring focus:ring-inset focus:ring-orange-400 disabled:cursor-not-allowed disabled:opacity-50 md:max-w-[200px]"
           >
             {loading ? <LoadingDots /> : item?._id ? "تحديث" : "حفظ"}
           </button>

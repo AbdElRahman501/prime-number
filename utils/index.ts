@@ -3,6 +3,7 @@ import {
   Company,
   CompanyName,
   CompanyProductCount,
+  Offer,
   PhoneNumber,
   Sort,
 } from "@/types";
@@ -372,3 +373,22 @@ export const mergeCompanyProductCounts = (
     };
   });
 };
+
+export function isCurrentDateInRange({ start, end }: Offer) {
+  const now = new Date();
+  // Convert start and end to Date objects if they are provided
+  const startDate = start ? new Date(start) : null;
+  const endDate = end ? new Date(end) : null;
+
+  // Check if the current date is within the range
+  if (startDate && endDate) {
+    return now >= startDate && now <= endDate;
+  } else if (startDate) {
+    return now >= startDate;
+  } else if (endDate) {
+    return now <= endDate;
+  }
+
+  // If no start or end date, always return true
+  return true;
+}

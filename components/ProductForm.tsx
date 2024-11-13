@@ -78,7 +78,7 @@ const ProductForm: React.FC<{
           } catch (error) {
             setLoading(false);
             if (error instanceof Error) {
-              if (error.message.includes("duplicate ")) {
+              if (error.message.includes("duplicate")) {
                 setError("رقم الهاتف موجود مسبقا");
               }
             }
