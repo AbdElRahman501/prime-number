@@ -250,29 +250,47 @@ export const updateProductById = async (data: PhoneNumber) => {
       ([_, value]) => value !== null && value !== "",
     ),
   );
+  let errorMessage;
   try {
     await connectToDatabase();
+    if (updateData.active === false) {
+      const isInOffers = await Offer.findOne({
+        phoneNumber: updateData.phoneNumber,
+        active: true,
+      });
+      if (isInOffers) {
+        errorMessage =
+          " لا يمكنك عدم تفعيل هذا الرقم لانه دتخل عرض فعال قم بتعطيله اولا";
+        throw new Error(errorMessage);
+      }
+    }
     await Product.findByIdAndUpdate(_id, updatedData);
     revalidateTag(tags.products);
   } catch (error: any) {
-    throw new Error(`Error updating product with ID ${_id}: ${error.message}`);
+    throw new Error(
+      errorMessage || `Error updating product with ID ${_id}: ${error.message}`,
+    );
   }
 };
 
 // Delete a product by ID
 export const deleteProductById = async (item: PhoneNumber) => {
   const id = item._id;
+  let errorMessage;
   try {
     await connectToDatabase();
     const isInOffers = await Offer.findOne({ phoneNumber: item.phoneNumber });
-    if (!isInOffers) {
-      await Product.findByIdAndDelete(id);
-      revalidateTag(tags.products);
-    } else {
-      throw new Error(`this product is in offer`);
+    if (isInOffers) {
+      errorMessage = "هذا المنتج داخل عرض";
+      throw new Error(errorMessage);
     }
+
+    await Product.findByIdAndDelete(id);
+    revalidateTag(tags.products);
   } catch (error: any) {
-    throw new Error(`Error deleting product with ID ${id}: ${error.message}`);
+    throw new Error(
+      errorMessage || `Error deleting product with ID ${id}: ${error.message}`,
+    );
   }
 };
 

@@ -27,6 +27,8 @@ export default function RemoveModal<T>({
   const [loading, setLoading] = useState(false);
 
   const close = () => {
+    setError("");
+    setLoading(false);
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.delete(key);
     const optionUrl = createUrl(pathname, newSearchParams);
@@ -58,11 +60,7 @@ export default function RemoveModal<T>({
                   close();
                 } catch (error) {
                   if (error instanceof Error) {
-                    if (error.message.includes("offer")) {
-                      setError("رقم الهاتف موجود داخل عرض ولا يمكن حذفه");
-                    } else {
-                      setError(error.message);
-                    }
+                    setError(error.message);
                   }
                 }
               }

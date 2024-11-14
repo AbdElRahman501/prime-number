@@ -2,8 +2,9 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignOutButton } from "./SessionElement";
+import { addToLocalStorage, getFromLocalStorage } from "@/utils";
 
 const SidebarLinks = [
   {
@@ -35,13 +36,23 @@ const SidebarLinks = [
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const closeSidebar = () => setIsOpen(false);
+  const closeSidebar = () => {
+    setIsOpen(false);
+    addToLocalStorage("sidebar", false);
+  };
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+    addToLocalStorage("sidebar", !isOpen);
+  };
   const pathname = usePathname();
-  const curentPage = pathname.split("/").pop();
-
-  // const desckClass = ` ${isOpen ? "w-64" : "w-20"}  sticky top-24 m-2 flex h-[calc(100vh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300`
-  // const mobileClass = ` ${isOpen ? "w-64" : "w-20"}  m-2 flex h-[calc(100vh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300`
-
+  const currentPage = pathname.split("/").pop();
+  // TODO check if mobile or desktop
+  useEffect(() => {
+    const locallySideBar =
+      getFromLocalStorage("sidebar") === "true" ? true : false;
+    setIsOpen(locallySideBar);
+  }, []);
   return (
     <>
       <aside
@@ -53,7 +64,7 @@ const Sidebar: React.FC = () => {
               key={link.name}
               href={link.path}
               onClick={closeSidebar}
-              className={`${curentPage === link.path.split("/").pop() ? "" : "opacity-50"} flex w-fit items-center gap-2 text-nowrap rounded p-2 hover:bg-gray-700`}
+              className={`${currentPage === link.path.split("/").pop() ? "" : "opacity-50"} flex w-fit items-center gap-2 text-nowrap rounded p-2 hover:bg-gray-700`}
             >
               <Icon icon={link.icon} width={34} />
               <span className={isOpen ? "" : "hidden"}>{link.name}</span>
@@ -72,7 +83,7 @@ const Sidebar: React.FC = () => {
           className={`${isOpen ? "translate-x-0" : "-translate-x-20"} flex w-full justify-end duration-1000 md:translate-x-0`}
         >
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleSidebar}
             className={`${isOpen ? "rotate-0 bg-background text-primary" : "rotate-180 bg-primary text-background"} flex h-[50px] w-[50px] items-center justify-center rounded-full border-2 border-background text-3xl transition-transform duration-1000 md:static md:bg-background md:text-primary`}
             aria-label="Scroll to top"
           >

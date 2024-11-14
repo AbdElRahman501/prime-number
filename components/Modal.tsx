@@ -7,7 +7,6 @@ const Modal: React.FC<{
   children: React.ReactNode;
 }> = ({ isOpen, scrollLock, children }) => {
   useEffect(() => {
-    console.log("🚀 ~ useEffect ~ scrollLock:", scrollLock);
     if (scrollLock) {
       document.body.classList.add("overflow-hidden");
     } else {

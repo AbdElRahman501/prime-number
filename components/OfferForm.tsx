@@ -33,7 +33,7 @@ const OfferForm: React.FC<{
         phoneNumber: "",
         title: "",
         end: "",
-        start: Date.now().toString(),
+        start: "",
         active: true,
       } as Offer),
   );
@@ -66,6 +66,7 @@ const OfferForm: React.FC<{
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError("");
     const target = e.target as HTMLInputElement;
     const { name, value, type, checked } = target;
     setData((prevData) => ({
@@ -75,6 +76,8 @@ const OfferForm: React.FC<{
   };
 
   const close = () => {
+    setError("");
+    setLoading(false);
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.delete(key);
     const optionUrl = createUrl(pathname, newSearchParams);
@@ -110,9 +113,7 @@ const OfferForm: React.FC<{
           } catch (error) {
             setLoading(false);
             if (error instanceof Error) {
-              if (error.message.includes("duplicate ")) {
-                setError("رقم الهاتف موجود مسبقا");
-              }
+              setError(error.message);
             }
           }
         }}
@@ -177,7 +178,10 @@ const OfferForm: React.FC<{
           <div className="h-6 w-12">
             <button
               type="button"
-              onClick={() => setData({ ...data, active: !data.active })}
+              onClick={() => {
+                setError("");
+                setData({ ...data, active: !data.active });
+              }}
               className={`${data.active ? "bg-green-500" : "bg-red-500"} h-6 w-12 rounded-full p-1 duration-300`}
             >
               <div

@@ -17,7 +17,7 @@ const page = async () => {
     await fetchProductsByPhoneNumbers(wishList);
 
   return (
-    <div className="max-w-8xl mx-auto min-h-[88vh] p-5 lg:px-20">
+    <div className="container mx-auto min-h-[88vh] p-5 lg:px-20">
       <h1 className="pb-5 text-center text-3xl font-extrabold">المحفوظات</h1>
       {phoneNumbers.length === 0 ? (
         <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">

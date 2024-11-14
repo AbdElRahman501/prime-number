@@ -5,12 +5,12 @@ import { connectToDatabase } from "../mongoose";
 import { tags } from "@/constants";
 import { revalidateTag, unstable_cache } from "next/cache";
 
-//fetch all reviews
+//fetch reviews for home page
 export const fetchReviews = unstable_cache(
   async () => {
     try {
       await connectToDatabase();
-      const date = await Review.find({ active: true }).limit(10);
+      const date = await Review.find({ active: true }).limit(10).lean();
       const reviews: ReviewType[] = JSON.parse(JSON.stringify(date));
       return reviews;
     } catch (error: unknown) {
@@ -28,6 +28,7 @@ export const fetchReviews = unstable_cache(
   },
 );
 
+//fetch all reviews for dashboard
 export const fetchAllReviews = async () => {
   try {
     await connectToDatabase();

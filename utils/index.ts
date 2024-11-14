@@ -10,9 +10,13 @@ import {
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { companies } from "@/constants";
 
-export const addToLocalStorage = (key: string, items: string[]) => {
+export const addToLocalStorage = (key: string, items: unknown) => {
   if (typeof window == "undefined") return;
   localStorage.setItem(key, JSON.stringify(items));
+};
+export const getFromLocalStorage = (key: string) => {
+  if (typeof window == "undefined") return;
+  return localStorage.getItem(key);
 };
 
 export function formatPrice(price: number, currency: "EGP" | "USD") {

@@ -80,6 +80,8 @@ const ProductForm: React.FC<{
             if (error instanceof Error) {
               if (error.message.includes("duplicate")) {
                 setError("رقم الهاتف موجود مسبقا");
+              } else {
+                setError(error.message);
               }
             }
           }
