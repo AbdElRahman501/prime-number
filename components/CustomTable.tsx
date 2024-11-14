@@ -80,9 +80,9 @@ export function CustomTable<T extends { _id: string } & Record<string, any>>({
                   </Link>
                 </th>
               ) : null}
-              {columns?.map((column) => (
+              {columns?.map((column, index) => (
                 <th
-                  key={String(column.key)}
+                  key={index}
                   className="text-nowrap px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-primary"
                 >
                   {/* AddParamLink */}

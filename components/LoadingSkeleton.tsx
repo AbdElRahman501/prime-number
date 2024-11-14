@@ -89,3 +89,19 @@ export const HeroSkeleton: React.FC = () => {
     </section>
   );
 };
+
+export const TestimonialSkeleton: React.FC = () => {
+  return (
+    <div aria-busy="true" className="w-full bg-background py-16 text-primary">
+      <h2 className="mb-8 text-center text-3xl font-bold">آراء عملائنا</h2>
+      <div className="relative w-full">
+        {/* TestimonialCarousel */}
+        <div className="scroll-bar-hidden flex w-full snap-x snap-mandatory gap-5 overflow-x-auto md:gap-10">
+          <div className="flex h-60 min-w-[calc(15vw-20px)] snap-center items-center justify-center rounded-l-[50px] md:min-w-[calc(15vw-50px)]"></div>
+          <div className="flex h-60 min-w-[70vw] animate-pulse snap-center items-center justify-center rounded-[50px] bg-white p-10"></div>
+          <div className="flex h-full min-w-[calc(15vw-20px)] snap-center items-center justify-center rounded-r-[50px] md:min-w-[calc(15vw-50px)]"></div>
+        </div>
+      </div>
+    </div>
+  );
+};

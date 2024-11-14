@@ -22,6 +22,11 @@ const SidebarLinks = [
     icon: "mdi:tag",
   },
   {
+    name: "اراء العملاء",
+    path: "/dashboard/reviews",
+    icon: "mdi:account-star",
+  },
+  {
     name: "الاعدادات",
     path: "/dashboard/settings",
     icon: "mdi:settings",

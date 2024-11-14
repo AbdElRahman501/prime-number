@@ -98,25 +98,7 @@ const TestimonialCarousel: React.FC<{ reviews: Review[] }> = ({ reviews }) => {
       >
         <div className="flex h-60 min-w-[calc(15vw-20px)] snap-center items-center justify-center rounded-l-[50px] md:min-w-[calc(15vw-50px)]"></div>
         {reviews.map((review) => (
-          <div
-            key={review._id}
-            className="flex h-60 min-w-[70vw] snap-center items-center justify-center rounded-[50px] bg-white p-10"
-          >
-            <div className="m-auto flex flex-col items-center justify-center">
-              <p className="mb-4 max-w-lg text-center text-sm text-gray-600 md:text-lg">
-                <Icon
-                  icon="flowbite:quote-solid"
-                  className="inline text-2xl text-background md:text-4xl"
-                />
-                {review.review}
-                <Icon
-                  icon="flowbite:quote-solid"
-                  className="inline rotate-180 text-2xl text-background md:text-4xl"
-                />
-              </p>
-              <p className="font-semibold md:text-xl">- {review.name}</p>
-            </div>
-          </div>
+          <ReviewCard key={review.review} {...review} />
         ))}
         <div className="flex h-full min-w-[calc(15vw-20px)] snap-center items-center justify-center rounded-r-[50px] md:min-w-[calc(15vw-50px)]"></div>
       </div>
@@ -125,3 +107,33 @@ const TestimonialCarousel: React.FC<{ reviews: Review[] }> = ({ reviews }) => {
 };
 
 export default TestimonialCarousel;
+
+export const ReviewCard: React.FC<Review & { className?: string }> = ({
+  review,
+  name,
+  className,
+}) => {
+  return (
+    <div
+      className={
+        className ||
+        "flex h-60 min-w-[70vw] snap-center items-center justify-center rounded-[50px] bg-white p-10"
+      }
+    >
+      <div className="m-auto flex flex-col items-center justify-center">
+        <p className="mb-4 max-w-lg text-center text-sm text-gray-600 md:text-lg">
+          <Icon
+            icon="flowbite:quote-solid"
+            className="inline text-2xl text-background md:text-4xl"
+          />
+          {review || ""}
+          <Icon
+            icon="flowbite:quote-solid"
+            className="inline rotate-180 text-2xl text-background md:text-4xl"
+          />
+        </p>
+        <p className="font-semibold md:text-xl">- {name || ""}</p>
+      </div>
+    </div>
+  );
+};

@@ -5,6 +5,7 @@ import {
   CompaniesSkeleton,
   HeroSkeleton,
   ProductSliderSkeleton,
+  TestimonialSkeleton,
 } from "@/components/LoadingSkeleton";
 import ProductSlider from "@/components/ProductSlider";
 import Testimonial from "@/components/Testimonial";
@@ -27,7 +28,9 @@ export default function Home() {
       <Suspense fallback={<ProductSliderSkeleton />}>
         <ProductSlider title="المضاف حديثا" sort="Nst" />
       </Suspense>
-      <Testimonial />
+      <Suspense fallback={<TestimonialSkeleton />}>
+        <Testimonial />
+      </Suspense>
     </main>
   );
 }

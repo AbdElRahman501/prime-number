@@ -66,9 +66,10 @@ export interface Feature {
 }
 
 export interface Review {
-  _id: number;
+  _id: string;
   name: string;
   review: string;
+  active?: boolean;
 }
 
 export interface Offer {
@@ -115,7 +116,7 @@ export interface contacts {
 export interface Column<T> {
   key?: keyof T;
   label: string | JSX.Element;
-  type?: "string" | "boolean" | "image" | "action" | "date";
+  type?: "string" | "boolean" | "image" | "action" | "date" | "description";
   RowAction?: (props: { item: T }) => JSX.Element;
   action?: (item: T) => Promise<void>;
 }

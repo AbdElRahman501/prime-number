@@ -147,9 +147,9 @@ export const CustomTextArea: React.FC<
       <textarea
         {...props}
         placeholder=" "
-        className="scroll-bar-hidden peer h-20 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pb-4 pt-10 text-base outline-none placeholder-shown:pt-0 focus:border-2 focus:border-black focus:ring-blue-500 placeholder-shown:invalid:focus:border-black motion-reduce:transition-none"
+        className={`scroll-bar-hidden peer h-20 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pb-4 pt-6 text-base outline-none focus:border-2 focus:border-black focus:ring-blue-500 placeholder-shown:invalid:focus:border-black motion-reduce:transition-none ${props.className}`}
       />
-      <div className="absolute left-0 top-0 h-8 w-full rounded-t-lg border border-b-0 border-gray-300 bg-white peer-focus:border-2 peer-focus:border-b-0 peer-focus:border-black peer-placeholder-shown:peer-invalid:peer-focus:border-black"></div>
+      <div className="pointer-events-none absolute left-0 top-0 h-8 w-full rounded-t-lg border border-b-0 border-gray-300 bg-white peer-focus:border-2 peer-focus:border-b-0 peer-focus:border-black peer-placeholder-shown:peer-invalid:peer-focus:border-black"></div>
       <label
         className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-primary peer-disabled:text-transparent"
         htmlFor={props.name}
