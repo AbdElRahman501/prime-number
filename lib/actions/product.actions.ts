@@ -1,6 +1,6 @@
 "use server";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CompanyName, CompanyProductCount, PhoneNumber, Sort } from "@/types";
+import { CompanyName, PhoneNumber, Sort } from "@/types";
 import Product from "../models/products.model";
 import { connectToDatabase } from "../mongoose";
 import { revalidateTag, unstable_cache } from "next/cache";
@@ -335,26 +335,3 @@ export const fetchProductsByPhoneNumber = async (query: string) => {
     );
   }
 };
-
-export const countProductsByCompanies = unstable_cache(
-  async (companyNames: string[]): Promise<CompanyProductCount[]> => {
-    try {
-      await connectToDatabase();
-      const productCounts = await Product.aggregate([
-        { $match: { company: { $in: companyNames }, active: true } },
-        { $group: { _id: "$company", count: { $sum: 1 } } },
-        { $project: { company: "$_id", count: 1, _id: 0 } },
-      ]);
-      return productCounts;
-    } catch (error: any) {
-      throw new Error(
-        `Error counting products for companies ${companyNames.join(", ")}: ${error.message}`,
-      );
-    }
-  },
-  [tags.productCounts, tags.products],
-  {
-    tags: [tags.productCounts, tags.products],
-    revalidate: 60 * 60 * 24 * 7, // 7 days
-  },
-);

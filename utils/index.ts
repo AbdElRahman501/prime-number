@@ -1,12 +1,4 @@
-import {
-  CartItem,
-  Company,
-  CompanyName,
-  CompanyProductCount,
-  Offer,
-  PhoneNumber,
-  Sort,
-} from "@/types";
+import { CartItem, CompanyName, Offer, PhoneNumber, Sort } from "@/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { companies } from "@/constants";
 
@@ -362,21 +354,6 @@ export function getActionItems<T extends { _id: string }>(
 
   return { removeItem, editItem, isAddItem };
 }
-
-export const mergeCompanyProductCounts = (
-  companies: Company[],
-  productCounts: CompanyProductCount[],
-): Company[] => {
-  return companies.map((company) => {
-    const productCount = productCounts.find(
-      (count) => count.company === company.name,
-    );
-    return {
-      ...company,
-      count: productCount ? productCount.count : 0, // Set count to 0 if no match is found
-    };
-  });
-};
 
 export function isCurrentDateInRange({ start, end }: Offer) {
   const now = new Date();

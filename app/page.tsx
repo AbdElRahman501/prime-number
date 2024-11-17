@@ -2,7 +2,6 @@ import Companies from "@/components/Companies";
 import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 import {
-  CompaniesSkeleton,
   HeroSkeleton,
   ProductSliderSkeleton,
   TestimonialSkeleton,
@@ -18,9 +17,7 @@ export default function Home() {
       <Suspense fallback={<HeroSkeleton />}>
         <Hero />
       </Suspense>
-      <Suspense fallback={<CompaniesSkeleton />}>
-        <Companies />
-      </Suspense>
+      <Companies />
       <Suspense fallback={<ProductSliderSkeleton />}>
         <ProductSlider title="الأرقام المميزة" sort="Tr" />
       </Suspense>
