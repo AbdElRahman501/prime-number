@@ -102,18 +102,21 @@ const OfferForm: React.FC<{
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
-          try {
-            if (item?._id) {
-              await updateOfferById(data);
+          if (item?._id) {
+            const result = await updateOfferById(data);
+            if (result.success) {
+              close();
             } else {
-              await addOffer(data);
+              setLoading(false);
+              setError(result.message);
             }
-            close();
-            setLoading(false);
-          } catch (error) {
-            setLoading(false);
-            if (error instanceof Error) {
-              setError(error.message);
+          } else {
+            const result = await addOffer(data);
+            if (result.success) {
+              close();
+            } else {
+              setLoading(false);
+              setError(result.message);
             }
           }
         }}
@@ -212,9 +215,11 @@ const OfferForm: React.FC<{
           </button>
         </div>
       </form>
-      <div className="scale-75 text-center">
-        <OfferCard offer={data} viewOnly />
-      </div>
+      <OfferCard
+        offer={data}
+        className="m-auto space-y-4 p-5 text-center text-[12px] text-primary md:text-[8px] lg:text-[12px]"
+        viewOnly
+      />
     </div>
   );
 };

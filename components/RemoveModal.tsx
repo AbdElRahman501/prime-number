@@ -3,12 +3,13 @@ import { createUrl, modalKey } from "@/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import LoadingDots from "./loading-dots";
+import { Result } from "@/types";
 
 interface SwitchProps<T> {
   name?: "product" | "offer";
   item?: T;
   children: React.ReactNode;
-  action: (item: T) => Promise<void>;
+  action: (item: T) => Promise<Result>;
 }
 
 export default function RemoveModal<T>({
@@ -55,13 +56,11 @@ export default function RemoveModal<T>({
             onClick={async () => {
               setLoading(true);
               if (action) {
-                try {
-                  await action(item);
+                const result = await action(item);
+                if (result.success) {
                   close();
-                } catch (error) {
-                  if (error instanceof Error) {
-                    setError(error.message);
-                  }
+                } else {
+                  setError(result.message);
                 }
               }
               setLoading(false);

@@ -1,6 +1,6 @@
 "use server";
 
-import { Offer as OfferType } from "@/types";
+import { Offer as OfferType, Result } from "@/types";
 import { connectToDatabase } from "../mongoose";
 import Offer from "../models/offer.model";
 import { revalidateTag, unstable_cache } from "next/cache";
@@ -21,6 +21,7 @@ export const fetchAllOffers = async () => {
     }
   }
 };
+
 export const fetchOffers = unstable_cache(
   async () => {
     try {
@@ -60,33 +61,35 @@ export const insertManyOffers = async (
 
 // delete offer by id
 
-export const deleteOfferById = async (item: OfferType) => {
+export const deleteOfferById = async (item: OfferType): Promise<Result> => {
   const id = item._id;
-  let errorMessage;
   try {
     await connectToDatabase();
-    const totalOffers = await Offer.countDocuments({ active: true });
-    if (totalOffers > 1) {
-      await Offer.findByIdAndDelete(id);
-      revalidateTag(tags.offers);
-    } else {
-      errorMessage = "لا يجب مسحح جميع العروض ";
-      throw new Error(errorMessage);
+    const totalOffers = await Offer.countDocuments({
+      active: true,
+      _id: { $ne: id },
+    });
+    if (totalOffers === 0) {
+      return {
+        success: false,
+        message: "لا يمكن مسح جميع العروض ",
+      };
     }
+    await Offer.findByIdAndDelete(id);
+    revalidateTag(tags.offers);
+    return { success: true, message: "Offer deleted successfully." };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(
-        errorMessage || `Error deleting offer with ID ${id}: ${error.message}`,
-      );
-    } else {
-      throw new Error(`An unknown error occurred`);
-    }
+    console.error("Error deleting offer:", error);
+    return {
+      success: false,
+      message: "An error occurred while deleting the offer.",
+    };
   }
 };
 
 // update offer by id
 
-export const updateOfferById = async (data: OfferType) => {
+export const updateOfferById = async (data: OfferType): Promise<Result> => {
   const { _id, ...updateData } = data;
   const updatedData = Object.fromEntries(
     Object.entries(updateData).filter(
@@ -95,17 +98,17 @@ export const updateOfferById = async (data: OfferType) => {
     ),
   );
 
-  let errorMessage;
   try {
     await connectToDatabase();
     const numberExist = await Product.findOne({
       phoneNumber: updateData.phoneNumber,
       active: true,
     });
-    if (!numberExist) {
-      errorMessage =
-        "هذا الرقم غير موجود او غير فعال قم باضافتة او تفعيله اولا";
-      throw new Error(errorMessage);
+    if (!numberExist && updatedData.active === true) {
+      return {
+        success: false,
+        message: "هذا الرقم غير موجود او غير فعال قم باضافتة او تفعيله اولا",
+      };
     }
     // Check if the product is being set to inactive
     if (updatedData.active === false) {
@@ -116,29 +119,30 @@ export const updateOfferById = async (data: OfferType) => {
       });
       // If this is the last active product, throw an error
       if (activeProductsCount === 0) {
-        errorMessage = "يجب ان يكون هناك عرض واحد فعال علي الاقل ";
-        throw new Error(errorMessage);
+        return {
+          success: false,
+          message: "يجب ان يكون هناك عرض واحد فعال علي الاقل ",
+        };
       }
     }
 
     // Proceed with the update if there are other active products
     await Offer.findByIdAndUpdate(_id, updatedData);
     revalidateTag(tags.offers);
+    return { success: true, message: "Offer updated successfully." };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(
-        errorMessage || `Error updating offer with ID ${_id}: ${error.message}`,
-      );
-    } else {
-      throw new Error("An unknown error occurred");
-    }
+    console.error("Error updating offer:", error);
+    return {
+      success: false,
+      message:
+        "An error occurred while updating the offer. Please try again later.",
+    };
   }
 };
 
 // add offer
 
 export const addOffer = async (offer: Omit<OfferType, "_id">) => {
-  let errorMessage;
   try {
     await connectToDatabase();
     const numberExist = await Product.findOne({
@@ -146,16 +150,20 @@ export const addOffer = async (offer: Omit<OfferType, "_id">) => {
       active: true,
     });
     if (!numberExist) {
-      errorMessage = "هذا الرقم غير موجود";
-      throw new Error(errorMessage);
+      return {
+        success: false,
+        message: "هذا الرقم غير موجود او غير فعال قم باضافتة او تفعيله اولا",
+      };
     }
     await Offer.create(offer);
     revalidateTag(tags.offers);
+    return { success: true, message: "Offer added successfully." };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(errorMessage || `Error creating offer: ${error.message}`);
-    } else {
-      throw new Error(`An unknown error occurred`);
-    }
+    console.error("Error creating offer:", error);
+    return {
+      success: false,
+      message:
+        "An error occurred while Adding the offer. Please try again later.",
+    };
   }
 };

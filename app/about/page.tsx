@@ -1,10 +1,10 @@
-import { store } from "@/constants";
+import { fetchStore } from "@/lib/actions/store.actions";
 import { createWhatsAppLink } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 
-export default function page() {
-  // fetch store number
+export default async function page() {
+  const store = await fetchStore();
   return (
     <div className="bg-background py-10">
       <main className="container mx-auto px-6" aria-labelledby="about-heading">

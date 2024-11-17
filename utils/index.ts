@@ -317,9 +317,10 @@ export function formatDateAt(dateString: string) {
   return `${day} ${month}`;
 }
 
-export const isMobile = (userAgent: string): boolean => {
-  return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);
-};
+// TODO make it a function i can use in server and client components
+// export const isMobile = (userAgent: string): boolean => {
+//   return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);
+// };
 
 export function removeDuplicates(stringsArray: string[]): string[] {
   return Array.from(new Set(stringsArray));
@@ -372,4 +373,25 @@ export function isCurrentDateInRange({ start, end }: Offer) {
 
   // If no start or end date, always return true
   return true;
+}
+export function formatTime({
+  start,
+  end,
+}: {
+  start: string;
+  end: string;
+}): string {
+  const startTimeParts = start.split(":");
+  const endTimeParts = end.split(":");
+
+  const startHour = parseInt(startTimeParts[0], 10);
+  const endHour = parseInt(endTimeParts[0], 10);
+
+  const startMeridiem = startHour < 12 ? "ص" : "م";
+  const endMeridiem = endHour < 12 ? "ص" : "م";
+
+  const formattedStartTime = `${startHour % 12 || 12} ${startMeridiem}`;
+  const formattedEndTime = `${endHour % 12 || 12} ${endMeridiem}`;
+
+  return `${formattedStartTime} الي ${formattedEndTime}`;
 }

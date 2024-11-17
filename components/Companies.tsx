@@ -1,8 +1,6 @@
 import { companies } from "@/constants";
 import { Company } from "@/types";
 import CompanyLogoIcons from "./icons/logos";
-// import { countProductsByCompanies } from "@/lib/actions//product.actions";
-// import { mergeCompanyProductCounts } from "@/utils";
 
 const Companies: React.FC = () => {
   return (

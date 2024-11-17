@@ -19,7 +19,7 @@ const Modal: React.FC<{
 
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 top-[76px] z-30 flex h-[calc(100dvh-50px)] w-screen items-center justify-center bg-black/30 p-4 py-14 backdrop-blur-sm duration-300">
+    <div className="fixed inset-0 top-[76px] z-30 flex h-[calc(100dvh-50px)] w-screen items-center justify-center bg-black/30 p-4 py-14 backdrop-blur-sm">
       <div className="m-5 flex max-h-full flex-col items-center justify-between gap-2 overflow-y-auto rounded-3xl bg-white p-5">
         {children}
       </div>

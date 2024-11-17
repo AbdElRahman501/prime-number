@@ -5,10 +5,11 @@ import { createWhatsAppLink } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 
-const WhatsAppButton: React.FC<{ store: Store; phoneNumber: string }> = ({
+const WhatsAppButton: React.FC<{ store?: Store; phoneNumber: string }> = ({
   store,
   phoneNumber,
 }) => {
+  if (!phoneNumber || !store) return null;
   return (
     <Link
       target="_blank"

@@ -1,5 +1,5 @@
 "use server";
-import { Review as ReviewType } from "@/types";
+import { Result, Review as ReviewType } from "@/types";
 import Review from "../models/reviews.model";
 import { connectToDatabase } from "../mongoose";
 import { tags } from "@/constants";
@@ -59,22 +59,21 @@ export const insertManyReviews = async (reviews: Omit<ReviewType, "_id">[]) => {
 };
 
 // delete review by id
-export const deleteReviewById = async (review: ReviewType) => {
+export const deleteReviewById = async (review: ReviewType): Promise<Result> => {
   const id = review._id;
   try {
     await connectToDatabase();
     await Review.findByIdAndDelete(id);
+    revalidateTag(tags.reviews);
+    return { success: true, message: "Review deleted successfully" };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Error deleting review with ID ${id}: ${error.message}`);
-    } else {
-      throw new Error(`An unknown error occurred`);
-    }
+    console.error("Error deleting review:", error);
+    return { success: false, message: "Error deleting review" };
   }
 };
 
 // update review by id
-export const updateReviewById = async (data: ReviewType) => {
+export const updateReviewById = async (data: ReviewType): Promise<Result> => {
   const { _id, ...updateData } = data;
   const updatedData = Object.fromEntries(
     Object.entries(updateData).filter(
@@ -86,26 +85,24 @@ export const updateReviewById = async (data: ReviewType) => {
     await connectToDatabase();
     await Review.findByIdAndUpdate(_id, updatedData);
     revalidateTag(tags.reviews);
+    return { success: true, message: "Review updated successfully" };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Error updating review with ID ${_id}: ${error.message}`);
-    } else {
-      throw new Error(`An unknown error occurred`);
-    }
+    console.error("Error updating review:", error);
+    return { success: false, message: "Error updating review" };
   }
 };
 
 // add review
-export const addReview = async (review: Omit<ReviewType, "_id">) => {
+export const addReview = async (
+  review: Omit<ReviewType, "_id">,
+): Promise<Result> => {
   try {
     await connectToDatabase();
     await Review.create(review);
     revalidateTag(tags.reviews);
+    return { success: true, message: "Review added successfully" };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Error adding review: ${error.message}`);
-    } else {
-      throw new Error(`An unknown error occurred`);
-    }
+    console.error("Error adding review:", error);
+    return { success: false, message: "Error adding review" };
   }
 };

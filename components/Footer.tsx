@@ -2,12 +2,14 @@ import React from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import GoUpButton from "./GoUpButton";
-import { store } from "@/constants";
 import LogoIcon from "./LogoIcon";
+import { formatTime } from "@/utils";
+import { fetchStore } from "@/lib/actions/store.actions";
 
 const currentYear = new Date().getFullYear(); // Moved outside the component
 
-const Footer: React.FC = () => {
+const Footer: React.FC = async () => {
+  const store = await fetchStore();
   return (
     <footer className="bg-background">
       <h2 id="features" className="sr-only">
@@ -48,7 +50,9 @@ const Footer: React.FC = () => {
               <div className="text-base font-medium opacity-60 duration-300 hover:!opacity-100 group-hover:opacity-40">
                 <div className="flex items-center gap-2">
                   <Icon icon="mdi:clock-outline" className="text-2xl" />
-                  <p className="break-all">{store.contacts.workHours}</p>
+                  <p className="break-all">
+                    {formatTime(store.contacts.workHours)}
+                  </p>
                 </div>
               </div>
             </div>

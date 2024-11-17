@@ -1,5 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import { fetchProductsByPhoneNumbers } from "@/lib/actions/product.actions";
+import { fetchStore } from "@/lib/actions/store.actions";
 import { PhoneNumber } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { cookies } from "next/headers";
@@ -13,6 +14,7 @@ const page = async () => {
   const wishListData = cookies().get("wishList")?.value;
   const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
 
+  const store = await fetchStore();
   const phoneNumbers: PhoneNumber[] =
     await fetchProductsByPhoneNumbers(wishList);
 
@@ -35,7 +37,12 @@ const page = async () => {
         <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {phoneNumbers.map((phoneNumber) => (
             <Suspense key={phoneNumber._id}>
-              <ProductCard {...phoneNumber} cart={cart} wishList={wishList} />
+              <ProductCard
+                {...phoneNumber}
+                cart={cart}
+                wishList={wishList}
+                store={store}
+              />
             </Suspense>
           ))}
         </div>

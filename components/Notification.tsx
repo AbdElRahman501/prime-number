@@ -1,3 +1,4 @@
+"use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useEffect, useState } from "react";
 
@@ -40,8 +41,9 @@ const Notification: React.FC<NotificationProps> = ({
   const color =
     type === "warning" ? "#f39c12" : type === "error" ? "#e74c3c" : "#2ecc71";
 
+  //TODO use notification provider to have a list of notifications
   return (
-    <div className="animate-fade-in fixed bottom-12 left-5 z-50 flex max-w-80 items-center gap-4 overflow-hidden rounded-3xl bg-white px-5 py-4 text-primary shadow-md md:max-w-none">
+    <div className="fixed bottom-12 left-5 z-50 flex max-w-80 animate-fade-in items-center gap-4 overflow-hidden rounded-3xl bg-white px-5 py-4 text-primary shadow-md md:max-w-none">
       <Icon icon="mdi:alert-circle" className="h-11 w-11" />
       <div className="flex flex-col gap-2">
         <p className="text-lg"> {title}</p>
@@ -67,6 +69,33 @@ const Notification: React.FC<NotificationProps> = ({
       />
     </div>
   );
+};
+export const usePrompt = (message: string, isDirty: boolean) => {
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (isDirty) {
+        event.preventDefault();
+        event.returnValue = message; // Standard for most browsers
+        return message;
+      }
+    };
+
+    const handlePopState = () => {
+      if (isDirty && !window.confirm(message)) {
+        history.pushState(null, "", window.location.href); // Prevent the navigation
+      }
+    };
+
+    // Add event listeners
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
+
+    // Cleanup listeners on unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isDirty, message]);
 };
 
 export default Notification;

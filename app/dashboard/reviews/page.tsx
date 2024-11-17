@@ -24,42 +24,44 @@ const page = async ({
     searchParams,
   );
   return (
-    <div className="flex flex-col gap-5 p-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">اراء العملاء </h1>
-        <Link
-          href={{
-            query: {
-              ...searchParams,
-              [modalKey("add")]: "true",
-            },
-          }}
-          className="self-end rounded-md bg-primary px-4 py-2 text-white"
-        >
-          اضافة جديد
-        </Link>
-      </div>
-
-      <Modal isOpen={!!isAddItem} scrollLock={!!isAddItem || !!editItem}>
-        <ReviewForm />
-      </Modal>
-
-      <Modal isOpen={!!editItem} scrollLock={!!isAddItem || !!editItem}>
-        <ReviewForm item={editItem!} />
-      </Modal>
-
-      <RemoveModal item={removeItem} action={deleteReviewById}>
-        <div className="min-w-[70vw] md:min-w-[350px]">
-          <p>هل انت متاكد من حذف هذا ؟</p>
-          <ReviewCard {...removeItem!} />
+    <div className="flex-1 overflow-hidden">
+      <div className="flex flex-col gap-5 p-5">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">اراء العملاء </h1>
+          <Link
+            href={{
+              query: {
+                ...searchParams,
+                [modalKey("add")]: "true",
+              },
+            }}
+            className="transform self-end text-nowrap rounded-2xl bg-primary px-4 py-2 text-white shadow-md duration-300 hover:scale-105 hover:bg-white hover:text-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          >
+            اضافة راي جديد
+          </Link>
         </div>
-      </RemoveModal>
 
-      <CustomTable
-        searchParams={searchParams}
-        data={reviews}
-        columns={columns}
-      />
+        <Modal isOpen={!!isAddItem} scrollLock={!!isAddItem || !!editItem}>
+          <ReviewForm />
+        </Modal>
+
+        <Modal isOpen={!!editItem} scrollLock={!!isAddItem || !!editItem}>
+          <ReviewForm item={editItem!} />
+        </Modal>
+
+        <RemoveModal item={removeItem} action={deleteReviewById}>
+          <div className="min-w-[70vw] md:min-w-[350px]">
+            <p>هل انت متاكد من حذف هذا ؟</p>
+            <ReviewCard {...removeItem!} />
+          </div>
+        </RemoveModal>
+
+        <CustomTable
+          searchParams={searchParams}
+          data={reviews}
+          columns={columns}
+        />
+      </div>
     </div>
   );
 };

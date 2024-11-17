@@ -123,7 +123,10 @@ export const store: Store = {
     phoneNumber: "+201015753392",
     address: "بنها - القليوبيه - مصر",
     email: "primenumber.eg@outlook.com",
-    workHours: "6:00 AM - 10:00 PM",
+    workHours: {
+      start: "09:00",
+      end: "18:00",
+    },
   },
   socialMedia: [
     {

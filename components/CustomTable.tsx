@@ -1,7 +1,6 @@
 import {
   areAllItemsSelected,
   getSort,
-  isMobile,
   isSelected,
   removeDuplicates,
   subtractArrays,
@@ -11,7 +10,6 @@ import Link from "next/link";
 import SearchField from "./SearchField";
 import { Column } from "@/types";
 import Pagination from "./Pagination";
-import { headers } from "next/headers";
 import TableCell from "./TableCell";
 
 interface TableProps<T> {
@@ -31,9 +29,6 @@ export function CustomTable<T extends { _id: string } & Record<string, any>>({
   searchParams,
   pages,
 }: TableProps<T>) {
-  const userAgent = headers().get("user-agent") || "";
-  const mobileCheck = isMobile(userAgent);
-
   const sort: "asc" | "desc" | undefined = searchParams?.sort as "asc" | "desc";
   const sortBy: keyof T | undefined = searchParams?.sortBy as keyof T;
   const selected: string | undefined = searchParams?.sed as string;
@@ -49,7 +44,7 @@ export function CustomTable<T extends { _id: string } & Record<string, any>>({
         </div>
       ) : null}
       <div
-        className={`${mobileCheck ? "scroll-bar-hidden" : ""} relative overflow-x-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:h-2`}
+        className={`relative overflow-x-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:h-2`}
       >
         <table className="min-w-full border-collapse divide-y divide-gray-200">
           <thead>

@@ -8,17 +8,16 @@ import {
   formatPrice,
   toggleItemInArray,
 } from "@/utils";
-import { PhoneNumber } from "@/types";
-import { store } from "@/constants";
+import { PhoneNumber, Store } from "@/types";
 import { cartHandler } from "@/app/lib/cart";
 
 export default function CartModal({
   cart,
+  store,
 }: {
   cart: PhoneNumber[] | undefined;
+  store: Store;
 }) {
-  // fetch store number
-
   const [isOpen, setIsOpen] = useState(false);
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);

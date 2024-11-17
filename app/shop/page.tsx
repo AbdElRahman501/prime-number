@@ -8,6 +8,7 @@ import {
   fetchProductByPhoneNumber,
 } from "@/lib/actions/product.actions";
 import Link from "next/link";
+import { fetchStore } from "@/lib/actions/store.actions";
 
 export async function generateMetadata({
   searchParams,
@@ -69,6 +70,7 @@ export default async function SearchPage({
   const wishListData = cookies().get("wishList")?.value;
   const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
 
+  const store = await fetchStore();
   // Destructure searchValue from searchParams
   const {
     q: query,
@@ -85,7 +87,7 @@ export default async function SearchPage({
   const { sortBy, sort } =
     sortOptions.find((option) => option.value === sortKey) || {};
 
-  const limit = parseInt(lim) || 10;
+  const limit = parseInt(lim) || 16;
   const minPrice = parseInt(minP) || 0;
   const maxPrice = parseInt(maxP) || Infinity;
   const companies = ctf?.split(",") as CompanyName[];
@@ -118,6 +120,7 @@ export default async function SearchPage({
               {...phoneNumber}
               cart={cart}
               wishList={wishList}
+              store={store}
             />
           ))
         ) : (

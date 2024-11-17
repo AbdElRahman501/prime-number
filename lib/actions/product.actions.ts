@@ -1,6 +1,6 @@
 "use server";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CompanyName, PhoneNumber, Sort } from "@/types";
+import { CompanyName, PhoneNumber, Result, Sort } from "@/types";
 import Product from "../models/products.model";
 import { connectToDatabase } from "../mongoose";
 import { revalidateTag, unstable_cache } from "next/cache";
@@ -231,18 +231,26 @@ export const insertManyProducts = async (
   }
 };
 
-export const addProduct = async (product: Omit<PhoneNumber, "_id">) => {
+export const addProduct = async (
+  product: Omit<PhoneNumber, "_id">,
+): Promise<Result> => {
   try {
     await connectToDatabase();
     await Product.create(product);
     revalidateTag(tags.products);
+    return { success: true, message: "Product added successfully." };
   } catch (error: any) {
-    throw new Error(`Error adding product: ${error.message}`);
+    console.error("Error adding product:", error);
+    if (error.message.includes("duplicate")) {
+      return { success: false, message: "هذا الرقم موجود بالفعل" };
+    } else {
+      return { success: false, message: "حدث خطأ في إضافة المنتج" };
+    }
   }
 };
 
 // Update a product by ID
-export const updateProductById = async (data: PhoneNumber) => {
+export const updateProductById = async (data: PhoneNumber): Promise<Result> => {
   const { _id, ...updateData } = data;
   const updatedData = Object.fromEntries(
     Object.entries(updateData).filter(
@@ -250,7 +258,6 @@ export const updateProductById = async (data: PhoneNumber) => {
       ([_, value]) => value !== null && value !== "",
     ),
   );
-  let errorMessage;
   try {
     await connectToDatabase();
     if (updateData.active === false) {
@@ -259,38 +266,44 @@ export const updateProductById = async (data: PhoneNumber) => {
         active: true,
       });
       if (isInOffers) {
-        errorMessage =
-          " لا يمكنك عدم تفعيل هذا الرقم لانه دتخل عرض فعال قم بتعطيله اولا";
-        throw new Error(errorMessage);
+        return {
+          success: false,
+          message:
+            " لا يمكنك عدم تفعيل هذا الرقم لانه دتخل عرض فعال قم بتعطيله اولا",
+        };
       }
     }
     await Product.findByIdAndUpdate(_id, updatedData);
     revalidateTag(tags.products);
+    return { success: true, message: "Product updated successfully." };
   } catch (error: any) {
-    throw new Error(
-      errorMessage || `Error updating product with ID ${_id}: ${error.message}`,
-    );
+    console.error("Error updating product:", error);
+    if (error.message.includes("duplicate")) {
+      return { success: false, message: "هذا الرقم موجود بالفعل" };
+    } else {
+      return { success: false, message: "حدث خطأ في تحديث المنتج" };
+    }
   }
 };
 
 // Delete a product by ID
-export const deleteProductById = async (item: PhoneNumber) => {
+export const deleteProductById = async (item: PhoneNumber): Promise<Result> => {
   const id = item._id;
-  let errorMessage;
   try {
     await connectToDatabase();
     const isInOffers = await Offer.findOne({ phoneNumber: item.phoneNumber });
     if (isInOffers) {
-      errorMessage = "هذا المنتج داخل عرض";
-      throw new Error(errorMessage);
+      return {
+        success: false,
+        message: " لا يمكنك حذف هذا الرقم لانه دتخل عرض فعال قم بتعطيله اولا",
+      };
     }
 
     await Product.findByIdAndDelete(id);
     revalidateTag(tags.products);
+    return { success: true, message: "Product deleted successfully." };
   } catch (error: any) {
-    throw new Error(
-      errorMessage || `Error deleting product with ID ${id}: ${error.message}`,
-    );
+    throw new Error(`Error deleting product with ID ${id}: ${error.message}`);
   }
 };
 

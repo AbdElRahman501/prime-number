@@ -49,20 +49,22 @@ const ReviewForm: React.FC<{
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
-          try {
-            if (item?._id) {
-              await updateReviewById(data);
+          if (item?._id) {
+            const result = await updateReviewById(data);
+            if (result.success) {
+              close();
             } else {
-              await addReview(data);
+              setError(result.message);
             }
-            close();
-            setLoading(false);
-          } catch (error) {
-            setLoading(false);
-            if (error instanceof Error) {
-              setError(error.message);
+          } else {
+            const result = await addReview(data);
+            if (result.success) {
+              close();
+            } else {
+              setError(result.message);
             }
           }
+          setLoading(false);
         }}
         className="flex w-[60vw] max-w-lg flex-col items-center gap-4"
       >
