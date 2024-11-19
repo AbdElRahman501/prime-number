@@ -1,5 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import { fetchProductsByPhoneNumbers } from "@/lib/actions/product.actions";
+import { fetchStore } from "@/lib/actions/store.actions";
 import { PhoneNumber } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { cookies } from "next/headers";
@@ -13,11 +14,12 @@ const page = async () => {
   const wishListData = cookies().get("wishList")?.value;
   const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
 
+  const store = await fetchStore();
   const phoneNumbers: PhoneNumber[] =
     await fetchProductsByPhoneNumbers(wishList);
 
   return (
-    <div className="max-w-8xl mx-auto min-h-[88vh] p-5 lg:px-20">
+    <div className="container mx-auto min-h-[88vh] p-5 lg:px-20">
       <h1 className="pb-5 text-center text-3xl font-extrabold">المحفوظات</h1>
       {phoneNumbers.length === 0 ? (
         <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
@@ -35,7 +37,12 @@ const page = async () => {
         <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {phoneNumbers.map((phoneNumber) => (
             <Suspense key={phoneNumber._id}>
-              <ProductCard {...phoneNumber} cart={cart} wishList={wishList} />
+              <ProductCard
+                {...phoneNumber}
+                cart={cart}
+                wishList={wishList}
+                store={store}
+              />
             </Suspense>
           ))}
         </div>

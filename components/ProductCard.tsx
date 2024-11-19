@@ -1,5 +1,5 @@
-import { companies, store } from "@/constants";
-import { PhoneNumber } from "@/types";
+import { companies } from "@/constants";
+import { PhoneNumber, Store } from "@/types";
 import { formatPrice } from "@/utils";
 import CompanyLogoIcons from "./icons/logos";
 import dynamic from "next/dynamic";
@@ -22,8 +22,9 @@ const ProductCard: React.FC<
   PhoneNumber & {
     cart?: string[];
     wishList?: string[];
+    store?: Store;
   }
-> = ({ name, phoneNumber, price, company, cart, wishList }) => {
+> = ({ name, phoneNumber, price, company, cart, wishList, store }) => {
   const color = companies.find((c) => c.name === company)?.color || "gray";
   return (
     <div

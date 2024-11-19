@@ -1,12 +1,14 @@
 "use client";
-import { store } from "@/constants";
-import { Offer } from "@/types";
+import { Offer, Store } from "@/types";
 import { createWhatsAppLink } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import React from "react";
 
-const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
+const OffersCarousel: React.FC<{ offers: Offer[]; store: Store }> = ({
+  offers,
+  store,
+}) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = React.useState(0);
   React.useEffect(() => {
@@ -85,7 +87,7 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
         className="scroll-bar-hidden flex w-full snap-x snap-mandatory overflow-x-auto"
       >
         {offers.map((offer) => (
-          <OfferCard key={offer._id} offer={offer} />
+          <OfferCard key={offer._id} offer={offer} store={store} />
         ))}
       </div>
       {/* Previous Button */}
@@ -104,25 +106,49 @@ const OffersCarousel: React.FC<{ offers: Offer[] }> = ({ offers }) => {
     </div>
   );
 };
+const renderTextWithLineBreaks = (text: string) => {
+  return text.split("\n").map((str, index) => (
+    <span key={index}>
+      {str}
+      <br />
+    </span>
+  ));
+};
 
-export const OfferCard: React.FC<{ offer: Offer; viewOnly?: boolean }> = ({
-  offer,
-  viewOnly = false,
-}) => (
-  <div className="m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8 text-primary">
-    <p className="text-4xl font-bold sm:text-5xl md:text-7xl">
+export const OfferCard: React.FC<{
+  offer: Offer;
+  viewOnly?: boolean;
+  className?: string;
+  store?: Store;
+}> = ({ offer, viewOnly = false, className, store }) => (
+  <div
+    className={
+      className ||
+      "m-auto flex min-w-full max-w-lg snap-center flex-col items-center justify-center space-y-8 text-center text-base text-primary"
+    }
+  >
+    {viewOnly ? (
+      <p
+        aria-hidden
+        className="m-0 h-0.5 text-[2.25em] font-bold leading-[1em] text-transparent sm:text-[3em] sm:leading-[1em] md:text-[4.5em] md:leading-[1em]"
+      >
+        <strong>010101010100</strong>
+      </p>
+    ) : null}
+    <p className="text-[2.25em] font-bold leading-[1em] sm:text-[3em] sm:leading-[1em] md:text-[4.5em] md:leading-[1em]">
       <strong>{offer.phoneNumber}</strong>
     </p>
+
     <h3
-      className="w-4/5 text-2xl font-bold sm:text-3xl md:text-5xl md:leading-tight"
+      className="sm:leading-[1em]md:text-[3em] text-[1.5em] font-bold leading-[1em] sm:text-[1.875em] md:leading-[1em]"
       aria-level={1}
     >
       {offer.title}
     </h3>
-    <p className="w-3/4 max-w-xl text-center text-lg md:text-lg">
-      {offer.description}
+    <p className="mx-[15%] max-w-xl text-center text-[1.125em] leading-[1.5em]">
+      {renderTextWithLineBreaks(offer.description)}
     </p>
-    {viewOnly ? null : (
+    {store ? (
       <Link
         target="_blank"
         href={createWhatsAppLink(store.contacts.phoneNumber, offer.phoneNumber)}
@@ -133,7 +159,7 @@ export const OfferCard: React.FC<{ offer: Offer; viewOnly?: boolean }> = ({
         <span>شراء الان</span>
         <Icon icon="ri:whatsapp-fill" />
       </Link>
-    )}
+    ) : null}
   </div>
 );
 

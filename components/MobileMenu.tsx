@@ -4,12 +4,13 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import SessionElement from "./SessionElement";
-import { headerLinks, store } from "@/constants";
+import { headerLinks } from "@/constants";
 import { createWhatsAppLink } from "@/utils";
 import SearchField from "./SearchField";
 import { usePathname } from "next/navigation";
+import { Store } from "@/types";
 
-const MobileMenu: React.FC = () => {
+const MobileMenu: React.FC<{ store: Store }> = ({ store }) => {
   const [menu, setMenu] = useState(false);
   const closeMenu = () => setMenu(false);
 

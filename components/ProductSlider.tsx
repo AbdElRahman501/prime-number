@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
+import { fetchStore } from "@/lib/actions/store.actions";
 
 const ProductSlider: React.FC<{
   title: string;
@@ -16,6 +17,7 @@ const ProductSlider: React.FC<{
   const wishList: string[] = wishListData ? JSON.parse(wishListData) : [];
 
   const phoneNumbers = await getQuickProducts(sort);
+  const store = await fetchStore();
 
   if (phoneNumbers.length < 3) return null;
   return (
@@ -60,6 +62,7 @@ const ProductSlider: React.FC<{
                 {...number}
                 cart={cart}
                 wishList={wishList}
+                store={store}
               />
             ))}
           </div>

@@ -7,6 +7,10 @@ export interface Company {
   image?: string;
   color: string;
 }
+export interface Result {
+  success: boolean;
+  message: string;
+}
 
 export interface CompanyProductCount {
   company: string;
@@ -66,9 +70,10 @@ export interface Feature {
 }
 
 export interface Review {
-  _id: number;
+  _id: string;
   name: string;
   review: string;
+  active?: boolean;
 }
 
 export interface Offer {
@@ -79,7 +84,6 @@ export interface Offer {
   end?: string;
   active?: boolean;
   phoneNumber: string;
-  company: string;
 }
 
 export interface CartItem {
@@ -110,15 +114,19 @@ export interface contacts {
   phoneNumber: string;
   address: string;
   email: string;
-  workHours: string;
+  workHours: WorkHours;
 }
+export type WorkHours = {
+  start: string;
+  end: string;
+};
 
 export interface Column<T> {
   key?: keyof T;
   label: string | JSX.Element;
-  type?: "string" | "boolean" | "image" | "action" | "date";
+  type?: "string" | "boolean" | "image" | "action" | "date" | "description";
   RowAction?: (props: { item: T }) => JSX.Element;
-  action?: (item: T) => Promise<void>;
+  action?: (item: T) => Promise<Result>;
 }
 
 export interface Row {

@@ -6,7 +6,7 @@ const layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Sidebar />
 
       {/* Main content area */}
-      <div className="flex-1 overflow-hidden">{children}</div>
+      {children}
     </div>
   );
 };

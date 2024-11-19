@@ -1,10 +1,12 @@
+import { isCurrentDateInRange } from "@/utils";
 import OffersCarousel from "./OffersCarousel";
-import { fetchAllOffers } from "@/lib/actions/offer.actions";
+import { fetchOffers } from "@/lib/actions/offer.actions";
+import { fetchStore } from "@/lib/actions/store.actions";
 
 const Hero: React.FC = async () => {
-  // TODO: make it only active and add time start and end
-  const offers = await fetchAllOffers();
-
+  const data = await fetchOffers();
+  const offers = data.filter((offer) => isCurrentDateInRange(offer));
+  const store = await fetchStore();
   return (
     <section
       className="rounded-b-[50px] bg-background md:rounded-b-[75px]"
@@ -13,7 +15,7 @@ const Hero: React.FC = async () => {
       <h2 id="offers" className="sr-only">
         عروض حصريه لارقام مميزه في مصر
       </h2>
-      <OffersCarousel offers={offers} />
+      <OffersCarousel offers={offers} store={store} />
     </section>
   );
 };

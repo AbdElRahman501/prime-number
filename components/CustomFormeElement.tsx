@@ -48,7 +48,7 @@ export const CustomSelect: React.FC<
           {props.placeholder}
         </option>
         {props.options.map((option) => (
-          <option key={option} value={option} className="text-black">
+          <option key={option} value={option} className="text-primary">
             {option}
           </option>
         ))}
@@ -57,7 +57,7 @@ export const CustomSelect: React.FC<
         <Icon icon="mdi:chevron-down" className="h-6 w-6 fill-current" />
       </div>
       <label
-        className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-black peer-disabled:text-transparent"
+        className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-primary peer-disabled:text-transparent"
         htmlFor={props.name}
       >
         {props.name}
@@ -69,6 +69,7 @@ export const CustomSelect: React.FC<
 interface CustomInputProps extends React.HTMLProps<HTMLInputElement> {
   label?: string;
   error?: string;
+  suggestion?: string;
 }
 
 export const CustomInput: React.FC<CustomInputProps> = (props) => {
@@ -79,16 +80,16 @@ export const CustomInput: React.FC<CustomInputProps> = (props) => {
       <input
         placeholder=" "
         {...props}
-        className="focus: peer h-14 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-3 text-base outline-none placeholder-shown:pt-0 invalid:border-pink-500 invalid:text-pink-600 placeholder-shown:invalid:border-gray-300 placeholder-shown:invalid:text-black focus:border-2 focus:border-black focus:pt-3 focus:text-black placeholder-shown:invalid:focus:border-black motion-reduce:transition-none"
+        className="peer h-14 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-3 text-base outline-none placeholder-shown:pt-0 invalid:border-pink-500 invalid:text-pink-600 placeholder-shown:invalid:border-gray-300 placeholder-shown:invalid:text-primary focus:border-2 focus:border-black focus:pt-3 focus:text-primary placeholder-shown:invalid:focus:border-black motion-reduce:transition-none"
       />
       <label
-        className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-black peer-disabled:text-transparent"
+        className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-primary peer-disabled:text-transparent"
         htmlFor={props.name}
       >
         {props.label}
       </label>
       {props.maxLength ? (
-        <p className="inline-block px-2 text-sm text-primary peer-invalid:text-pink-600 peer-placeholder-shown:peer-invalid:text-primary">
+        <p className="absolute -top-2 left-2 bg-white px-2 text-xs text-primary peer-invalid:text-pink-600 peer-placeholder-shown:peer-invalid:text-gray-500 peer-focus:text-primary peer-placeholder-shown:peer-invalid:peer-focus:text-primary">
           {"(" + props.maxLength + "-" + letterLength + ")"}
         </p>
       ) : null}
@@ -99,6 +100,43 @@ export const CustomInput: React.FC<CustomInputProps> = (props) => {
   );
 };
 
+export const CustomInputWithSuggestions: React.FC<CustomInputProps> = (
+  props,
+) => {
+  const letterLength: number =
+    typeof props.value === "string" ? props.value?.length : 0;
+  return (
+    <div className="relative w-full">
+      <input
+        placeholder=" "
+        {...props}
+        className="focus: peer h-14 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-3 text-base outline-none placeholder-shown:pt-0 invalid:border-pink-500 invalid:text-pink-600 placeholder-shown:invalid:border-gray-300 placeholder-shown:invalid:text-primary focus:border-2 focus:border-black focus:pt-3 focus:text-primary placeholder-shown:invalid:focus:border-black motion-reduce:transition-none"
+      />
+      {props.suggestion ? (
+        <p className="pointer-events-none absolute left-0 top-0 hidden h-14 w-full pl-[18px] pt-[23px] text-left text-base text-gray-500 peer-focus:block">
+          <span className="text-transparent">{props.value}</span>
+          {props.suggestion.slice(
+            typeof props.value === "string" ? props.value.length : 0,
+          )}
+        </p>
+      ) : null}
+      <label
+        className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-primary peer-disabled:text-transparent"
+        htmlFor={props.name}
+      >
+        {props.label}
+      </label>
+      {props.maxLength ? (
+        <p className="absolute -top-2 left-2 bg-white px-2 text-xs text-primary peer-invalid:text-pink-600 peer-placeholder-shown:peer-invalid:text-gray-500 peer-focus:text-primary peer-placeholder-shown:peer-invalid:peer-focus:text-primary">
+          {"(" + props.maxLength + "-" + letterLength + ")"}
+        </p>
+      ) : null}
+      <p className="hidden px-2 text-sm text-pink-600 peer-invalid:inline-block peer-placeholder-shown:peer-invalid:hidden peer-focus:hidden">
+        {props.error}
+      </p>
+    </div>
+  );
+};
 export const CustomTextArea: React.FC<
   React.HTMLProps<HTMLTextAreaElement> & { error?: string }
 > = (props) => {
@@ -109,16 +147,17 @@ export const CustomTextArea: React.FC<
       <textarea
         {...props}
         placeholder=" "
-        className="peer h-20 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-5 text-base outline-none placeholder-shown:pt-0 focus:border-2 focus:border-black focus:pt-5 focus:ring-blue-500 placeholder-shown:invalid:focus:border-black motion-reduce:transition-none"
+        className={`scroll-bar-hidden peer h-20 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pb-4 pt-8 text-base outline-none focus:border-2 focus:border-black focus:ring-blue-500 placeholder-shown:invalid:focus:border-black motion-reduce:transition-none ${props.className}`}
       />
+      <div className="pointer-events-none absolute left-0 top-0 h-8 w-full rounded-t-lg border border-b-0 border-gray-300 bg-white peer-focus:border-2 peer-focus:border-b-0 peer-focus:border-black peer-placeholder-shown:peer-invalid:peer-focus:border-black"></div>
       <label
-        className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-black peer-disabled:text-transparent"
+        className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-primary peer-disabled:text-transparent"
         htmlFor={props.name}
       >
         {props.placeholder}
       </label>
       {props.maxLength ? (
-        <p className="inline-block px-2 text-sm text-primary peer-invalid:text-pink-600 peer-placeholder-shown:peer-invalid:text-primary">
+        <p className="absolute -top-2 left-2 bg-white px-2 text-xs text-primary peer-invalid:text-pink-600 peer-placeholder-shown:peer-invalid:text-gray-500 peer-focus:text-primary peer-placeholder-shown:peer-invalid:peer-focus:text-primary">
           {"(" + props.maxLength + "-" + letterLength + ")"}
         </p>
       ) : null}

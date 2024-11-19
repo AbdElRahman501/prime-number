@@ -1,17 +1,14 @@
-import {
-  CartItem,
-  Company,
-  CompanyName,
-  CompanyProductCount,
-  PhoneNumber,
-  Sort,
-} from "@/types";
+import { CartItem, CompanyName, Offer, PhoneNumber, Sort } from "@/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { companies } from "@/constants";
 
-export const addToLocalStorage = (key: string, items: string[]) => {
+export const addToLocalStorage = (key: string, items: unknown) => {
   if (typeof window == "undefined") return;
   localStorage.setItem(key, JSON.stringify(items));
+};
+export const getFromLocalStorage = (key: string) => {
+  if (typeof window == "undefined") return;
+  return localStorage.getItem(key);
 };
 
 export function formatPrice(price: number, currency: "EGP" | "USD") {
@@ -320,9 +317,10 @@ export function formatDateAt(dateString: string) {
   return `${day} ${month}`;
 }
 
-export const isMobile = (userAgent: string): boolean => {
-  return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);
-};
+// TODO make it a function i can use in server and client components
+// export const isMobile = (userAgent: string): boolean => {
+//   return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);
+// };
 
 export function removeDuplicates(stringsArray: string[]): string[] {
   return Array.from(new Set(stringsArray));
@@ -358,17 +356,42 @@ export function getActionItems<T extends { _id: string }>(
   return { removeItem, editItem, isAddItem };
 }
 
-export const mergeCompanyProductCounts = (
-  companies: Company[],
-  productCounts: CompanyProductCount[],
-): Company[] => {
-  return companies.map((company) => {
-    const productCount = productCounts.find(
-      (count) => count.company === company.name,
-    );
-    return {
-      ...company,
-      count: productCount ? productCount.count : 0, // Set count to 0 if no match is found
-    };
-  });
-};
+export function isCurrentDateInRange({ start, end }: Offer) {
+  const now = new Date();
+  // Convert start and end to Date objects if they are provided
+  const startDate = start ? new Date(start) : null;
+  const endDate = end ? new Date(end) : null;
+
+  // Check if the current date is within the range
+  if (startDate && endDate) {
+    return now >= startDate && now <= endDate;
+  } else if (startDate) {
+    return now >= startDate;
+  } else if (endDate) {
+    return now <= endDate;
+  }
+
+  // If no start or end date, always return true
+  return true;
+}
+export function formatTime({
+  start,
+  end,
+}: {
+  start: string;
+  end: string;
+}): string {
+  const startTimeParts = start.split(":");
+  const endTimeParts = end.split(":");
+
+  const startHour = parseInt(startTimeParts[0], 10);
+  const endHour = parseInt(endTimeParts[0], 10);
+
+  const startMeridiem = startHour < 12 ? "ص" : "م";
+  const endMeridiem = endHour < 12 ? "ص" : "م";
+
+  const formattedStartTime = `${startHour % 12 || 12} ${startMeridiem}`;
+  const formattedEndTime = `${endHour % 12 || 12} ${endMeridiem}`;
+
+  return `${formattedStartTime} الي ${formattedEndTime}`;
+}

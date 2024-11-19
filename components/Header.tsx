@@ -7,9 +7,15 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Cart from "./Cart";
 import SessionElement from "./SessionElement";
 import { createWhatsAppLink } from "@/utils";
-import { headerLinks, store } from "@/constants";
+import { headerLinks } from "@/constants";
+import { fetchStore } from "@/lib/actions/store.actions";
 
-const Header: React.FC = () => {
+export const preload = () => {
+  void fetchStore();
+};
+
+const Header: React.FC = async () => {
+  const store = await fetchStore();
   return (
     <header
       id="header"
@@ -21,7 +27,7 @@ const Header: React.FC = () => {
         role="navigation"
         aria-label="Main Navigation"
       >
-        <MobileMenu />
+        <MobileMenu store={store} />
 
         <div>
           <Link href="/" className="block w-fit" aria-label="نمرتك - Home">
@@ -68,8 +74,19 @@ const Header: React.FC = () => {
 
         {/* Cart and Save buttons */}
         <div className="flex gap-4">
-          <Suspense fallback={null}>
-            <Cart />
+          <Suspense
+            fallback={
+              <div className="relative" aria-busy>
+                <div
+                  aria-label="Open cart"
+                  className="text-2xl text-primary hover:text-foreground sm:text-3xl"
+                >
+                  <Icon icon="solar:bag-bold" aria-hidden="true" />
+                </div>
+              </div>
+            }
+          >
+            <Cart store={store} />
           </Suspense>
           <Link
             href="/wishlist"

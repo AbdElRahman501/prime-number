@@ -2,6 +2,7 @@ import { Column } from "@/types";
 import Image from "next/image";
 import Switch from "./Switch";
 import { formatDateAt } from "@/utils";
+import CompactText from "./CompactText";
 
 interface CellProps<T> {
   item: T;
@@ -50,6 +51,15 @@ export default function TableCell<T>({ item, column }: CellProps<T>) {
       return (
         <td className="whitespace-nowrap px-6 py-4">
           {formatDateAt(date as string)}
+        </td>
+      );
+    case "description":
+      if (!key) return null;
+      const content =
+        typeof item[key] === "string" ? item[key] : JSON.stringify(item[key]);
+      return (
+        <td className="px-6 py-4">
+          <CompactText content={content} />
         </td>
       );
     default:

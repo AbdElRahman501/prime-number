@@ -2,9 +2,9 @@ import Companies from "@/components/Companies";
 import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 import {
-  CompaniesSkeleton,
   HeroSkeleton,
   ProductSliderSkeleton,
+  TestimonialSkeleton,
 } from "@/components/LoadingSkeleton";
 import ProductSlider from "@/components/ProductSlider";
 import Testimonial from "@/components/Testimonial";
@@ -17,9 +17,7 @@ export default function Home() {
       <Suspense fallback={<HeroSkeleton />}>
         <Hero />
       </Suspense>
-      <Suspense fallback={<CompaniesSkeleton />}>
-        <Companies />
-      </Suspense>
+      <Companies />
       <Suspense fallback={<ProductSliderSkeleton />}>
         <ProductSlider title="الأرقام المميزة" sort="Tr" />
       </Suspense>
@@ -27,7 +25,9 @@ export default function Home() {
       <Suspense fallback={<ProductSliderSkeleton />}>
         <ProductSlider title="المضاف حديثا" sort="Nst" />
       </Suspense>
-      <Testimonial />
+      <Suspense fallback={<TestimonialSkeleton />}>
+        <Testimonial />
+      </Suspense>
     </main>
   );
 }

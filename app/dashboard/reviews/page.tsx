@@ -1,15 +1,15 @@
 import ActionButtons from "@/components/ActionButtons";
 import { CustomTable } from "@/components/CustomTable";
 import Modal from "@/components/Modal";
-import OfferForm from "@/components/OfferForm";
-import { OfferCard } from "@/components/OffersCarousel";
 import RemoveModal from "@/components/RemoveModal";
+import ReviewForm from "@/components/ReviewForm";
+import { ReviewCard } from "@/components/TestimonialCarousel";
 import {
-  deleteOfferById,
-  fetchAllOffers,
-  updateOfferById,
-} from "@/lib/actions/offer.actions";
-import { Column, Offer } from "@/types";
+  deleteReviewById,
+  fetchAllReviews,
+  updateReviewById,
+} from "@/lib/actions/reviews.actions";
+import { Column, Review } from "@/types";
 import { getActionItems, modalKey } from "@/utils";
 import Link from "next/link";
 
@@ -18,16 +18,16 @@ const page = async ({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
-  const offers = await fetchAllOffers();
-  const { editItem, isAddItem, removeItem } = getActionItems<Offer>(
-    offers,
+  const reviews = await fetchAllReviews();
+  const { editItem, isAddItem, removeItem } = getActionItems<Review>(
+    reviews,
     searchParams,
   );
   return (
     <div className="flex-1 overflow-hidden">
       <div className="flex flex-col gap-5 p-5">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">العروض</h1>
+          <h1 className="text-3xl font-bold">اراء العملاء </h1>
           <Link
             href={{
               query: {
@@ -37,30 +37,28 @@ const page = async ({
             }}
             className="transform self-end text-nowrap rounded-2xl bg-primary px-4 py-2 text-white shadow-md duration-300 hover:scale-105 hover:bg-white hover:text-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            اضافة عرض جديد
+            اضافة راي جديد
           </Link>
         </div>
 
         <Modal isOpen={!!isAddItem} scrollLock={!!isAddItem || !!editItem}>
-          <OfferForm />
+          <ReviewForm />
         </Modal>
 
         <Modal isOpen={!!editItem} scrollLock={!!isAddItem || !!editItem}>
-          <OfferForm item={editItem!} />
+          <ReviewForm item={editItem!} />
         </Modal>
 
-        <RemoveModal item={removeItem} action={deleteOfferById}>
+        <RemoveModal item={removeItem} action={deleteReviewById}>
           <div className="min-w-[70vw] md:min-w-[350px]">
-            <p>هل انت متاكد من حذف هذا العرض ؟</p>
-            <div className="scale-75 text-center">
-              <OfferCard offer={removeItem!} viewOnly />
-            </div>
+            <p>هل انت متاكد من حذف هذا ؟</p>
+            <ReviewCard {...removeItem!} />
           </div>
         </RemoveModal>
 
         <CustomTable
           searchParams={searchParams}
-          data={offers}
+          data={reviews}
           columns={columns}
         />
       </div>
@@ -70,17 +68,10 @@ const page = async ({
 
 export default page;
 
-const columns: Column<Offer>[] = [
-  { key: "title", label: "العنوان" },
-  { key: "phoneNumber", label: "رقم الهاتف" },
-  {
-    key: "active",
-    label: "الحالة",
-    type: "boolean",
-    action: updateOfferById,
-  },
-  { key: "start", label: "البداية", type: "date" },
-  { key: "end", label: "النهاية", type: "date" },
+const columns: Column<Review>[] = [
+  { key: "name", label: "الاسم" },
+  { key: "active", label: "الحالة", type: "boolean", action: updateReviewById },
+  { key: "review", label: "راي العميل", type: "description" },
   {
     label: "التحكم",
     type: "action",

@@ -3,12 +3,13 @@ import { createUrl, modalKey } from "@/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import LoadingDots from "./loading-dots";
+import { Result } from "@/types";
 
 interface SwitchProps<T> {
   name?: "product" | "offer";
   item?: T;
   children: React.ReactNode;
-  action: (item: T) => Promise<void>;
+  action: (item: T) => Promise<Result>;
 }
 
 export default function RemoveModal<T>({
@@ -22,10 +23,13 @@ export default function RemoveModal<T>({
   const router = useRouter();
 
   const key = modalKey("remove", name);
+  const [error, setError] = useState("");
 
   const [loading, setLoading] = useState(false);
 
   const close = () => {
+    setError("");
+    setLoading(false);
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.delete(key);
     const optionUrl = createUrl(pathname, newSearchParams);
@@ -37,6 +41,8 @@ export default function RemoveModal<T>({
     <div className="fixed inset-0 top-[76px] z-30 flex h-[calc(100dvh-50px)] w-screen items-center justify-center bg-black/30 p-5 backdrop-blur-sm duration-300">
       <div className="flex flex-col items-center justify-between gap-2 rounded-3xl bg-white p-5">
         {children}
+
+        <p className="text-sm text-red-500">{error}</p>
         <div className="flex w-full justify-center gap-2">
           <button
             onClick={close}
@@ -50,10 +56,14 @@ export default function RemoveModal<T>({
             onClick={async () => {
               setLoading(true);
               if (action) {
-                await action(item);
+                const result = await action(item);
+                if (result.success) {
+                  close();
+                } else {
+                  setError(result.message);
+                }
               }
               setLoading(false);
-              close();
             }}
           >
             {loading ? <LoadingDots className="text-2xl" /> : "احذف"}

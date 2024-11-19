@@ -18,7 +18,7 @@ const page = async ({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
-  const limit = 8;
+  const limit = 20;
   const currentPage = parseInt((searchParams?.page || "1").toString());
   const sort = searchParams?.sort as "asc" | "desc" | undefined;
   const sortBy = searchParams?.sortBy as keyof PhoneNumber | undefined;
@@ -40,40 +40,42 @@ const page = async ({
   );
 
   return (
-    <div className="flex flex-col gap-5 p-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">المنتجات</h1>
-        <Link
-          href={{
-            query: {
-              ...searchParams,
-              [modalKey("add")]: "true",
-            },
-          }}
-          className="self-end rounded-md bg-primary px-4 py-2 text-white"
-        >
-          add new
-        </Link>
-      </div>
-      <Modal isOpen={!!isAddItem}>
-        <ProductForm />
-      </Modal>
-      <Modal isOpen={!!editItem}>
-        <ProductForm item={editItem} />
-      </Modal>
-      <RemoveModal item={removeItem} action={deleteProductById}>
-        <div className="min-w-[70vw] md:min-w-[350px]">
-          <p>هل انت متاكد من حذف هذا المنتج ؟</p>
-          <ProductCard {...(removeItem as PhoneNumber)} />
+    <div className="flex-1 overflow-hidden">
+      <div className="flex flex-col gap-5 p-5">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">جميع الارقام المميزه</h1>
+          <Link
+            href={{
+              query: {
+                ...searchParams,
+                [modalKey("add")]: "true",
+              },
+            }}
+            className="transform self-end text-nowrap rounded-2xl bg-primary px-4 py-2 text-white shadow-md duration-300 hover:scale-105 hover:bg-white hover:text-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          >
+            اضافة رقم جديد
+          </Link>
         </div>
-      </RemoveModal>
-      <CustomTable
-        data={phoneNumbers}
-        search
-        searchParams={searchParams}
-        columns={ProductsColumns}
-        pages={totalPages === 1 ? undefined : totalPages}
-      />
+        <Modal isOpen={!!isAddItem}>
+          <ProductForm />
+        </Modal>
+        <Modal isOpen={!!editItem}>
+          <ProductForm item={editItem} />
+        </Modal>
+        <RemoveModal item={removeItem} action={deleteProductById}>
+          <div className="min-w-[70vw] md:min-w-[350px]">
+            <p>هل انت متاكد من حذف هذا المنتج ؟</p>
+            <ProductCard {...(removeItem as PhoneNumber)} />
+          </div>
+        </RemoveModal>
+        <CustomTable
+          data={phoneNumbers}
+          search
+          searchParams={searchParams}
+          columns={ProductsColumns}
+          pages={totalPages === 1 ? undefined : totalPages}
+        />
+      </div>
     </div>
   );
 };

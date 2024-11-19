@@ -67,22 +67,23 @@ const ProductForm: React.FC<{
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
-          try {
-            if (item?._id) {
-              await updateProductById(data);
+
+          if (item?._id) {
+            const result = await updateProductById(data);
+            if (result.success) {
+              close();
             } else {
-              await addProduct(data);
+              setError(result.message);
             }
-            close();
-            setLoading(false);
-          } catch (error) {
-            setLoading(false);
-            if (error instanceof Error) {
-              if (error.message.includes("duplicate ")) {
-                setError("رقم الهاتف موجود مسبقا");
-              }
+          } else {
+            const result = await addProduct(data);
+            if (result.success) {
+              close();
+            } else {
+              setError(result.message);
             }
           }
+          setLoading(false);
         }}
         className="flex w-[60vw] max-w-lg flex-col items-center gap-4"
       >

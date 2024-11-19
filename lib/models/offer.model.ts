@@ -6,7 +6,6 @@ const offerSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   start: { type: String },
   end: { type: String },
-  company: { type: String, required: true },
   active: { type: Boolean, default: true },
 });
 
