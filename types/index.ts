@@ -7,11 +7,11 @@ export interface Company {
   image?: string;
   color: string;
 }
-export interface Result {
+export interface Result<T = void> {
   success: boolean;
   message: string;
+  data?: T;
 }
-
 export interface CompanyProductCount {
   company: string;
   count: number;
@@ -34,6 +34,13 @@ export type FormElements =
   | "textarea"
   | "checkbox"
   | "radio";
+
+export interface CustomFormeElementProps
+  extends React.HTMLProps<
+    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  > {
+  options?: string[];
+}
 
 export interface SortOptions {
   name: string;
@@ -98,10 +105,13 @@ export interface Credentials {
 }
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   password: string;
+  image?: string;
+  isAdmin: boolean;
+  forceLogout: boolean;
 }
 
 export interface Store {
@@ -124,7 +134,15 @@ export type WorkHours = {
 export interface Column<T> {
   key?: keyof T;
   label: string | JSX.Element;
-  type?: "string" | "boolean" | "image" | "action" | "date" | "description";
+  type?:
+    | "string"
+    | "boolean"
+    | "image"
+    | "action"
+    | "date"
+    | "description"
+    | "input";
+  inputProps?: CustomFormeElementProps;
   RowAction?: (props: { item: T }) => JSX.Element;
   action?: (item: T) => Promise<Result>;
 }

@@ -1,11 +1,9 @@
-import { FormElements } from "@/types";
+import { CustomFormeElementProps, FormElements } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-export const CustomFormeElement: React.FC<
-  React.HTMLProps<
-    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-  > & { options?: string[] }
-> = (props) => {
+export const CustomFormeElement: React.FC<CustomFormeElementProps> = (
+  props,
+) => {
   switch (props.type as FormElements) {
     case "select":
       return (
@@ -42,7 +40,7 @@ export const CustomSelect: React.FC<
     <div className="relative flex w-full flex-col">
       <select
         {...props}
-        className=":focus:ring-gray-200 peer h-14 w-full appearance-none rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-3 text-base outline-none placeholder-shown:pt-0 invalid:border-pink-500 invalid:text-pink-600 focus:border-2 focus:border-black focus:pt-3 focus:ring-blue-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 placeholder-shown:invalid:focus:border-black enabled:cursor-pointer motion-reduce:transition-none"
+        className={`peer h-14 w-full appearance-none rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-3 text-base outline-none placeholder-shown:pt-0 invalid:border-pink-500 invalid:text-pink-600 focus:border-2 focus:border-black focus:pt-3 focus:ring-blue-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 placeholder-shown:invalid:focus:border-black enabled:cursor-pointer motion-reduce:transition-none ${props.className}`}
       >
         <option value="" disabled className="text-gray-300">
           {props.placeholder}
@@ -72,15 +70,17 @@ interface CustomInputProps extends React.HTMLProps<HTMLInputElement> {
   suggestion?: string;
 }
 
-export const CustomInput: React.FC<CustomInputProps> = (props) => {
+export const CustomInput: React.FC<CustomInputProps & { dir?: string }> = (
+  props,
+) => {
   const letterLength: number =
     typeof props.value === "string" ? props.value?.length : 0;
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" dir={props.dir}>
       <input
         placeholder=" "
         {...props}
-        className="peer h-14 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-3 text-base outline-none placeholder-shown:pt-0 invalid:border-pink-500 invalid:text-pink-600 placeholder-shown:invalid:border-gray-300 placeholder-shown:invalid:text-primary focus:border-2 focus:border-black focus:pt-3 focus:text-primary placeholder-shown:invalid:focus:border-black motion-reduce:transition-none"
+        className={`peer h-14 w-full rounded-lg border-[1px] border-gray-300 bg-transparent px-4 pt-3 text-base outline-none placeholder-shown:pt-0 invalid:border-pink-500 invalid:text-pink-600 placeholder-shown:invalid:border-gray-300 placeholder-shown:invalid:text-primary focus:border-2 focus:border-black focus:pt-3 focus:text-primary placeholder-shown:invalid:focus:border-black motion-reduce:transition-none ${props.className}`}
       />
       <label
         className="peer-placeholder-shown:text-blue-gray-500 peer-disabled:peer-placeholder-shown:text-blue-gray-500 !overflow-block pointer-events-none absolute left-0 top-2 flex h-full w-full select-none truncate px-4 text-[11px] font-normal leading-tight text-gray-500 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:top-2 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-primary peer-disabled:text-transparent"

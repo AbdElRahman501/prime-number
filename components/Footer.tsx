@@ -105,7 +105,10 @@ const Footer: React.FC = async () => {
               <LogoIcon className="w-60 max-w-[80%] text-background" />
             </Link>
 
-            <div className="flex flex-col items-center gap-2 text-center">
+            <div
+              dir="ltr"
+              className="flex flex-col items-center gap-2 text-center"
+            >
               <GoUpButton />
               <p className="text-base font-medium opacity-60">
                 All Rights reserved @{currentYear} Prime Number

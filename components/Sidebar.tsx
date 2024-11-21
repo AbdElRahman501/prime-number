@@ -8,7 +8,7 @@ import { addToLocalStorage, getFromLocalStorage } from "@/utils";
 
 const SidebarLinks = [
   {
-    name: "لوحة التحكم",
+    name: "الرئيسية",
     path: "/dashboard",
     icon: "mdi:home",
   },
@@ -16,6 +16,11 @@ const SidebarLinks = [
     name: "المنتجات",
     path: "/dashboard/products",
     icon: "mdi:package-variant-closed",
+  },
+  {
+    name: "المستخدمين",
+    path: "/dashboard/users",
+    icon: "mdi:account-group",
   },
   {
     name: "العروض",
@@ -32,8 +37,13 @@ const SidebarLinks = [
     path: "/dashboard/settings",
     icon: "mdi:settings",
   },
+  {
+    name: "الحساب",
+    path: "/dashboard/account",
+    icon: "mdi:account",
+  },
 ];
-
+// TODO add image here
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeSidebar = () => {
