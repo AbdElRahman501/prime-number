@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SignOutButton } from "./SessionElement";
 import { addToLocalStorage, getFromLocalStorage } from "@/utils";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const SidebarLinks = [
   {
@@ -37,18 +39,17 @@ const SidebarLinks = [
     path: "/dashboard/settings",
     icon: "mdi:settings",
   },
-  {
-    name: "الحساب",
-    path: "/dashboard/account",
-    icon: "mdi:account",
-  },
 ];
-// TODO add image here
 const Sidebar: React.FC = () => {
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const closeSidebar = () => {
-    setIsOpen(false);
-    addToLocalStorage("sidebar", false);
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 768) {
+        setIsOpen(false);
+        addToLocalStorage("sidebar", false);
+      }
+    }
   };
 
   const toggleSidebar = () => {
@@ -57,7 +58,7 @@ const Sidebar: React.FC = () => {
   };
   const pathname = usePathname();
   const currentPage = pathname.split("/").pop();
-  // TODO check if mobile or desktop
+
   useEffect(() => {
     const locallySideBar =
       getFromLocalStorage("sidebar") === "true" ? true : false;
@@ -66,26 +67,58 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <aside
-        className={` ${isOpen ? "w-64" : "-right-24 w-20 md:right-auto"} fixed top-[86px] z-20 m-2 flex h-[calc(100dvh-104px)] flex-col rounded-3xl bg-primary p-4 text-background duration-300 md:sticky`}
+        style={{}}
+        className={` ${isOpen ? "" : "-right-[270px] md:right-auto md:w-20"} fixed right-0 top-[86px] z-20 m-2 flex h-[calc(100dvh-104px)] w-64 flex-col rounded-3xl bg-primary p-4 text-background transition-all duration-700 ease-in-out md:sticky`}
       >
         <nav className="flex h-full flex-col gap-4 overflow-hidden">
+          <Link
+            href="/dashboard/account"
+            onClick={closeSidebar}
+            className="flex w-56 items-center gap-2 rounded hover:bg-gray-700"
+          >
+            <div className="w-12">
+              <Image
+                src={
+                  session?.user?.image ??
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg"
+                }
+                alt="user image"
+                width={45}
+                height={45}
+                priority
+                className={`${currentPage === "account" ? "border-white" : "border-white/50"} aspect-square rounded-full border-2 object-cover`}
+              />
+            </div>
+            <div
+              className={`${currentPage === "account" ? "" : "opacity-50"} flex flex-col`}
+            >
+              <span className="text-sm font-bold">{session?.user?.name}</span>
+              <span className="min-w-40 break-all text-xs font-semibold text-gray-400">
+                {session?.user?.email}
+              </span>
+            </div>
+          </Link>
           {SidebarLinks.map((link) => (
             <Link
               key={link.name}
               href={link.path}
               onClick={closeSidebar}
-              className={`${currentPage === link.path.split("/").pop() ? "" : "opacity-50"} flex w-fit items-center gap-2 text-nowrap rounded p-2 hover:bg-gray-700`}
+              className={`${currentPage === link.path.split("/").pop() ? "" : "opacity-50"} flex w-56 items-center gap-2 text-nowrap rounded p-2 hover:bg-gray-700`}
             >
-              <Icon icon={link.icon} width={34} />
-              <span className={isOpen ? "" : "hidden"}>{link.name}</span>
+              <div className="w-12">
+                <Icon icon={link.icon} width={34} />
+              </div>
+              <span>{link.name}</span>
             </Link>
           ))}
           <SignOutButton>
             <div
-              className={`flex w-fit items-center gap-2 text-nowrap rounded p-2 text-red-500 hover:bg-red-700`}
+              className={`flex w-56 items-center gap-2 text-nowrap rounded p-2 text-red-500 hover:bg-red-700 hover:text-white`}
             >
-              <Icon icon="mdi:logout" width={34} />
-              <span className={isOpen ? "" : "hidden"}>تسجيل الخروج</span>
+              <div className="w-12">
+                <Icon icon="mdi:logout" width={34} />
+              </div>
+              <span>تسجيل الخروج</span>
             </div>
           </SignOutButton>
         </nav>
@@ -94,7 +127,7 @@ const Sidebar: React.FC = () => {
         >
           <button
             onClick={toggleSidebar}
-            className={`${isOpen ? "rotate-0 bg-background text-primary" : "rotate-180 bg-primary text-background"} flex h-[50px] w-[50px] items-center justify-center rounded-full border-2 border-background text-3xl transition-transform duration-1000 md:static md:bg-background md:text-primary`}
+            className={`${isOpen ? "rotate-0 bg-background text-primary" : "rotate-180 bg-primary text-background"} flex h-[50px] w-[50px] items-center justify-center rounded-full border-2 border-background text-3xl transition-transform duration-1000 ease-in-out md:static md:bg-background md:text-primary`}
             aria-label="Scroll to top"
           >
             <Icon icon="bi:arrow-right" className="w-5" />

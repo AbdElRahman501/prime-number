@@ -86,7 +86,7 @@ export const updateUser = async (user: UserType): Promise<Result> => {
 export const loginUser = async (
   email: string,
   password: string,
-): Promise<(UserType & { id: string }) | null> => {
+): Promise<UserType | null> => {
   try {
     await connectToDatabase();
     const data = await User.findOne({ email: email }).exec();
@@ -98,7 +98,7 @@ export const loginUser = async (
       Buffer.from(hashedStored, "hex"),
       hashedBuffer,
     );
-    if (passwordsMatch) return { ...user, id: user._id };
+    if (passwordsMatch) return user;
     return null;
   } catch (error: unknown) {
     if (error instanceof Error) {

@@ -23,30 +23,31 @@ const page = async ({
     searchParams,
   );
 
+  const isAdmin = session?.user.role === "admin";
   return (
     <div className="flex-1 overflow-hidden">
       <div className="flex flex-col gap-5 p-5">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">جميع الارقام المميزه</h1>
-          <Link
-            href={{
-              query: {
-                ...searchParams,
-                [modalKey("add")]: "true",
-              },
-            }}
-            className="transform self-end text-nowrap rounded-2xl bg-primary px-4 py-2 text-white shadow-md duration-300 hover:scale-105 hover:bg-white hover:text-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-          >
-            اضافة رقم جديد
-          </Link>
+          <h1 className="text-3xl font-bold">المستخدمين</h1>
+          {isAdmin ? (
+            <Link
+              href={{
+                query: {
+                  ...searchParams,
+                  [modalKey("add")]: "true",
+                },
+              }}
+              className="transform self-end text-nowrap rounded-2xl bg-primary px-4 py-2 text-white shadow-md duration-300 hover:scale-105 hover:bg-white hover:text-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              اضافة مستخدم جديد
+            </Link>
+          ) : null}
         </div>
-        <Modal isOpen={!!isAddItem}>add user</Modal>
-        <Modal isOpen={!!editItem}>edit user</Modal>
 
-        <CustomTable
-          data={users}
-          columns={session?.user.role === "admin" ? AdminColumns : columns}
-        />
+        <Modal isOpen={!!isAddItem && isAdmin}>add user</Modal>
+        <Modal isOpen={!!editItem && isAdmin}>edit user</Modal>
+
+        <CustomTable data={users} columns={isAdmin ? AdminColumns : columns} />
       </div>
     </div>
   );

@@ -5,12 +5,10 @@ import Modal from "./Modal";
 import { User } from "@/types";
 import { updateUser } from "@/lib/actions/user.actions";
 import LoadingDots from "./loading-dots";
-import { usePrompt } from "./Notification";
 import { useSession } from "next-auth/react";
 
 const ProfileForm = ({ user }: { user: User }) => {
-  const { data: session, update } = useSession();
-  console.log("🚀 ~ ProfileForm ~ session:", session);
+  const { update } = useSession();
   const [data, setData] = useState(user);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
@@ -18,8 +16,6 @@ const ProfileForm = ({ user }: { user: User }) => {
 
   const [editImage, setEditImage] = useState(false);
   const [newImage, setNewImage] = useState(user.image);
-
-  usePrompt("Leave screen?", isDirty);
 
   function imageSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -43,6 +39,7 @@ const ProfileForm = ({ user }: { user: User }) => {
       update(data);
       setIsDirty(false);
       setEditImage(false);
+      window.location.reload();
     } else {
       setError(result.message);
     }
@@ -137,6 +134,7 @@ const ProfileForm = ({ user }: { user: User }) => {
               <button
                 onClick={() => {
                   setData(user);
+                  setIsDirty(false);
                   setNewImage(user.image);
                 }}
                 type="reset"
@@ -165,7 +163,7 @@ const ProfileForm = ({ user }: { user: User }) => {
             />
           </button>
         </div>
-        <div className="mt-4 grid grid-cols-1 gap-2 lg:grid-cols-2">
+        <div className="mx-auto mt-4 flex max-w-lg flex-col gap-4">
           <div className="w-full rounded-3xl bg-white p-5 shadow-sm">
             <label htmlFor="email" className="w-full text-lg text-primary">
               الاسم{" "}
@@ -182,7 +180,7 @@ const ProfileForm = ({ user }: { user: User }) => {
               className="peer mt-4 h-14 w-full rounded-3xl border border-gray-300 bg-transparent p-4 px-6 text-left tracking-wider outline-none invalid:border-pink-500 invalid:text-pink-600 focus:border-2 focus:border-black focus:text-primary placeholder-shown:invalid:focus:border-black motion-reduce:transition-none md:text-lg"
             />
             <p className="hidden px-2 text-sm text-pink-600 peer-invalid:block peer-focus:hidden">
-              ادخل بريد الكتروني صحيح
+              ادخل الاسم صحيح
             </p>
           </div>
           <div className="w-full rounded-3xl bg-white p-5 shadow-sm">
@@ -194,7 +192,6 @@ const ProfileForm = ({ user }: { user: User }) => {
               type="email"
               name="email"
               id="email"
-              readOnly
               placeholder="ادخل البريد الالكتروني"
               value={data.email}
               onChange={handleChange}

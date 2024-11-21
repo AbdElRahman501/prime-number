@@ -24,7 +24,7 @@ export const options: AuthOptions = {
         const user = await loginUser(email, password);
         if (!user) return null;
         return {
-          id: user.id,
+          id: user._id,
           name: user.name,
           image: user.image,
           email: user.email,
@@ -42,7 +42,7 @@ export const options: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET, // Ensure you have a JWT secret defined
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       const now = Math.floor(Date.now() / 1000); // Current time in seconds
 
       // If the user logs in, we add extra data to the token and set the expiration
@@ -50,6 +50,12 @@ export const options: AuthOptions = {
         token.role = user.role;
         // Set the token expiration time in the `exp` claim (JWT standard)
         token.exp = now + 7 * 24 * 60 * 60; // Token expires in 7 days
+      }
+
+      if (trigger === "update") {
+        token.name = session.name;
+        token.picture = session.image;
+        token.email = session.email;
       }
 
       // Ensure that the token is invalidated if it's expired

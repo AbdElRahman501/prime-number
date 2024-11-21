@@ -11,6 +11,8 @@ declare module "next-auth" {
       image?: string;
       role: string;
     };
+    expires: ISODateString;
+    error?: string;
   }
 
   interface User {
