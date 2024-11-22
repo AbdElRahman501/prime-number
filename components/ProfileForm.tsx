@@ -110,7 +110,6 @@ const ProfileForm = ({ user }: { user: User }) => {
                 إلغاء
               </button>
             </div>
-            {error && <p className="text-center text-red-500">{error}</p>}
           </form>
         </div>
       </Modal>
@@ -202,6 +201,25 @@ const ProfileForm = ({ user }: { user: User }) => {
               ادخل بريد الكتروني صحيح
             </p>
           </div>
+          <div className="w-full rounded-3xl bg-white p-5 shadow-sm">
+            <div className="flex w-full items-center justify-start gap-2">
+              <div className="h-6 w-12">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setData({ ...data, forceLogout: !data.forceLogout })
+                  }
+                  className={`${data.forceLogout ? "bg-green-500" : "bg-red-500"} h-6 w-12 rounded-full p-1 duration-300`}
+                >
+                  <div
+                    className={`${data.forceLogout ? "translate-x-0" : "-translate-x-6"} h-4 w-4 rounded-full bg-white duration-300`}
+                  ></div>
+                </button>
+              </div>
+              <p className="w-full text-sm">تسجيل الخروج من جميع الاجهزه</p>
+            </div>
+          </div>
+          {error && <p className="text-center text-red-500">{error}</p>}
         </div>
       </form>
     </div>

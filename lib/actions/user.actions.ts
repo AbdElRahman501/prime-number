@@ -23,17 +23,22 @@ export const insertUsers = async (users: Omit<UserType, "_id">[]) => {
   }
 };
 
-export const addUser = async (user: Omit<UserType, "_id">) => {
+export const addUser = async (user: Omit<UserType, "_id">): Promise<Result> => {
   try {
     await connectToDatabase();
     user.password = hashPassword(user.password);
-    return await User.create(user);
+    await User.create(user);
+    return { success: true, message: "User added successfully" };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Error saving store: ${error.message}`);
-    } else {
-      throw new Error(`An unknown error occurred at insertStore`);
+      if (error.message.includes("duplicate")) {
+        return {
+          success: false,
+          message: "هذا البريد الالكتروني موجود بالفعل",
+        };
+      }
     }
+    return { success: false, message: "Error adding user" };
   }
 };
 
@@ -78,7 +83,14 @@ export const updateUser = async (user: UserType): Promise<Result> => {
       message: "User updated successfully",
     };
   } catch (error: unknown) {
-    console.error("Error updating user:", error);
+    if (error instanceof Error) {
+      if (error.message.includes("duplicate")) {
+        return {
+          success: false,
+          message: "هذا البريد الالكتروني موجود بالفعل",
+        };
+      }
+    }
     return { success: false, message: "Error updating user" };
   }
 };
@@ -100,6 +112,20 @@ export const loginUser = async (
     );
     if (passwordsMatch) return user;
     return null;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error saving store: ${error.message}`);
+    } else {
+      throw new Error(`An unknown error occurred at insertStore`);
+    }
+  }
+};
+
+export const deleteUser = async (use: UserType) => {
+  try {
+    await connectToDatabase();
+    await User.findByIdAndDelete(use._id);
+    return { success: true, message: "User deleted successfully" };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Error saving store: ${error.message}`);

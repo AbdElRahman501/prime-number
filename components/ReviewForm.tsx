@@ -111,7 +111,7 @@ const ReviewForm: React.FC<{
         </div>
       </form>
       <ReviewCard
-        className="flex h-60 min-w-[280px] items-center justify-center rounded-[50px] bg-white p-10 md:min-w-[600px]"
+        className="flex h-60 w-full max-w-full items-center justify-center rounded-[50px] bg-white"
         {...data!}
       />
     </div>

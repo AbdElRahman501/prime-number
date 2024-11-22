@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SignOutButton } from "./SessionElement";
 import { addToLocalStorage, getFromLocalStorage } from "@/utils";
 import { useSession } from "next-auth/react";
@@ -65,10 +65,10 @@ const Sidebar: React.FC = () => {
     setIsOpen(locallySideBar);
   }, []);
   return (
-    <>
+    <React.Fragment>
       <aside
         style={{}}
-        className={` ${isOpen ? "" : "-right-[270px] md:right-auto md:w-20"} fixed right-0 top-[86px] z-20 m-2 flex h-[calc(100dvh-104px)] w-64 flex-col rounded-3xl bg-primary p-4 text-background transition-all duration-700 ease-in-out md:sticky`}
+        className={` ${isOpen ? "" : "max-md:translate-x-[270px] md:right-auto md:w-20"} fixed top-[86px] z-20 m-2 flex h-[calc(100dvh-104px)] w-64 flex-col rounded-3xl bg-primary p-4 text-background transition-all duration-700 ease-in-out md:sticky`}
       >
         <nav className="flex h-full flex-col gap-4 overflow-hidden">
           <Link
@@ -140,7 +140,7 @@ const Sidebar: React.FC = () => {
         aria-hidden="true"
         className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 top-[76px] z-10 h-[calc(100dvh-50px)] w-screen bg-black/30 backdrop-blur-sm duration-700 md:hidden`}
       ></div>
-    </>
+    </React.Fragment>
   );
 };
 
