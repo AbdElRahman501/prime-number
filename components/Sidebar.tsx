@@ -35,6 +35,11 @@ const SidebarLinks = [
     icon: "mdi:account-star",
   },
   {
+    name: "المحتوى",
+    path: "/dashboard/content",
+    icon: "mdi:content-paste",
+  },
+  {
     name: "الاعدادات",
     path: "/dashboard/settings",
     icon: "mdi:settings",

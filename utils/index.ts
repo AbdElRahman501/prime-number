@@ -395,3 +395,10 @@ export function formatTime({
 
   return `${formattedStartTime} الي ${formattedEndTime}`;
 }
+
+export function removeIdFromArray<T extends { _id: string }>(
+  arr: T[],
+): Omit<T, "_id">[] {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return arr.map(({ _id, ...rest }) => ({ ...rest }));
+}

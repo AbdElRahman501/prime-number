@@ -12,12 +12,13 @@ import { PhoneNumber, Store } from "@/types";
 import { cartHandler } from "@/app/lib/cart";
 
 export default function CartModal({
-  cart,
+  cart: initialCart,
   store,
 }: {
   cart: PhoneNumber[] | undefined;
   store: Store;
 }) {
+  const [cart, setCart] = useState<PhoneNumber[]>(initialCart || []);
   const [isOpen, setIsOpen] = useState(false);
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
@@ -36,6 +37,13 @@ export default function CartModal({
   }, [isOpen]);
 
   const allNumbers = cart?.map((item) => item.phoneNumber).join(", ") || "";
+
+  useEffect(() => {
+    if (JSON.stringify(cart) !== JSON.stringify(initialCart)) {
+      setCart(initialCart || []);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialCart]);
 
   return (
     <>
@@ -96,8 +104,8 @@ export default function CartModal({
 
         {/* Cart with Items */}
         <div className="flex h-full flex-col justify-between overflow-hidden p-1">
-          <ul className="flex-grow overflow-auto py-4">
-            {cart?.map((item) => (
+          <ul className="flex-grow overflow-auto py-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-500 [&::-webkit-scrollbar]:w-2">
+            {cart.map((item) => (
               <li
                 key={item.phoneNumber}
                 className="flex items-center justify-between border-b border-neutral-200 p-4 dark:border-neutral-700"
@@ -120,6 +128,9 @@ export default function CartModal({
                         cart.map((item) => item.phoneNumber),
                         item.phoneNumber,
                       ),
+                    );
+                    setCart((pv) =>
+                      pv.filter((p) => p.phoneNumber !== item.phoneNumber),
                     );
                   }}
                   aria-label={`ازالة ${item.phoneNumber}`}

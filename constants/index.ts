@@ -188,4 +188,5 @@ export const tags = {
   reviews: "reviews",
   offers: "offers",
   store: "store",
+  about: "about",
 };

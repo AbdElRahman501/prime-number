@@ -17,6 +17,27 @@ export interface CompanyProductCount {
   count: number;
 }
 
+export interface BlockHeader {
+  _id: string;
+  type: "header";
+  content: string;
+}
+export interface BlockParagraph {
+  _id: string;
+  type: "paragraph";
+  content: string;
+}
+export interface BlockFeature {
+  _id: string;
+  type: "features";
+  content: {
+    title: string;
+    description: string;
+  }[];
+}
+
+export type AboutBlock = BlockHeader | BlockParagraph | BlockFeature;
+
 export type CompanyName = "vodafone" | "etisalat" | "orange" | "we";
 export type Sort = "Nst" | "Ost" | "Lp" | "Hp" | "Tr";
 

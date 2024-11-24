@@ -7,7 +7,6 @@ const Cart: React.FC<{ store: Store }> = async ({ store }) => {
   const cartData = cookies().get("cart")?.value;
   const cart: string[] = cartData ? JSON.parse(cartData) : [];
   const phoneNumbers: PhoneNumber[] = await fetchProductsByPhoneNumbers(cart);
-  //TODO display removed phone number as unActive product
   return <CartModal cart={phoneNumbers} store={store} />;
 };
 

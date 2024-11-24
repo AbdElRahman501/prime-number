@@ -97,14 +97,14 @@ const page = async ({
                   alt="image"
                   width={56}
                   height={56}
-                  className="aspect-square h-14 w-14 rounded-full border border-gray-300 object-cover"
+                  className="aspect-square min-h-14 min-w-14 rounded-full border border-gray-300 object-cover"
                 />
               </div>
               <div className="flex-1">
                 <p className="font-bold">{user.name}</p>
                 <Link
                   href={`mailto:${user.email}`}
-                  className="text-sm hover:underline"
+                  className="break-all text-sm hover:underline"
                 >
                   {user.email}
                 </Link>
