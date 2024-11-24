@@ -24,6 +24,7 @@ const ReviewForm: React.FC<{
       ({
         name: "",
         review: "",
+        active: true,
       } as Review),
   );
 
@@ -91,6 +92,20 @@ const ReviewForm: React.FC<{
             setData({ ...data, review: e.target.value })
           }
         />
+        <div className="flex w-full items-center justify-start gap-2">
+          <div className="h-6 w-12">
+            <button
+              type="button"
+              onClick={() => setData({ ...data, active: !data.active })}
+              className={`${data.active ? "bg-green-500" : "bg-red-500"} h-6 w-12 rounded-full p-1 duration-300`}
+            >
+              <div
+                className={`${data.active ? "translate-x-0" : "-translate-x-6"} h-4 w-4 rounded-full bg-white duration-300`}
+              ></div>
+            </button>
+          </div>
+          <p className="w-full text-sm">اظهار الراي في الصفحة الرئيسية</p>
+        </div>
 
         <p className="text-sm text-red-500">{error}</p>
         <div className="flex w-full flex-col justify-center md:flex-row md:gap-2">
@@ -111,7 +126,7 @@ const ReviewForm: React.FC<{
         </div>
       </form>
       <ReviewCard
-        className="flex h-60 min-w-[280px] items-center justify-center rounded-[50px] bg-white p-10 md:min-w-[600px]"
+        className="flex h-60 w-full max-w-full items-center justify-center rounded-[50px] bg-white"
         {...data!}
       />
     </div>

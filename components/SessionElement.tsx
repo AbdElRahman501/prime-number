@@ -8,7 +8,7 @@ export default function SessionElement({
   children: React.ReactNode;
 }>) {
   const { data: session } = useSession();
-  if (session?.user?.name === "Admin") return children;
+  if (session?.user?.name) return children;
 }
 
 export const SignOutButton: React.FC<

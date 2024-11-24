@@ -6,6 +6,7 @@ import {
   SortOptions,
   Store,
   Link,
+  HeaderLevel,
 } from "@/types";
 
 export const headerLinks: Link[] = [
@@ -13,6 +14,14 @@ export const headerLinks: Link[] = [
   { _id: "2", title: "ارقامنا المميزه", url: "/shop" },
   { _id: "3", title: "من نحن", url: "/about" },
 ];
+export const fontSizeMapping: Record<HeaderLevel, string> = {
+  h1: "text-6xl", // Larger text
+  h2: "text-5xl",
+  h3: "text-4xl",
+  h4: "text-3xl",
+  h5: "text-2xl",
+  h6: "text-xl", // Smaller text
+};
 
 export const companies: Company[] = [
   {
@@ -188,4 +197,5 @@ export const tags = {
   reviews: "reviews",
   offers: "offers",
   store: "store",
+  about: "about",
 };

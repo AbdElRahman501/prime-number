@@ -1,5 +1,5 @@
 "use server";
-import { Result, Store as StoreType } from "@/types";
+import { contacts, Link, Result, Store as StoreType } from "@/types";
 import { connectToDatabase } from "../mongoose";
 import Store from "../models/store.model";
 import { revalidateTag, unstable_cache } from "next/cache";
@@ -61,13 +61,20 @@ export const fetchStore = unstable_cache(
 );
 
 export const updateStore = async (
-  data: Partial<StoreType>,
+  data: Partial<{
+    contacts: contacts;
+    socialMedia: Omit<Link, "_id">[];
+    links: Omit<Link, "_id">[];
+  }>,
 ): Promise<Result> => {
   try {
     await connectToDatabase();
     await Store.findOneAndUpdate({}, data);
     revalidateTag(tags.store);
-    return { success: true, message: "Store updated successfully." };
+    return {
+      success: true,
+      message: "Store updated successfully.",
+    };
   } catch (error: unknown) {
     console.error("Error updating store:", error);
     return { success: false, message: "Error updating store" };
