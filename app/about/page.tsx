@@ -14,7 +14,7 @@ export default async function page() {
         {aboutData.map((block, index) => {
           switch (block.type) {
             case "header":
-              return <HeaderBlock key={index} content={block.content} />;
+              return <HeaderBlock key={index} block={block} />;
             case "paragraph":
               return <ParagraphBlock key={index} content={block.content} />;
             case "features":

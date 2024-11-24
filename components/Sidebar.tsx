@@ -69,13 +69,24 @@ const Sidebar: React.FC = () => {
       getFromLocalStorage("sidebar") === "true" ? true : false;
     setIsOpen(locallySideBar);
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("max-md:overflow-hidden");
+    } else {
+      document.body.classList.remove("max-md:overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("max-md:overflow-hidden");
+    };
+  }, [isOpen]);
   return (
     <React.Fragment>
       <aside
         style={{}}
         className={` ${isOpen ? "" : "max-md:translate-x-[270px] md:right-auto md:w-20"} fixed top-[86px] z-20 m-2 flex h-[calc(100dvh-104px)] w-64 flex-col rounded-3xl bg-primary p-4 text-background transition-all duration-700 ease-in-out md:sticky`}
       >
-        <nav className="flex h-full flex-col gap-4 overflow-hidden">
+        <nav className="scroll-bar-hidden flex h-full flex-col gap-4 overflow-y-auto">
           <Link
             href="/dashboard/account"
             onClick={closeSidebar}
@@ -83,10 +94,7 @@ const Sidebar: React.FC = () => {
           >
             <div className="w-12">
               <Image
-                src={
-                  session?.user?.image ??
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg"
-                }
+                src={session?.user?.image || "/images/placeholder.jpg"}
                 alt="user image"
                 width={45}
                 height={45}

@@ -1,5 +1,4 @@
 import ActionButtons from "@/components/ActionButtons";
-import { CustomTable } from "@/components/CustomTable";
 import Modal from "@/components/Modal";
 import RemoveModal from "@/components/RemoveModal";
 import ReviewForm from "@/components/ReviewForm";
@@ -7,9 +6,8 @@ import { ReviewCard } from "@/components/TestimonialCarousel";
 import {
   deleteReviewById,
   fetchAllReviews,
-  updateReviewById,
 } from "@/lib/actions/reviews.actions";
-import { Column, Review } from "@/types";
+import { Review } from "@/types";
 import { getActionItems, modalKey } from "@/utils";
 import Link from "next/link";
 
@@ -55,26 +53,23 @@ const page = async ({
             <ReviewCard {...removeItem!} />
           </div>
         </RemoveModal>
-
-        <CustomTable
-          searchParams={searchParams}
-          data={reviews}
-          columns={columns}
-        />
+        <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          {reviews.map((review) => (
+            <div key={review._id} className="relative h-full w-full">
+              <ReviewCard
+                className={`${review.active ? "" : "opacity-50"} flex h-full items-center justify-center rounded-[50px] bg-white p-10`}
+                {...review}
+              />
+              <ActionButtons
+                className="absolute bottom-5 right-5 flex gap-2"
+                id={review._id}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default page;
-
-const columns: Column<Review>[] = [
-  { key: "name", label: "الاسم" },
-  { key: "active", label: "الحالة", type: "boolean", action: updateReviewById },
-  { key: "review", label: "راي العميل", type: "description" },
-  {
-    label: "التحكم",
-    type: "action",
-    RowAction: ({ item }) => <ActionButtons id={item._id} />,
-  },
-];

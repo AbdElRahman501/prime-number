@@ -71,7 +71,7 @@ const ProfileForm = ({ user }: { user: User }) => {
                 src={
                   isValidImageUrl(newImage)
                     ? (newImage as string)
-                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg"
+                    : "/images/placeholder.jpg"
                 }
                 alt="user"
                 className="h-32 w-32 rounded-full object-cover"
@@ -151,10 +151,7 @@ const ProfileForm = ({ user }: { user: User }) => {
             className="overflow-hidden rounded-full bg-white p-5 shadow-sm"
           >
             <Image
-              src={
-                data.image ||
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg"
-              }
+              src={data.image || "/images/placeholder.jpg"}
               alt="user"
               className="h-32 w-32 rounded-full object-cover"
               width={100}

@@ -43,7 +43,7 @@ const MobileMenu: React.FC<{ store: Store }> = ({ store }) => {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
           xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ const MobileMenu: React.FC<{ store: Store }> = ({ store }) => {
         id="mobile-menu"
         aria-label="Mobile navigation"
       >
-        <div className="flex min-h-[50vh] min-w-[70vw] flex-col justify-start p-5">
+        <div className="scroll-bar-hidden flex min-h-[50vh] min-w-[70vw] flex-col justify-start overflow-y-auto p-5">
           {/* Search bar */}
           <div className="mb-6 text-sm text-primary selection:bg-blue-300 selection:text-primary">
             <Suspense>

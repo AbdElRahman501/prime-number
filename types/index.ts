@@ -20,6 +20,7 @@ export interface CompanyProductCount {
 export interface BlockHeader {
   _id: string;
   type: "header";
+  level: HeaderLevel;
   content: string;
 }
 export interface BlockParagraph {
@@ -35,7 +36,7 @@ export interface BlockFeature {
     description: string;
   }[];
 }
-
+export type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 export type AboutBlock = BlockHeader | BlockParagraph | BlockFeature;
 
 export type CompanyName = "vodafone" | "etisalat" | "orange" | "we";

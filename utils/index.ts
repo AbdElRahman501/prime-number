@@ -1,4 +1,15 @@
-import { CartItem, CompanyName, Offer, PhoneNumber, Sort } from "@/types";
+import {
+  AboutBlock,
+  BlockFeature,
+  BlockHeader,
+  BlockParagraph,
+  CartItem,
+  CompanyName,
+  HeaderLevel,
+  Offer,
+  PhoneNumber,
+  Sort,
+} from "@/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { companies } from "@/constants";
 
@@ -402,3 +413,74 @@ export function removeIdFromArray<T extends { _id: string }>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return arr.map(({ _id, ...rest }) => ({ ...rest }));
 }
+
+export function moveObjectInArray<T extends { _id: string }>(
+  array: T[],
+  id: string,
+  direction: "up" | "down",
+): T[] {
+  const newData = [...array];
+
+  // Find the index of the object with the given ID
+  const currentIndex = newData.findIndex((item) => item._id === id);
+  if (currentIndex === -1) return newData;
+  let newIndex = currentIndex;
+  if (direction === "up") {
+    newIndex = Math.max(0, currentIndex - 1);
+  } else if (direction === "down") {
+    newIndex = Math.min(newData.length - 1, currentIndex + 1);
+  }
+  if (newIndex === currentIndex) {
+    return newData;
+  }
+  const [movedObject] = newData.splice(currentIndex, 1);
+  newData.splice(newIndex, 0, movedObject);
+  return newData;
+}
+
+export const addBlock = (
+  type: "paragraph" | "features" | "header",
+  index: number,
+  data: AboutBlock[],
+  level: HeaderLevel = "h1",
+): AboutBlock[] => {
+  let object: AboutBlock;
+  const newData = [...data];
+  switch (type) {
+    case "paragraph":
+      object = {
+        type: "paragraph",
+        content: "",
+        _id: String(Date.now()),
+      } as BlockParagraph;
+      break;
+    case "features":
+      object = {
+        type: "features",
+        content: [
+          {
+            title: "",
+            description: "",
+          },
+        ],
+        _id: String(Date.now()),
+      } as BlockFeature;
+      break;
+    case "header":
+      object = {
+        type: "header",
+        content: "",
+        level,
+        _id: String(Date.now()),
+      } as BlockHeader;
+      break;
+    default:
+      throw new Error(`Invalid block type: ${type}`);
+  }
+
+  // Use splice to insert the object into the data array
+  newData.splice(index, 0, object);
+
+  // Return the modified data array
+  return newData;
+};

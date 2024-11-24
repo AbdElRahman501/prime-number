@@ -65,10 +65,7 @@ const page = async ({
             >
               <div className="h-14 w-14">
                 <Image
-                  src={
-                    removeItem?.image ||
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg"
-                  }
+                  src={removeItem?.image || "/images/placeholder.jpg"}
                   alt="image"
                   width={56}
                   height={56}
@@ -90,10 +87,7 @@ const page = async ({
             >
               <div className="h-14 w-14">
                 <Image
-                  src={
-                    user.image ||
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg"
-                  }
+                  src={user.image || "/images/placeholder.jpg"}
                   alt="image"
                   width={56}
                   height={56}

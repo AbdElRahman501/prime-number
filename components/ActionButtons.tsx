@@ -7,7 +7,9 @@ import React from "react";
 const ActionButtons = ({
   name,
   id,
+  className = "flex gap-2",
 }: {
+  className?: string;
   name?: "product" | "offer";
   id: string;
 }) => {
@@ -35,7 +37,7 @@ const ActionButtons = ({
   };
 
   return (
-    <div className="flex gap-2">
+    <div className={className}>
       <button
         onClick={edit}
         className="text-primary hover:text-blue-500 hover:underline"

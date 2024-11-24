@@ -1,10 +1,13 @@
-export const HeaderBlock: React.FC<{ content: string }> = ({ content }) => {
+import { fontSizeMapping } from "@/constants";
+import { BlockHeader } from "@/types";
+
+export const HeaderBlock: React.FC<{ block: BlockHeader }> = ({ block }) => {
   return (
     <h1
-      className="mb-8 text-center text-5xl font-bold text-primary drop-shadow-md"
+      className={`${fontSizeMapping[block.level] || "text-5xl"} mb-8 text-center font-bold text-primary drop-shadow-md`}
       id="about-heading"
     >
-      {content}
+      {block.content}
     </h1>
   );
 };

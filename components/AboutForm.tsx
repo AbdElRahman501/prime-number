@@ -1,12 +1,20 @@
 "use client";
-import { AboutBlock, BlockFeature, BlockHeader, BlockParagraph } from "@/types";
+import {
+  AboutBlock,
+  BlockFeature,
+  BlockHeader,
+  BlockParagraph,
+  HeaderLevel,
+} from "@/types";
 import TextBlock from "./TextBlock";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import LoadingDots from "./loading-dots";
-import { removeIdFromArray } from "@/utils";
+import { addBlock, moveObjectInArray, removeIdFromArray } from "@/utils";
 import { updateAbout } from "@/lib/actions/about.actions";
 import { usePrompt } from "./Notification";
+import { DropDown, DropDownButton, DropDownList } from "./DropDown";
+import { fontSizeMapping } from "@/constants";
 
 interface AboutFormProps {
   aboutData: AboutBlock[];
@@ -109,13 +117,16 @@ export const HeaderBlock: React.FC<{
       return newData;
     });
   };
+
   return (
     <>
       <TextBlock
-        className="text-center text-5xl font-bold drop-shadow-md"
+        className={`${fontSizeMapping[block.level] || "text-5xl"} text-center font-bold drop-shadow-md`}
         id={`${block._id}-heading`}
         name="content"
+        placeholder="...قم بكتابة عنوان"
         value={block.content}
+        required
         onChange={changeHandler}
       />
       <BlockOptions block={block} setData={setData} />
@@ -144,7 +155,9 @@ export const ParagraphBlock: React.FC<{
         id={`${block._id}-heading`}
         name="content"
         value={block.content}
+        placeholder="...قم بكتابة النص"
         onChange={changeHandler}
+        required
       />
       <BlockOptions block={block} setData={setData} />
     </>
@@ -204,6 +217,8 @@ export const FeatureBlock: React.FC<{
               className="mb-3 text-center text-xl font-semibold text-primary"
               id={`${block._id}-title`}
               name="title"
+              placeholder="...قم بكتابة العنوان"
+              required
               value={feature.title}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 changeHandler(e, index)
@@ -212,6 +227,8 @@ export const FeatureBlock: React.FC<{
             <TextBlock
               className="text-center text-gray-600"
               id={`${block._id}-description`}
+              placeholder="...قم بكتابة الوصف"
+              required
               name="description"
               value={feature.description}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -252,12 +269,13 @@ const BlockOptions: React.FC<{
   block?: AboutBlock;
   setData: React.Dispatch<React.SetStateAction<AboutBlock[]>>;
 }> = ({ setData, block }) => {
-  const addHeader = () =>
+  const addHeader = (level: HeaderLevel) =>
     setData((pv) =>
       addBlock(
         "header",
         block ? pv.findIndex((x) => x._id === block._id) + 1 : 0,
         pv,
+        level,
       ),
     );
   const addParagraph = () =>
@@ -265,7 +283,6 @@ const BlockOptions: React.FC<{
       addBlock(
         "paragraph",
         block ? pv.findIndex((x) => x._id === block._id) + 1 : 0,
-
         pv,
       ),
     );
@@ -278,124 +295,119 @@ const BlockOptions: React.FC<{
       ),
     );
 
+  const moveAbove = () => {
+    if (block) setData((pv) => moveObjectInArray(pv, block._id, "up"));
+  };
+  const moveDown = () => {
+    if (block) setData((pv) => moveObjectInArray(pv, block._id, "down"));
+  };
+
   const deleteItem = () =>
     setData((pv) => pv.filter((x) => x._id !== block?._id));
+  const headerLevels: HeaderLevel[] = ["h1", "h2", "h3", "h4", "h5", "h6"];
   return (
-    <div className="group relative my-3 grid w-full grid-cols-1 place-items-center">
-      <hr className="col-start-1 row-start-1 w-full border-2 border-gray-200 group-hover:border-primary" />
-      <button
-        type="button"
-        aria-expanded="true"
-        aria-haspopup="true"
-        className="invisible col-start-1 row-start-1 rounded-full bg-primary p-2 text-white group-focus-within:visible group-hover:visible"
-      >
-        <Icon icon="solar:menu-dots-bold" className="h-4 w-4" />
-      </button>
-      <ul
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="menu-button"
-        tabIndex={-1}
-        className="absolute z-10 mt-9 hidden w-72 translate-y-1/2 rounded-2xl border border-gray-300 bg-white p-2 shadow-lg hover:block group-focus-within:block"
-      >
-        <div className="grid grid-cols-2 gap-2 px-4 py-2 text-center text-sm">
-          <button
-            type="button"
-            onClick={addHeader}
-            className="text-nowrap rounded-xl border p-3 hover:bg-indigo-100"
-          >
-            Heading
-            <Icon icon="jam:header-1" className="ml-2 inline text-xl" />
-          </button>
-          <button
-            type="button"
-            onClick={addParagraph}
-            className="text-nowrap rounded-xl border p-3 hover:bg-indigo-100"
-          >
-            Paragraph
-            <Icon
-              icon="carbon:text-long-paragraph"
-              className="ml-2 inline h-4 w-4"
-            />
-          </button>
-          <button
-            type="button"
-            onClick={addFeature}
-            className="col-span-2 text-nowrap rounded-xl border p-3 hover:bg-indigo-100"
-          >
-            Features
-            <Icon icon="mi:grid" className="ml-2 inline h-4 w-4" />
-          </button>
-        </div>
-        {block ? (
-          <>
-            <li
-              onClick={deleteItem}
-              className="cursor-pointer px-4 py-2 text-pink-600 hover:bg-indigo-100"
-            >
-              <Icon
-                icon="solar:trash-bin-trash-bold"
-                className="ml-2 inline h-4 w-4"
-              />
-              Delete Above
+    <div className="group/main relative my-3 grid w-full grid-cols-1 place-items-center">
+      <hr className="col-start-1 row-start-1 w-full border-2 border-gray-200 group-focus-within/main:border-primary group-hover/main:border-primary" />
+      <div className="col-start-1 row-start-1 flex w-full justify-center gap-2">
+        <DropDown>
+          <DropDownButton className="col-start-1 row-start-1 rounded-full bg-primary p-2 text-white opacity-10 group-hover/main:opacity-100">
+            <Icon icon="bi:plus" className="h-4 w-4" />
+          </DropDownButton>
+          <DropDownList className="w-72 rounded-2xl bg-white p-2 text-left shadow-lg">
+            <li className="group/item border-b-2">
+              <button
+                className="w-full px-4 py-2 hover:bg-indigo-100"
+                type="button"
+              >
+                <Icon icon="jam:header-1" className="ml-2 inline h-8 w-8" />
+                Heading
+              </button>
+              <ul className="hidden group-focus-within/item:block">
+                {headerLevels.map((level) => (
+                  <li key={level}>
+                    <button
+                      onClick={() => addHeader(level)}
+                      className="w-full px-4 py-2 uppercase hover:bg-indigo-100"
+                      type="button"
+                    >
+                      {level}
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </li>
-            <li className="cursor-pointer px-4 py-2 hover:bg-indigo-100">
-              <Icon
-                icon="solar:arrow-up-bold"
-                className="ml-2 inline h-4 w-4"
-              />
-              move up
+            <li>
+              <button
+                onClick={addParagraph}
+                className="w-full px-4 py-2 hover:bg-indigo-100"
+                type="button"
+              >
+                <Icon
+                  icon="carbon:text-long-paragraph"
+                  className="ml-2 inline h-4 w-4"
+                />
+                Paragraph
+              </button>
             </li>
-            <li className="cursor-pointer px-4 py-2 hover:bg-indigo-100">
-              <Icon
-                icon="solar:arrow-down-bold"
-                className="ml-2 inline h-4 w-4"
-              />
-              move down
+            <li>
+              <button
+                onClick={addFeature}
+                className="w-full px-4 py-2 hover:bg-indigo-100"
+                type="button"
+              >
+                <Icon icon="mi:grid" className="ml-2 inline h-4 w-4" />
+                Features
+              </button>
             </li>
-          </>
-        ) : null}
-      </ul>
+          </DropDownList>
+        </DropDown>
+        <DropDown className={block ? "" : "hidden"}>
+          <DropDownButton className="col-start-1 row-start-1 rounded-full bg-primary p-2 text-white opacity-10 group-hover/main:opacity-100">
+            <Icon icon="solar:menu-dots-bold" className="h-4 w-4" />
+          </DropDownButton>
+          <DropDownList className="w-72 rounded-2xl bg-white p-2 shadow-lg">
+            <li>
+              <button
+                onClick={deleteItem}
+                className="w-full px-4 py-2 text-pink-600 hover:bg-indigo-100"
+                type="button"
+              >
+                <Icon
+                  icon="solar:trash-bin-trash-bold"
+                  className="ml-2 inline h-4 w-4"
+                />
+                Delete Above
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={moveAbove}
+                className="w-full px-4 py-2 hover:bg-indigo-100"
+                type="button"
+              >
+                <Icon
+                  icon="solar:arrow-up-bold"
+                  className="ml-2 inline h-4 w-4"
+                />
+                move up
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={moveDown}
+                className="w-full px-4 py-2 hover:bg-indigo-100"
+                type="button"
+              >
+                <Icon
+                  icon="solar:arrow-down-bold"
+                  className="ml-2 inline h-4 w-4"
+                />
+                move down
+              </button>
+            </li>
+          </DropDownList>
+        </DropDown>
+      </div>
     </div>
   );
-};
-
-const addBlock = (
-  type: "paragraph" | "features" | "header",
-  index: number,
-  data: AboutBlock[],
-): AboutBlock[] => {
-  let object: AboutBlock;
-  const newData = [...data];
-  switch (type) {
-    case "paragraph":
-      object = {
-        type: "paragraph",
-        content: "",
-        _id: String(Date.now()),
-      } as BlockParagraph;
-      break;
-    case "features":
-      object = {
-        type: "features",
-        content: [],
-        _id: String(Date.now()),
-      } as BlockFeature;
-      break;
-    case "header":
-      object = {
-        type: "header",
-        content: "",
-        _id: String(Date.now()),
-      } as BlockHeader;
-      break;
-    default:
-      throw new Error(`Invalid block type: ${type}`);
-  }
-
-  // Use splice to insert the object into the data array
-  newData.splice(index, 0, object);
-
-  // Return the modified data array
-  return newData;
 };
