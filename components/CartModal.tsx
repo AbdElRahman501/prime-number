@@ -121,6 +121,9 @@ export default function CartModal({
                 </p>
                 <button
                   onClick={async () => {
+                    setCart((pv) =>
+                      pv.filter((p) => p.phoneNumber !== item.phoneNumber),
+                    );
                     await cartHandler(item.phoneNumber);
                     addToLocalStorage(
                       "cart",
@@ -128,9 +131,6 @@ export default function CartModal({
                         cart.map((item) => item.phoneNumber),
                         item.phoneNumber,
                       ),
-                    );
-                    setCart((pv) =>
-                      pv.filter((p) => p.phoneNumber !== item.phoneNumber),
                     );
                   }}
                   aria-label={`ازالة ${item.phoneNumber}`}

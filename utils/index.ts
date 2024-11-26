@@ -328,11 +328,6 @@ export function formatDateAt(dateString: string) {
   return `${day} ${month}`;
 }
 
-// TODO make it a function i can use in server and client components
-// export const isMobile = (userAgent: string): boolean => {
-//   return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);
-// };
-
 export function removeDuplicates(stringsArray: string[]): string[] {
   return Array.from(new Set(stringsArray));
 }
@@ -439,11 +434,12 @@ export function moveObjectInArray<T extends { _id: string }>(
 }
 
 export const addBlock = (
-  type: "paragraph" | "features" | "header",
-  index: number,
   data: AboutBlock[],
+  type: "paragraph" | "features" | "header",
+  block?: BlockParagraph | BlockFeature | BlockHeader,
   level: HeaderLevel = "h1",
 ): AboutBlock[] => {
+  const index = block ? data.findIndex((x) => x._id === block._id) + 1 : 0;
   let object: AboutBlock;
   const newData = [...data];
   switch (type) {
@@ -483,4 +479,15 @@ export const addBlock = (
 
   // Return the modified data array
   return newData;
+};
+
+// Utility function to check if data has changed
+export const hasDataChanged = (
+  originalData: { _id: string }[],
+  currentData: { _id: string }[],
+) => {
+  return (
+    JSON.stringify(removeIdFromArray(currentData)) !==
+    JSON.stringify(removeIdFromArray(originalData))
+  );
 };

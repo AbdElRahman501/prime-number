@@ -93,7 +93,7 @@ export interface Link {
 }
 
 export interface Feature {
-  _id: number | string;
+  _id: string;
   title: string;
   description: string;
 }
@@ -133,13 +133,13 @@ export interface User {
   password: string;
   image?: string;
   isAdmin: boolean;
-  forceLogout: boolean;
 }
 
 export interface Store {
   contacts: contacts;
   socialMedia: Link[];
   links: Link[];
+  features: Feature[];
 }
 
 export interface contacts {

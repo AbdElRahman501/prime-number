@@ -2,48 +2,70 @@
 import { createUrl } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
-  onClick,
-  pathname: initialPathname,
-}) => {
+let timer: NodeJS.Timeout;
+function debounce<T extends (...args: string[]) => void>(
+  func: T,
+  delay: number,
+): (...args: Parameters<T>) => void {
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func(...args), delay);
+  };
+}
+
+const SearchField: React.FC<{
+  onClick?: () => void;
+  pathname?: string;
+}> = ({ onClick, pathname: initialPathname }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  let pathname = usePathname();
-  pathname = initialPathname || pathname;
+  const pathname = usePathname();
+  const currentPage = pathname.split("/").pop();
+  const newPathname = initialPathname || pathname;
+
   const initialSearchText = searchParams.get("q") || "";
-  const [searchText, setSearchText] = useState(initialSearchText);
+  const [query, setQuery] = useState(initialSearchText);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    const val = e.target as HTMLFormElement;
-    const search = val.search as HTMLInputElement;
     const newParams = new URLSearchParams(searchParams.toString());
 
-    if (search.value) {
-      newParams.set("q", search.value);
+    if (query) {
+      newParams.set("q", query);
       newParams.delete("page");
       newParams.delete("prime");
     } else {
       newParams.delete("q");
     }
     onClick?.();
-    router.push(createUrl(pathname, newParams));
+    router.push(createUrl(newPathname, newParams));
   }
+
+  const updateSearchParams = debounce((value: string) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set("q", value);
+    newParams.delete("page");
+    newParams.delete("prime");
+    router.push(createUrl(pathname, newParams));
+  }, 500);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    if (currentPage === "shop") {
+      updateSearchParams(value);
+    }
+  };
 
   const clearSearch = () => {
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.delete("q");
     newParams.delete("prime");
     router.push(createUrl(pathname, newParams));
-    setSearchText("");
+    setQuery("");
   };
-
-  useEffect(() => {
-    setSearchText(searchParams.get("q") || "");
-  }, [searchParams]);
 
   return (
     <form onSubmit={onSubmit} role="search" aria-label="نموذج البحث">
@@ -51,7 +73,7 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
         <label htmlFor="search" className="sr-only">
           بحث
         </label>
-        {searchText && (
+        {query && (
           <button
             type="button"
             onClick={clearSearch}
@@ -63,10 +85,10 @@ const SearchField: React.FC<{ onClick?: () => void; pathname?: string }> = ({
         )}
         <input
           type="text"
-          id="search"
+          name="search"
           aria-labelledby="search-label" // Link to the label
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          value={query}
+          onChange={handleChange}
           placeholder="ابحث هنا..."
           className="peer w-full rounded-full border border-foreground px-10 py-2 focus:border-primary focus:outline-none"
         />

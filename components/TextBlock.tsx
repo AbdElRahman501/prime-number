@@ -54,7 +54,9 @@ const TextBlock: React.FC<React.HTMLProps<HTMLTextAreaElement>> = (props) => {
       <p
         className={`pointer-events-none col-start-1 row-start-1 h-full w-full whitespace-pre-wrap break-words border border-none outline-none selection:text-white ${props.className}`}
       >
-        {renderTextWithLineBreaksAndStrong(String(props.value || ""))}
+        {renderTextWithLineBreaksAndStrong(
+          String(props.value || props.defaultValue || ""),
+        )}
       </p>
     </div>
   );

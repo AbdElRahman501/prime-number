@@ -85,7 +85,6 @@ export const EtisalatIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
 export const OrangeIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" {...props}>
     <g clipPath="url(#a)">
-      {/* TODO find a way to use this color and improve accessibility */}
       <path fill="#F60" d="M0 0h50.106v49.783H0z" />
       <path
         fill="#fff"

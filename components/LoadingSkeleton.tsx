@@ -1,6 +1,3 @@
-import { companies } from "@/constants";
-import { CompanyCard } from "./Companies";
-
 export const ProductSliderSkeleton: React.FC = () => {
   return (
     <section
@@ -62,23 +59,6 @@ const ProductCard: React.FC = () => {
   );
 };
 
-export const CompaniesSkeleton: React.FC = () => {
-  return (
-    <section aria-busy="true" className="bg-background">
-      <h2 id="companies" className="sr-only">
-        جميع شركات الاتصالات المصريه متاحه فودافون و اوراج واتصالات و وي
-      </h2>
-      <div className="w-full rounded-b-[50px] bg-white p-5 py-12 md:rounded-b-[75px]">
-        <div className="scroll-bar-hidden container mx-auto flex justify-around gap-10 overflow-x-auto">
-          {companies.map((company) => (
-            <CompanyCard key={company.name} {...company} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 export const HeroSkeleton: React.FC = () => {
   return (
     <section
@@ -103,5 +83,14 @@ export const TestimonialSkeleton: React.FC = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const FeatureSkeleton: React.FC = () => {
+  return (
+    <section
+      className="min-h-60 px-5 py-20 md:px-20"
+      aria-busy="true"
+    ></section>
   );
 };
