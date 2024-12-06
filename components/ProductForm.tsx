@@ -91,7 +91,6 @@ const ProductForm: React.FC<{
           name="name"
           label="الاسم"
           value={data.name || ""}
-          required
           maxLength={20}
           type="text"
           error="الاسم مطلوب"
@@ -122,7 +121,6 @@ const ProductForm: React.FC<{
           label="السعر"
           value={data.price || ""}
           pattern="^[0-9]*$"
-          required
           error="السعر مطلوب"
           type="number"
           onChange={handleChange}

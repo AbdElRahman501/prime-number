@@ -23,7 +23,6 @@ const UserForm: React.FC<{
       ({
         name: "",
         email: "",
-        forceLogout: false,
         isAdmin: false,
         password: "",
         image: "",
@@ -120,20 +119,7 @@ const UserForm: React.FC<{
         </div>
         <p className="w-full text-sm">هذا المستخد هو مسؤول</p>
       </div>
-      <div className="flex w-full items-center justify-start gap-2">
-        <div className="h-6 w-12">
-          <button
-            type="button"
-            onClick={() => setData({ ...data, forceLogout: !data.forceLogout })}
-            className={`${data.forceLogout ? "bg-green-500" : "bg-red-500"} h-6 w-12 rounded-full p-1 duration-300`}
-          >
-            <div
-              className={`${data.forceLogout ? "translate-x-0" : "-translate-x-6"} h-4 w-4 rounded-full bg-white duration-300`}
-            ></div>
-          </button>
-        </div>
-        <p className="w-full text-sm">تسجيل الخروج من جميع الاجهزه</p>
-      </div>
+
       <p className="text-sm text-red-500">{error}</p>
 
       <div className="flex w-full flex-col justify-center md:flex-row md:gap-2">

@@ -5,6 +5,7 @@ import { usePrompt } from "./Notification";
 import { updateStore } from "@/lib/actions/store.actions";
 import LoadingDots from "./loading-dots";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import TextBlock from "./TextBlock";
 
 const StoreForm: React.FC<{ store: Store }> = ({ store }) => {
   return (
@@ -12,6 +13,7 @@ const StoreForm: React.FC<{ store: Store }> = ({ store }) => {
       <ContactForm store={store} />
       <QuickLinksForm store={store} />
       <SocialMediaLinksForm store={store} />
+      <FeaturesForm store={store} />
     </div>
   );
 };
@@ -479,6 +481,106 @@ const SocialMediaLinksForm: React.FC<{ store: Store }> = ({ store }) => {
         ))}
         <p className="text-sm text-red-500">{error}</p>
       </div>
+    </form>
+  );
+};
+
+export const FeaturesForm: React.FC<{ store: Store }> = ({ store }) => {
+  const [data, setData] = useState(store.features);
+  const [isDirty, setIsDirty] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    id: string,
+  ) => {
+    const target = e.target as HTMLTextAreaElement;
+    const { name, value } = target;
+    const newData = data.map((feature) =>
+      feature._id === id ? { ...feature, [name]: value } : feature,
+    );
+    setIsDirty(JSON.stringify(newData) !== JSON.stringify(store.socialMedia));
+    setData(newData);
+  };
+
+  const onReset = () => {
+    setData(store.features);
+    setIsDirty(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const result = await updateStore({ features: data });
+    if (result.success) {
+      setIsDirty(false);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      setError(result.message);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="sticky top-[86px] flex w-full justify-between rounded-3xl bg-white p-5 shadow-sm">
+        <h2 className="text-xl text-primary md:text-3xl">ادارة المميزات</h2>
+        {isDirty ? (
+          <div className="flex items-center gap-2">
+            <button
+              type="submit"
+              className="rounded-2xl bg-primary px-4 py-2 text-white shadow-md duration-300 hover:scale-105 hover:bg-white hover:text-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              {loading ? (
+                <div className="h-6">
+                  <LoadingDots />
+                </div>
+              ) : (
+                "حفظ"
+              )}
+            </button>
+            <button
+              onClick={onReset}
+              type="reset"
+              className="rounded-2xl border border-primary px-4 py-2 text-primary shadow-md duration-300 hover:scale-105 hover:bg-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              إلغاء
+            </button>
+          </div>
+        ) : null}
+      </div>
+      <div className="px-5 py-20 md:px-20" aria-labelledby="features">
+        <div className="mx-auto flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
+          {data.map((feature) => (
+            <div key={feature._id} className="max-w-sm md:w-[30%]">
+              <TextBlock
+                className="text-center text-2xl font-semibold text-primary"
+                id={`${feature._id}-title`}
+                name="title"
+                placeholder="...قم بكتابة العنوان"
+                required
+                value={feature.title}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  handleChange(e, feature._id)
+                }
+              />
+              <TextBlock
+                className="mt-2 text-center text-primary"
+                id={`${feature._id}-description`}
+                name="description"
+                placeholder="...قم بكتابة العنوان"
+                required
+                value={feature.description}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  handleChange(e, feature._id)
+                }
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <p className="text-sm text-red-500">{error}</p>
     </form>
   );
 };

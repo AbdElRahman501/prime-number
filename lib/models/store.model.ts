@@ -10,7 +10,10 @@ const linkSchema = new mongoose.Schema({
   title: { type: String, required: true },
   url: { type: String, required: true },
 });
-
+const featuresSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+});
 const storeSchema = new mongoose.Schema({
   contacts: {
     phoneNumber: { type: String, required: true },
@@ -22,6 +25,7 @@ const storeSchema = new mongoose.Schema({
     },
   },
   socialMedia: [socialMediaSchema],
+  features: [featuresSchema],
   links: [linkSchema],
 });
 const Store = mongoose.models.Store || mongoose.model("Store", storeSchema);

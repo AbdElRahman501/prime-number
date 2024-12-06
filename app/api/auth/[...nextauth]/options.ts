@@ -3,6 +3,7 @@ import type { AuthOptions } from "next-auth";
 import { Credentials } from "@/types";
 import { loginUser } from "@/lib/actions/user.actions";
 
+// session failure
 export const options: AuthOptions = {
   providers: [
     CredentialsProvider({

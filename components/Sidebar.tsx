@@ -40,8 +40,8 @@ const SidebarLinks = [
     icon: "mdi:content-paste",
   },
   {
-    name: "الاعدادات",
-    path: "/dashboard/settings",
+    name: "الاعدادات عامة",
+    path: "/dashboard/general",
     icon: "mdi:settings",
   },
 ];

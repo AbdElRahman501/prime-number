@@ -1,5 +1,5 @@
 "use server";
-import { contacts, Link, Result, Store as StoreType } from "@/types";
+import { contacts, Feature, Link, Result, Store as StoreType } from "@/types";
 import { connectToDatabase } from "../mongoose";
 import Store from "../models/store.model";
 import { revalidateTag, unstable_cache } from "next/cache";
@@ -65,6 +65,7 @@ export const updateStore = async (
     contacts: contacts;
     socialMedia: Omit<Link, "_id">[];
     links: Omit<Link, "_id">[];
+    features: Omit<Feature, "_id">[];
   }>,
 ): Promise<Result> => {
   try {

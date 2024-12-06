@@ -29,7 +29,9 @@ const Footer: React.FC = async () => {
               >
                 <div className="flex items-center gap-2">
                   <Icon icon="mdi:phone" className="text-2xl" />
-                  <p className="break-all">{store.contacts.phoneNumber}</p>
+                  <p dir="ltr" className="break-all">
+                    {store.contacts.phoneNumber}
+                  </p>
                 </div>
               </Link>
               <Link

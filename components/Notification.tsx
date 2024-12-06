@@ -41,7 +41,6 @@ const Notification: React.FC<NotificationProps> = ({
   const color =
     type === "warning" ? "#f39c12" : type === "error" ? "#e74c3c" : "#2ecc71";
 
-  //TODO use notification provider to have a list of notifications
   return (
     <div className="fixed bottom-12 left-5 z-50 flex max-w-80 animate-fade-in items-center gap-4 overflow-hidden rounded-3xl bg-white px-5 py-4 text-primary shadow-md md:max-w-none">
       <Icon icon="mdi:alert-circle" className="h-11 w-11" />

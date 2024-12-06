@@ -76,7 +76,11 @@ export const fetchFilteredProducts = unstable_cache(
     const sortByField = sortBy ? sortBy : "_id"; // Default to '_id' if sortBy is undefined
     const sortOrder = sort === "asc" ? 1 : -1; // Default to descending if sort is undefined
     const priceFilterCondition = {
-      price: { $gte: minPrice, $lte: maxPrice },
+      $or: [
+        { price: { $gte: minPrice, $lte: maxPrice } }, // Price within range
+        { price: { $exists: false } }, // No price field
+        { price: null }, // Explicitly allow null price
+      ],
     };
 
     const companiesCondition =
@@ -252,12 +256,6 @@ export const addProduct = async (
 // Update a product by ID
 export const updateProductById = async (data: PhoneNumber): Promise<Result> => {
   const { _id, ...updateData } = data;
-  const updatedData = Object.fromEntries(
-    Object.entries(updateData).filter(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ([_, value]) => value !== null && value !== "",
-    ),
-  );
   try {
     await connectToDatabase();
     if (updateData.active === false) {
@@ -273,7 +271,7 @@ export const updateProductById = async (data: PhoneNumber): Promise<Result> => {
         };
       }
     }
-    await Product.findByIdAndUpdate(_id, updatedData);
+    await Product.findByIdAndUpdate(_id, updateData);
     revalidateTag(tags.products);
     return { success: true, message: "Product updated successfully." };
   } catch (error: any) {

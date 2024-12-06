@@ -29,7 +29,7 @@ const ProductCard: React.FC<
   return (
     <div
       className={
-        "relative flex h-full w-full min-w-[265px] flex-col justify-between rounded-3xl bg-foreground pt-6 text-primary"
+        "relative flex w-full min-w-[265px] flex-col justify-between rounded-3xl bg-foreground pt-6 text-primary"
       }
     >
       <div className="bg-background py-3">
@@ -41,15 +41,19 @@ const ProductCard: React.FC<
         </h3>
       </div>
       <div className="flex justify-between p-3 pb-0">
-        <h4
-          className={`${name ? "" : "text-foreground"} max-w-[40%] overflow-hidden text-nowrap font-bold`}
-        >
-          {name || " - "}
-        </h4>
+        {name ? (
+          <h4
+            className={`${name ? "" : "text-foreground"} max-w-[40%] overflow-hidden font-bold`}
+          >
+            {name || " - "}
+          </h4>
+        ) : null}
 
-        <h4 className="text-nowrap text-lg font-bold">
-          {formatPrice(price, "EGP")}
-        </h4>
+        {price ? (
+          <h4 className="text-lg font-bold">{formatPrice(price, "EGP")}</h4>
+        ) : (
+          <p className="font-medium"> للتفاصيل والسعر، تواصل معنا </p>
+        )}
       </div>
       <div className="flex items-center justify-between p-3">
         <CompanyLogoIcons

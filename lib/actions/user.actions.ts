@@ -4,6 +4,15 @@ import { connectToDatabase } from "../mongoose";
 import { User } from "../models/user.model";
 import { randomBytes, scryptSync, timingSafeEqual } from "crypto";
 
+// Utility function to verify a password
+const verifyPassword = (
+  storedPassword: string,
+  enteredPassword: string,
+): boolean => {
+  const [salt, storedHash] = storedPassword.split(":");
+  const enteredHash = scryptSync(enteredPassword, salt, 64);
+  return timingSafeEqual(Buffer.from(storedHash, "hex"), enteredHash);
+};
 const hashPassword = (password: string) => {
   const salt = randomBytes(16).toString("hex");
   const hashedPassword = scryptSync(password, salt, 64).toString("hex");
@@ -104,13 +113,8 @@ export const loginUser = async (
     const data = await User.findOne({ email: email }).exec();
     const user = JSON.parse(JSON.stringify(data));
     if (!user) return null;
-    const [saltStored, hashedStored] = user.password.split(":");
-    const hashedBuffer = scryptSync(password, saltStored, 64);
-    const passwordsMatch = timingSafeEqual(
-      Buffer.from(hashedStored, "hex"),
-      hashedBuffer,
-    );
-    if (passwordsMatch) return user;
+    const isPasswordValid = verifyPassword(user.password, password);
+    if (isPasswordValid) return user;
     return null;
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -132,5 +136,35 @@ export const deleteUser = async (use: UserType) => {
     } else {
       throw new Error(`An unknown error occurred at insertStore`);
     }
+  }
+};
+
+export const changePassword = async (
+  id: string,
+  password: string,
+  newPassword: string,
+): Promise<Result> => {
+  try {
+    await connectToDatabase();
+    const user = await User.findById(id).exec();
+    if (!user) {
+      return { success: false, message: "لم يتم العثور على المستخدم" };
+    }
+
+    const isPasswordValid = verifyPassword(user.password, password);
+    if (!isPasswordValid) {
+      return {
+        success: false,
+        message: "رقم السري الحالي الذي ادخلته غير صحيح",
+      };
+    }
+
+    const hashedNewPassword = hashPassword(newPassword);
+    await User.findByIdAndUpdate(id, { password: hashedNewPassword });
+
+    return { success: true, message: "Password changed successfully" };
+  } catch (error) {
+    console.error("Error changing password:", error);
+    return { success: false, message: "An unexpected error occurred" };
   }
 };
