@@ -73,13 +73,13 @@ export interface SortOptions {
 
 export interface PhoneNumber {
   _id: string;
-  name: string;
+  name?: string;
   active?: boolean;
   category?: string;
   score?: number;
   description: string;
   phoneNumber: string;
-  price: number;
+  price?: number;
   company: CompanyName;
   updatedAt?: string;
   createdAt?: string;

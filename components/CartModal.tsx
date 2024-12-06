@@ -23,7 +23,7 @@ export default function CartModal({
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const total = cart?.reduce((a, b) => a + b.price, 0) || 0;
+  const total = cart?.reduce((a, b) => a + (b.price || 0), 0) || 0;
 
   useEffect(() => {
     if (isOpen) {
@@ -45,6 +45,7 @@ export default function CartModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialCart]);
 
+  const hasProductWithoutPrice = cart.some((item) => !item.price);
   return (
     <>
       <div className="relative">
@@ -111,14 +112,13 @@ export default function CartModal({
                 className="flex items-center justify-between border-b border-neutral-200 p-4 dark:border-neutral-700"
               >
                 <div>
-                  <p className="text-lg font-semibold">{item.name}</p>
+                  <p className="text-lg font-semibold">{item.phoneNumber}</p>
                   <p className={`font-semibold text-background`}>
-                    {formatPrice(item.price, "EGP")}
+                    {item.price
+                      ? formatPrice(item.price, "EGP")
+                      : "للتفاصيل والسعر، تواصل معنا "}
                   </p>
                 </div>
-                <p className="text-lg font-semibold text-neutral-500">
-                  {item.phoneNumber}
-                </p>
                 <button
                   onClick={async () => {
                     setCart((pv) =>
@@ -152,7 +152,9 @@ export default function CartModal({
             <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 dark:border-neutral-700">
               <p className="text-base text-black dark:text-white">المجموع</p>
               <p className="text-lg font-semibold text-black dark:text-white">
-                {formatPrice(total, "EGP")}
+                {hasProductWithoutPrice
+                  ? "تواصل معنا لمعرفة السعر الكلي "
+                  : formatPrice(total, "EGP")}
               </p>
             </div>
           </div>
@@ -162,10 +164,10 @@ export default function CartModal({
             <Link
               target="_blank"
               href={createWhatsAppLink(store.contacts.phoneNumber, allNumbers)}
-              className="flex items-center justify-center gap-3 rounded-full bg-background px-10 py-3 text-2xl font-semibold text-primary hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
+              className="flex items-center justify-center gap-3 rounded-full bg-background px-10 py-3 text-lg font-semibold text-primary hover:opacity-90 focus:outline-none focus:ring focus:ring-inset focus:ring-blue-300"
               aria-label="Buy Now"
             >
-              <span>شراء الان</span>
+              <span>شراء الان عبر الواتس اب</span>
               <Icon icon="ri:whatsapp-fill" aria-hidden="true" />
             </Link>
           ) : (

@@ -3,15 +3,10 @@ import {
   BlockFeature,
   BlockHeader,
   BlockParagraph,
-  CartItem,
-  CompanyName,
   HeaderLevel,
   Offer,
-  PhoneNumber,
-  Sort,
 } from "@/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
-import { companies } from "@/constants";
 
 export const addToLocalStorage = (key: string, items: unknown) => {
   if (typeof window == "undefined") return;
@@ -22,10 +17,10 @@ export const getFromLocalStorage = (key: string) => {
   return localStorage.getItem(key);
 };
 
-export function formatPrice(price: number, currency: "EGP" | "USD") {
+export function formatPrice(price: number, currency?: "EGP" | "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: currency,
+    currency: currency || "EGP",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(price);
@@ -39,31 +34,6 @@ export const createUrl = (
   const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
 
   return `${pathname}${queryString}`;
-};
-
-export function addToCart(cart: string[], phoneNumber: string) {
-  const isInCart = cart.find((x) => x === phoneNumber);
-  if (!isInCart) {
-    return [...cart, phoneNumber];
-  } else {
-    return cart;
-  }
-}
-export function removeFromCart(cart: string[], phoneNumber: string | number) {
-  return cart.filter((x) => x !== phoneNumber);
-}
-
-export function isInCart(cart: CartItem[], phoneNumber: string) {
-  if (!cart || !phoneNumber) return [];
-  return cart.some((item) => item.phoneNumber === phoneNumber);
-}
-
-export const getMatchingItemsByKey = (
-  arr1: never[],
-  arr2: string[],
-  key: string,
-): never[] => {
-  return arr1.filter((item1) => arr2.includes(item1[key])) as never[];
 };
 
 export function toggleItemInArray(array: string[], item: string) {
@@ -119,87 +89,6 @@ export function toggleStringInArray(array: string[], str: string) {
   }
 }
 
-export const filterPhoneNumbers = (
-  phoneNumbers: PhoneNumber[],
-  query: string = "",
-  maxPrice: string = "",
-  minPrice: string = "",
-  companiesFilter: CompanyName[] = [],
-  sortBy: Sort | "default" = "default",
-): PhoneNumber[] => {
-  // Convert maxPrice and minPrice to numbers
-  const maxPriceNum = parseFloat(maxPrice) || Infinity;
-  const minPriceNum = parseFloat(minPrice) || 0;
-  // Filter by query, price range, and company
-  let filtered = phoneNumbers.filter((product) => {
-    const companyAr =
-      companies.find((company) => company.name === product.company)?.nameAr ||
-      product.company;
-
-    const matchesQuery = query
-      ? product.name.includes(query) ||
-        product.description.includes(query) ||
-        product.phoneNumber.includes(query) ||
-        product.company.includes(query) ||
-        companyAr.includes(query)
-      : true;
-    const withinPriceRange =
-      product.price >= minPriceNum && product.price <= maxPriceNum;
-    const matchesCompany =
-      companiesFilter.length > 0
-        ? companiesFilter.includes(product.company)
-        : true;
-
-    return matchesQuery && withinPriceRange && matchesCompany;
-  });
-
-  // Sort the filtered products
-  if (sortBy === "Lp") {
-    filtered = filtered.sort((a, b) => a.price - b.price); // Sort by price for low to high
-  } else if (sortBy === "Hp") {
-    filtered = filtered.sort((a, b) => b.price - a.price); // Sort by price for high to low
-  } else if (sortBy === "Nst") {
-    filtered = filtered.sort((a, b) =>
-      b._id.toString().localeCompare(a._id.toString()),
-    ); // Sort by newest
-  } else if (sortBy === "Ost") {
-    filtered = filtered.sort((a, b) =>
-      a._id.toString().localeCompare(b._id.toString()),
-    ); // Sort by oldest
-  }
-
-  return filtered;
-};
-
-type SortOrder = "asc" | "desc";
-
-export function sortByKey<T>(
-  data: T[],
-  key?: keyof T,
-  order: SortOrder = "asc",
-): T[] {
-  if (!key) return data;
-  return data.sort((a, b) => {
-    const valueA = a[key];
-    const valueB = b[key];
-
-    // Handle string, number, or date comparisons
-    if (typeof valueA === "string" && typeof valueB === "string") {
-      return order === "asc"
-        ? valueA.localeCompare(valueB)
-        : valueB.localeCompare(valueA);
-    } else if (typeof valueA === "number" && typeof valueB === "number") {
-      return order === "asc" ? valueA - valueB : valueB - valueA;
-    } else if (valueA instanceof Date && valueB instanceof Date) {
-      return order === "asc"
-        ? valueA.getTime() - valueB.getTime()
-        : valueB.getTime() - valueA.getTime();
-    } else {
-      return 0; // In case of non-comparable types
-    }
-  });
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getSort<T extends Record<string, any>>(
   oldKey: keyof T,
@@ -211,18 +100,6 @@ export function getSort<T extends Record<string, any>>(
   } else {
     return "asc";
   }
-}
-
-export function searchInData<T>(data: T[], query: string | undefined): T[] {
-  if (!query) return data;
-  const lowerCaseQuery = query.toLowerCase();
-  return data.filter((item) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return Object.keys(item as any).some((key) => {
-      const value = item[key as keyof T];
-      return String(value).toLowerCase().includes(lowerCaseQuery);
-    });
-  });
 }
 
 export const generatePageNumbers = (
@@ -256,25 +133,6 @@ export const generatePageNumbers = (
 
   return pages;
 };
-
-export function formatToTimeInput(value: string) {
-  // Convert to 24-hour format if it's in 12-hour format
-  const [time, modifier] = value.split(" ");
-
-  // eslint-disable-next-line prefer-const
-  let [hours, minutes] = time.split(":");
-  if (hours.length === 1) {
-    hours = `0${hours}`; // Add leading zero if hour is single digit
-  }
-
-  if (modifier === "PM" && hours !== "12") {
-    hours = String(parseInt(hours, 10) + 12);
-  } else if (modifier === "AM" && hours === "12") {
-    hours = "00";
-  }
-
-  return `${hours}:${minutes}`;
-}
 
 export function isSelected(arr: string[], id: string) {
   if (!arr) return false;
